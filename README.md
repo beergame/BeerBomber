@@ -1,2 +1,2 @@
 # BeerBomber
-BomberMan clone in C/SDL
+Bomberman clone in C/SDL
