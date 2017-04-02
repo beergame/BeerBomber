@@ -5,15 +5,14 @@
 ## Login   <balssa_v@etna-alternance.net>
 ## 
 ## Started on  Sun Apr  2 21:36:05 2017 BALSSA Victor
-## Last update Sun Apr  2 21:47:13 2017 BALSSA Victor
+## Last update Sun Apr  2 21:54:18 2017 BALSSA Victor
 ##
 
 NAME =		beerbomber
 CC =		gcc
-CFLAGS = -Wall -pedantic -Werror
-SRCS =		src/%.c
-OBJS =		$(SRC:%.c=%.o)
-
+SRCS =		$(wildcard src/*.c)
+OBJS =		$(SRCS:%.c=%.o)
+CFLAGS =	-Wall -pedantic -Werror
 # Flags for Mac.
 OS = $(shell uname)
 ifeq ($(OS), Darwin)
@@ -27,7 +26,7 @@ all:		$(NAME)
 
 $(NAME):	$(OBJS)
 		@echo "-> Build BeerBomber"
-		$(CC) $(OBJS) $(FLAGS) -o $(NAME)
+		$(CC) $(OBJS) $(CFLAGS) $(FLAGS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
