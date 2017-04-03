@@ -13,6 +13,9 @@ t_case_map **loadMap()
         map[i] = (t_case_map *) malloc(sizeof(t_case_map));
         for (int j = 0; j < MAP_SIZE; j++) {
             map[i][j].sprite = (SDL_Surface *) malloc(sizeof(SDL_Surface));
+            map[i][j].entity.sprite = (SDL_Surface *) malloc(sizeof(SDL_Surface));
+            map[i][j].entity.active = 0;
+
             if (i == 0 || j == 0 || i == MAP_SIZE - 1 || j == MAP_SIZE - 1) {
                 map[i][j].mapType = TYPE_BLOCK;
                 map[i][j].sprite = getSprite(MAP_SPRITE_BLOCK);
@@ -33,9 +36,9 @@ t_case_map **loadMap()
 void freeMap(t_case_map **map)
 {
     for (int i = 0; i < MAP_SIZE; i++) {
-        free(map[i]);
+//        free(map[i]);
     }
-    free(map);
+//    free(map);
 }
 
 void drawMap(t_case_map **map)
