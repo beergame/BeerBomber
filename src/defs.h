@@ -13,7 +13,7 @@
 
 #define MAX_ENTITIES 20
 #define MAX_RELOAD_TIME 10
-
+#define MAX_SPRITES 40
 #define PLAYER_SPEED 2
 
 #define IN_REDEFINE 0
@@ -42,8 +42,6 @@ enum sprite
 	MAP_SPRITE_BLOCK,
 	MAP_SPRITE_BUSH,
 	MAP_SPRITE_FIRE,
-
-	MAX_SPRITES
 };
 
 enum map

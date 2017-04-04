@@ -85,7 +85,7 @@ void cleanup()
 
     /* Close the mixer */
 
-    Mix_CloseAudio();
+    //Mix_CloseAudio();
 
     /* Close the joystick */
 

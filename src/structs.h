@@ -2,7 +2,8 @@
 
 typedef struct Entity
 {
-    int active, type;
+    int active;
+    int type;
     int x, y, thinkTime;
     SDL_Surface *sprite;
 
@@ -13,11 +14,11 @@ typedef struct Entity
 
 typedef struct s_case_map
 {
+    unsigned int mapType;
     int inFire;
     int hasBomb;
     SDL_Surface *sprite;
-    Entity entity;
-    unsigned int mapType;
+    Entity *entity;
 } t_case_map;
 
 typedef struct Game

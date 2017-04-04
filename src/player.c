@@ -10,11 +10,11 @@ extern SDL_Surface *getSprite(int);
 
 void initPlayer(t_case_map **map, int x, int y)
 {
-    map[x][y].entity.sprite = getSprite(PLAYER_SPRITE1);
     map[x][y].entity.active = 1;
+    map[x][y].entity.sprite = getSprite(PLAYER_SPRITE1);
 
-    map[x][y].entity.x = SCREEN_WIDTH / 2;
-    map[x][y].entity.y = SCREEN_HEIGHT / 2;
+    map[x][y].entity.x = 1;
+    map[x][y].entity.y = 1;
 }
 
 void doPlayer(t_case_map **map, int x, int y)
@@ -36,7 +36,10 @@ void doPlayer(t_case_map **map, int x, int y)
     }
 
     if (input.down == 1) {
-        map[x][y].entity.y += PLAYER_SPEED;
+        map[x][y + 1].entity.active = 1;
+        map[x][y + 1].entity.sprite = map[x][y].entity.sprite;
+//        map[x][y].entity.sprite = 0;
+        map[x][y].entity.active = 0;
 
         /* Don't allow the player to move off the screen */
 
@@ -69,7 +72,7 @@ void doPlayer(t_case_map **map, int x, int y)
         /* You can only fire when the thinkTime is 0 or less */
 
         if (map[x][y].entity.thinkTime <= 0) {
-            addBomb(map, map[x][y].entity.x, map[x][y].entity.y);
+//            addBomb(map, map[x][y].entity.x, map[x][y].entity.y);
 
             map[x][y].entity.thinkTime = MAX_RELOAD_TIME;
         }
