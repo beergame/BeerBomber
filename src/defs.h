@@ -10,9 +10,11 @@
 #define SCREEN_HEIGHT 480
 
 #define MAP_SIZE 15
+#define MAX_PLAYER 4
 
 #define MAX_ENTITIES 20
 #define MAX_RELOAD_TIME 10
+
 #define MAX_SPRITES 40
 #define PLAYER_SPEED 2
 
