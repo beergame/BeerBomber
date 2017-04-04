@@ -4,18 +4,19 @@
 extern int loadSprite(char *);
 
 extern void drawImage(SDL_Surface *, int, int);
-
-extern void addBomb(t_case_map**, int, int);
+/*
+extern void addBomb(t_case_map**, int, int);*/
 
 extern SDL_Surface *getSprite(int);
 
-void initPlayer(t_case_map **map, Entity *player)
+void initPlayer(t_case_map **map)
 {
-    map[x][y].entity.active = 1;
-    map[x][y].entity.sprite = getSprite(PLAYER_SPRITE1);
+    Entity *player = (Entity *) malloc(sizeof(Entity));
 
-    map[x][y].entity.x = 1;
-    map[x][y].entity.y = 1;
+    player->active = 1;
+    player->sprite = getSprite(PLAYER_SPRITE1);
+
+    map[1][1].entity = player;
 }
 
 void doPlayer(t_case_map **map, int x, int y)
@@ -31,10 +32,10 @@ void doPlayer(t_case_map **map, int x, int y)
     }
 
     if (input.down == 1) {
-        map[x][y + 1].entity.active = 1;
+/*        map[x][y + 1].entity.active = 1;
         map[x][y + 1].entity.sprite = map[x][y].entity.sprite;
         map[x][y].entity.sprite = NULL;
-        map[x][y].entity.active = 0;
+        map[x][y].entity.active = 0;*/
     }
 
     if (input.left == 1) {

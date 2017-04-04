@@ -25,7 +25,9 @@ void draw()
 	/* Draw the map */
 	drawMap(game.map);
 
-	/* Draw the entities */
+	/* Draw the entities
+	 * foreach entity
+	 * callback (*draw) */
 	
 	//drawEntities();
 	

@@ -18,6 +18,7 @@ typedef struct s_case_map
     int inFire;
     int hasBomb;
     SDL_Surface *sprite;
+    Entity *entity;
 } t_case_map;
 
 typedef struct Game
