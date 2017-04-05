@@ -12,19 +12,19 @@ typedef struct Entity
     void (*draw)(SDL_Surface *, int, int);
 } Entity;
 
-typedef struct s_case_map
+typedef struct MapCase
 {
     unsigned int mapType;
     int inFire;
     int hasBomb;
     SDL_Surface *sprite;
     Entity *entity;
-} t_case_map;
+} MapCase;
 
 typedef struct Game
 {
     int score, status;
-    t_case_map **map;
+    MapCase **map;
     SDL_Surface *screen;
     TTF_Font *font;
     SDL_Joystick *joystick;

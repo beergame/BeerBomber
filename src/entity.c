@@ -49,12 +49,12 @@ void doEntities()
     }
 }
 
-void drawEntities(t_case_map **map)
+void drawEntities(MapCase **map)
 {
     for (int i = 0; i < MAP_SIZE; i++) {
         for (int j = 0; j < MAP_SIZE; j++) {
             if (map[i][j].entity != NULL)
-                map[i][j].entity->draw();
+                map[i][j].entity->draw(map[i][j].entity->sprite, i, j);
         }
     }
 }

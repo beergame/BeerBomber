@@ -1,7 +1,7 @@
 #include "graphics.h"
 
 
-extern DECLSPEC SDL_Surface * SDLCALL IMG_Load(const char *file);
+extern DECLSPEC SDL_Surface *SDLCALL IMG_Load(const char *file);
 
 SDL_Surface *loadImage(char *name)
 {
@@ -45,8 +45,8 @@ void drawImage(SDL_Surface *image, int x, int y)
 
 	/* Set x and y in right position on the screen */
 
-	x += BOARD_HEIGHT;
-	y += BOARD_WIDTH;
+	x = (x * 16) + BOARD_HEIGHT;
+	y = (y * 16) + BOARD_WIDTH;
 
 	/* Set the blitting rectangle to the size of the src image */
 

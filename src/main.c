@@ -8,9 +8,9 @@ extern void getInput(void);
 
 extern void draw(void);
 
-extern void initPlayer(t_case_map **, int, int);
+extern Entity *initPlayer(MapCase **, int, int);
 
-extern void doPlayer(t_case_map **, int, int);
+extern void doPlayer(MapCase **, Entity *);
 
 extern void doEntities(void);
 
@@ -24,9 +24,9 @@ extern void delay(unsigned int);
 
 extern void doRedefine(void);
 
-extern t_case_map **loadMap();
+extern MapCase **loadMap();
 
-extern void drawMap(t_case_map **);
+extern void drawMap(MapCase **);
 
 int main(int argc, char *argv[])
 {
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     /* Intialise the player */
 
-    initPlayer(game.map, 1, 1);
+    Entity *player1 = initPlayer(game.map, 1, 1);
 
     /* Reset the redefine index */
 
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 
             /* Update the player's position */
 
-            doPlayer(game.map, 1, 1);
+            doPlayer(game.map, player1);
 
             /* Update the entities */
 

@@ -4,7 +4,7 @@ extern void freeSprites(void);
 
 extern void freeSounds(void);
 
-extern void freeMap(t_case_map**);
+extern void freeMap(MapCase **);
 
 extern void closeFont(TTF_Font *);
 

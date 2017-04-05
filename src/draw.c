@@ -1,7 +1,7 @@
 #include "draw.h"
 
-extern void drawMap(t_case_map **map);
-extern void drawEntities(t_case_map **map);
+extern void drawMap(MapCase **map);
+extern void drawEntities(MapCase **map);
 extern void drawString(char *, int, int, TTF_Font *, int, int);
 
 void draw()

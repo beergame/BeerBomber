@@ -1,16 +1,16 @@
 #include "map.h"
 
-extern void drawImage(SDL_Surface *, int, int);
+extern void *drawImage(SDL_Surface *, int, int);
 
 extern SDL_Surface *getSprite(int);
 
-t_case_map **loadMap()
+MapCase **loadMap()
 {
-    t_case_map **map;
+    MapCase **map;
 
-    map = (t_case_map **) malloc(MAP_SIZE * sizeof(t_case_map *));
+    map = (MapCase **) malloc(MAP_SIZE * sizeof(MapCase *));
     for (int i = 0; i < MAP_SIZE; i++) {
-        map[i] = (t_case_map *) malloc(sizeof(t_case_map));
+        map[i] = (MapCase *) malloc(sizeof(MapCase));
         for (int j = 0; j < MAP_SIZE; j++) {
             map[i][j].sprite = (SDL_Surface *) malloc(sizeof(SDL_Surface));
             map[i][j].entity = NULL;
@@ -31,7 +31,7 @@ t_case_map **loadMap()
     return (map);
 }
 
-void freeMap(t_case_map **map)
+void freeMap(MapCase **map)
 {
     for (int i = 0; i < MAP_SIZE; i++) {
         free(map[i]);
@@ -39,11 +39,11 @@ void freeMap(t_case_map **map)
     free(map);
 }
 
-void drawMap(t_case_map **map)
+void drawMap(MapCase **map)
 {
     for (int i = 0; i < MAP_SIZE; i++) {
         for (int j = 0; j < MAP_SIZE; j++) {
-            drawImage(map[i][j].sprite, 16 * i, 16 * j);
+            drawImage(map[i][j].sprite, i, j);
         }
     }
 }

@@ -6,7 +6,7 @@ extern SDL_Surface *getSprite(int);
 /*
 static void fireStandardBomb(void);*/
 
-void addBomb(t_case_map **map, int x, int y)
+void addBomb(MapCase **map, int x, int y)
 {
 /*    map[x][y].entity.x = x;
     map[x][y].entity.y = y;
