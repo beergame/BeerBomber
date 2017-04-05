@@ -49,6 +49,16 @@ void doEntities()
     }
 }
 
+void drawEntities(t_case_map **map)
+{
+    for (int i = 0; i < MAP_SIZE; i++) {
+        for (int j = 0; j < MAP_SIZE; j++) {
+            if (map[i][j].entity != NULL)
+                map[i][j].entity->draw();
+        }
+    }
+}
+
 void drawStandardEntity()
 {
     drawImage(self->sprite, self->x, self->y);

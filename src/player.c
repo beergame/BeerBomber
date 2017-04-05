@@ -1,5 +1,4 @@
 #include "player.h"
-#include <stdio.h>
 
 extern int loadSprite(char *);
 
@@ -9,14 +8,15 @@ extern void addBomb(t_case_map**, int, int);*/
 
 extern SDL_Surface *getSprite(int);
 
-void initPlayer(t_case_map **map)
+void initPlayer(t_case_map **map, int x, int y)
 {
     Entity *player = (Entity *) malloc(sizeof(Entity));
 
     player->active = 1;
     player->sprite = getSprite(PLAYER_SPRITE1);
+    player->draw = drawImage(player->sprite, x, y);
 
-    map[1][1].entity = player;
+    map[x][y].entity = player;
 }
 
 void doPlayer(t_case_map **map, int x, int y)

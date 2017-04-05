@@ -8,7 +8,7 @@ extern void getInput(void);
 
 extern void draw(void);
 
-extern void initPlayer(t_case_map **);
+extern void initPlayer(t_case_map **, int, int);
 
 extern void doPlayer(t_case_map **, int, int);
 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     /* Intialise the player */
 
-    initPlayer(game.map);
+    initPlayer(game.map, 1, 1);
 
     /* Reset the redefine index */
 

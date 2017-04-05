@@ -41,14 +41,9 @@ void freeMap(t_case_map **map)
 
 void drawMap(t_case_map **map)
 {
-    int x = SCREEN_HEIGHT / 3;
-    int y = SCREEN_WIDTH / 5;
-
     for (int i = 0; i < MAP_SIZE; i++) {
         for (int j = 0; j < MAP_SIZE; j++) {
-            drawImage(map[i][j].sprite, x + (16 * i), y + (16 * j));
-            if (map[i][j].entity != NULL)
-                drawImage(map[i][j].entity->sprite, x + (16 * i), y + (16 * j));
+            drawImage(map[i][j].sprite, 16 * i, 16 * j);
         }
     }
 }

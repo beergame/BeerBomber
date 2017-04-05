@@ -1,7 +1,7 @@
 #include "draw.h"
 
-extern void drawMap(t_case_map** map);
-extern void drawEntities(void);
+extern void drawMap(t_case_map **map);
+extern void drawEntities(t_case_map **map);
 extern void drawString(char *, int, int, TTF_Font *, int, int);
 
 void draw()
@@ -29,7 +29,7 @@ void draw()
 	 * foreach entity
 	 * callback (*draw) */
 	
-	//drawEntities();
+	drawEntities(game.map);
 	
 	/* Update the buffer */
 

@@ -9,7 +9,7 @@ typedef struct Entity
 
     void (*action)(void);
 
-    void (*draw)(void);
+    void (*draw)(SDL_Surface *, int, int);
 } Entity;
 
 typedef struct s_case_map

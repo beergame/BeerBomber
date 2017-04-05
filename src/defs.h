@@ -9,6 +9,9 @@
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
+#define BOARD_WIDTH (SCREEN_WIDTH / 5)
+#define BOARD_HEIGHT (SCREEN_HEIGHT / 3)
+
 #define MAP_SIZE 15
 #define MAX_PLAYER 4
 

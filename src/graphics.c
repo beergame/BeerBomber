@@ -42,16 +42,21 @@ SDL_Surface *loadImage(char *name)
 void drawImage(SDL_Surface *image, int x, int y)
 {
 	SDL_Rect dest;
-	
+
+	/* Set x and y in right position on the screen */
+
+	x += BOARD_HEIGHT;
+	y += BOARD_WIDTH;
+
 	/* Set the blitting rectangle to the size of the src image */
-	
+
 	dest.x = x;
 	dest.y = y;
 	dest.w = image->w;
 	dest.h = image->h;
-	
+
 	/* Blit the entire image onto the screen at coordinates x and y */
-	
+
 	SDL_BlitSurface(image, NULL, game.screen, &dest);
 }
 
