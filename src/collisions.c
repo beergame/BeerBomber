@@ -9,17 +9,13 @@ void doCollisions()
 	/* Check each entity against the rest, skipping over inactive ones */
 
 	for (i=0;i<MAX_ENTITIES;i++)
-	{
-		if (entity[i].active == 0)
-		{
-			continue;
-		}
+    {
 
 		for (j=0;j<MAX_ENTITIES;j++)
 		{
 			/* Don't collide with yourself, inactive entities or entities of the same type */
 			
-			if (i == j || entity[j].active == 0 || entity[j].type == entity[i].type)
+			if (i == j || entity[j].type == entity[i].type)
 			{
 				continue;
 			}
@@ -30,9 +26,7 @@ void doCollisions()
 			{
 				/* If a collision occured, remove both Entities */
 				
-				entity[j].active = 0;
-				
-				entity[i].active = 0;
+
 				
 				/* Add 100 points to the score */
 				

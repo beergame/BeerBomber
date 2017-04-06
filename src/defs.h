@@ -19,7 +19,7 @@
 #define MAX_RELOAD_TIME 10
 
 #define MAX_SPRITES 40
-#define PLAYER_SPEED 2
+#define PLAYER_SPEED 20
 
 #define IN_REDEFINE 0
 #define IN_GAME 1
