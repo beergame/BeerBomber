@@ -6,6 +6,7 @@ void fireCounter(MapCase **map, Entity *fire)
 
 	if (map[fire->x][fire->y].player != NULL &&
 		fire->life == FIRE_LIFETIME - 5) {
+		printf("player life - 1\n");
 		map[fire->x][fire->y].player->life--;
 	}
 }

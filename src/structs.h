@@ -1,4 +1,7 @@
-#include "defs.h"
+#ifndef STRUCTS_H
+# define STRUCTS_H
+
+# include "defs.h"
 
 struct				MapCase;
 
@@ -59,3 +62,5 @@ typedef struct		Redefine
 	int				redefineIndex;
 	char			redefineString[255];
 }					Redefine;
+
+#endif /* STRUCTS_H */

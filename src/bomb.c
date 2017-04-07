@@ -19,11 +19,12 @@ void bombCounter(MapCase **map, Entity *bomb)
 {
 	bomb->life--;
 
-	if (bomb->life < 100 && bomb->life >= 50) {
+	if (bomb->life == 100) {
 		bomb->sprite = getSprite(BOMB_SPRITE2);
-	} else if (bomb->life < 50 && bomb->life > 0) {
+	} else if (bomb->life == 50) {
 		bomb->sprite = getSprite(BOMB_SPRITE3);
 	} else if (bomb->life == 0) {
+		printf("bomb explode\n");
 		bombExplode(map, bomb->x, bomb->y);
 	}
 }

@@ -53,7 +53,10 @@ int main(int argc, char *argv[])
 			if (player1 != NULL && player1->life > 0) {
 				playerMove(game.map, player1);
 				playerThrowBomb(game.map, player1);
+			} else {
+				player1 = initPlayer(game.map, 1, 1);
 			}
+			game.score = player1->life;
 
 			/* Call entities's actions */
 

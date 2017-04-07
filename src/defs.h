@@ -1,34 +1,30 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_mixer.h"
-#include "SDL/SDL_ttf.h"
+#ifndef DEFS_H
+# define DEFS_H
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include "SDL/SDL.h"
+# include "SDL/SDL_image.h"
+# include "SDL/SDL_mixer.h"
+# include "SDL/SDL_ttf.h"
 
-#define BOARD_WIDTH (SCREEN_WIDTH / 5)
-#define BOARD_HEIGHT (SCREEN_HEIGHT / 3)
-
-#define MAP_SIZE 15
-#define MAX_PLAYER 4
-
-#define MAX_ENTITIES 20
-
-#define MAX_SPRITES 40
-#define PLAYER_SPEED 20
-#define PLAYER_MAX_LIFE 2
-#define PLAYER_MAX_AMMO 3
-
-#define BOMB_LIFETIME 150
-#define FIRE_LIFETIME 10
-
-#define IN_REDEFINE 0
-#define IN_GAME 1
-
-#define DEAD_ZONE 3200
+# define SCREEN_WIDTH 640
+# define SCREEN_HEIGHT 480
+# define BOARD_WIDTH (SCREEN_WIDTH / 5)
+# define BOARD_HEIGHT (SCREEN_HEIGHT / 3)
+# define MAP_SIZE 15
+# define MAX_PLAYER 4
+# define MAX_ENTITIES 20
+# define MAX_SPRITES 40
+# define PLAYER_SPEED 10
+# define PLAYER_MAX_LIFE 2
+# define PLAYER_MAX_AMMO 100
+# define BOMB_LIFETIME 150
+# define FIRE_LIFETIME 10
+# define IN_REDEFINE 0
+# define IN_GAME 1
+# define DEAD_ZONE 3200
 
 enum sprite
 {
@@ -59,3 +55,5 @@ enum map
 	TYPE_BASE,
 	TYPE_BUSH
 };
+
+#endif /* DEFS_H */

@@ -10,15 +10,9 @@ void draw()
 
 	/* Draw the score */
 
-	sprintf(text, "SCORE: %05d", game.score);
+	sprintf(text, "PLAYER LIFE: %d", game.score);
 
 	drawString(text, 100, 10, game.font, 1, 0);
-
-	/* Draw SDL ticks */
-
-	sprintf(text, "Ticks: %05d", SDL_GetTicks());
-
-	drawString(text, 100, 50, game.font, 1, 0);
 
 	/* Draw the map */
 

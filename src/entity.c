@@ -34,7 +34,6 @@ void entitiesActions(MapCase **map)
 				map[i][j].fire->action(map, map[i][j].fire);
 		}
 	}
-
 	freeDeadEntities(map);
 }
 
