@@ -1,52 +1,66 @@
-#include "defs.h"
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
-typedef struct Entity
+# include "defs.h"
+
+struct				MapCase;
+
+typedef struct		Entity
 {
-    int active;
-    int type;
-    int x, y, thinkTime;
-    SDL_Surface *sprite;
+	int				speed;
+	int				x;
+	int				y;
+	int				life;
+	int				ammo;
+	SDL_Surface		*sprite;
 
-    void (*action)(void);
+	void			(*action)(struct MapCase **, struct Entity *);
 
-    void (*draw)(SDL_Surface *, int, int);
+	void			(*draw)(SDL_Surface *, int, int);
 } Entity;
 
-typedef struct MapCase
+typedef struct		MapCase
 {
-    unsigned int mapType;
-    int inFire;
-    int hasBomb;
-    SDL_Surface *sprite;
-    Entity *entity;
+	Entity			*player;
+	Entity			*bomb;
+	Entity			*block;
+	Entity			*fire;
+	SDL_Surface		*sprite;
 } MapCase;
 
-typedef struct Game
+typedef struct		Game
 {
-    int score, status;
-    MapCase **map;
-    SDL_Surface *screen;
-    TTF_Font *font;
-    SDL_Joystick *joystick;
-} Game;
+	int				score;
+	int				status;
+	MapCase			**map;
+	SDL_Surface		*screen;
+	TTF_Font		*font;
+	SDL_Joystick	*joystick;
+}					Game;
 
-typedef struct Sprite
+typedef struct		Sprite
 {
-    SDL_Surface *image;
-} Sprite;
+	SDL_Surface		*image;
+}					Sprite;
 
-typedef struct Sound
+typedef struct		Sound
 {
-    Mix_Chunk *effect;
-} Sound;
+	Mix_Chunk		*effect;
+}					Sound;
 
-typedef struct Control
+typedef struct		Control
 {
-    int up, down, left, right, fire;
-} Control;
+	int				up;
+	int				down;
+	int				left;
+	int				right;
+	int				fire;
+}					Control;
 
-typedef struct Redefine
+typedef struct		Redefine
 {
-    int redefineIndex;
-    char redefineString[255];
-} Redefine;
+	int				redefineIndex;
+	char			redefineString[255];
+}					Redefine;
+
+#endif /* STRUCTS_H */

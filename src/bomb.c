@@ -1,31 +1,45 @@
 #include "bomb.h"
 
-extern void drawStandardEntity(void);
-
-extern SDL_Surface *getSprite(int);
-/*
-static void fireStandardBomb(void);*/
-
-void addBomb(MapCase **map, int x, int y)
+void bombExplode(MapCase **map, int x, int y)
 {
-/*    map[x][y].entity.x = x;
-    map[x][y].entity.y = y;
-    map[x][y].entity.action = &fireStandardBomb;
-    map[x][y].entity.draw = &drawStandardEntity;
-    map[x][y].entity.sprite = getSprite(BOMB_SPRITE);
-    map[x][y].entity.type = 0;*/
-}
-/*
+	for (int i = x - 2; i < x + 3; i++) {
+		if (map[i][y].fire == NULL) {
+			addFire(map, i, y);
+		}
+	}
 
-static void fireStandardBomb()
+	for (int i = y - 2; i < y + 3; i++) {
+		if (map[x][i].fire == NULL) {
+			addFire(map, x, i);
+		}
+	}
+}
+
+void bombCounter(MapCase **map, Entity *bomb)
 {
-    self->type++;
+	bomb->life--;
 
-    if (self->type >= 100)
-        self->sprite = getSprite(BOMB_SPRITE2);
-    if (self->type >= 200)
-        self->sprite = getSprite(BOMB_SPRITE3);
-    if (self->type >= 280)
-        self->sprite = getSprite(MAP_SPRITE_FIRE);
+	if (bomb->life == 100) {
+		bomb->sprite = getSprite(BOMB_SPRITE2);
+	} else if (bomb->life == 50) {
+		bomb->sprite = getSprite(BOMB_SPRITE3);
+	} else if (bomb->life == 0) {
+		printf("bomb explode\n");
+		bombExplode(map, bomb->x, bomb->y);
+	}
 }
-*/
+
+Entity *addBomb(MapCase **map, int x, int y)
+{
+	Entity *bomb = (Entity *) malloc(sizeof(Entity));
+
+	bomb->x = x;
+	bomb->y = y;
+	bomb->life = BOMB_LIFETIME;
+	bomb->sprite = getSprite(BOMB_SPRITE);
+	bomb->action = &bombCounter;
+	bomb->draw = &drawImage;
+	map[x][y].bomb = bomb;
+
+	return bomb;
+}

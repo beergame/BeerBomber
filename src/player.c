@@ -1,80 +1,74 @@
 #include "player.h"
 
-extern int loadSprite(char *);
-
-extern void drawImage(SDL_Surface *, int, int);
-
-/*
-extern void addBomb(MapCase**, int, int);*/
-
-extern SDL_Surface *getSprite(int);
-
 Entity *initPlayer(MapCase **map, int x, int y)
 {
-    Entity *player = (Entity *) malloc(sizeof(Entity));
+	Entity *player = (Entity *) malloc(sizeof(Entity));
 
-    player->active = 1;
-    player->x = x;
-    player->y = y;
-    player->sprite = getSprite(PLAYER_SPRITE1);
-    player->draw = &drawImage;
+	player->x = x;
+	player->y = y;
+	player->speed = PLAYER_SPEED;
+	player->life = PLAYER_MAX_LIFE;
+	player->ammo = PLAYER_MAX_AMMO;
+	player->sprite = getSprite(PLAYER_SPRITE1);
+	player->draw = &drawImage;
 
-    map[x][y].entity = player;
+	map[x][y].player = player;
 
-    return player;
+	return player;
 }
 
-void doPlayer(MapCase **map, Entity *player)
+void playerMove(MapCase **map, Entity *player)
 {
-    int x = player->x;
-    int y = player->y;
+	int x = player->x;
+	int y = player->y;
 
-//    map[x][y].entity.thinkTime--;
-//
-//    if (map[x][y].entity.thinkTime <= 0) {
-//        map[x][y].entity.thinkTime = 0;
-//    }
+	map[x][y].player->speed--;
 
-    if (input.up == 1) {
-        if (y > 1) {
-            printf("down x %i y %i \n", map[x][y].entity->x, map[x][y].entity->y--);
-            map[x][y - 1].entity = map[x][y].entity;
-            map[x][y].entity = NULL;
-        }
-    }
+	if (map[x][y].player->speed <= 0) {
+		if (input.up == 1) {
+			if (y > 1) {
+				map[x][y].player->y--;
+				map[x][y - 1].player = map[x][y].player;
+				map[x][y - 1].player->speed = PLAYER_SPEED;
+				map[x][y].player = NULL;
+			}
+		} else if (input.down == 1) {
+			if (y < MAP_SIZE - 2) {
+				map[x][y].player->y++;
+				map[x][y + 1].player = map[x][y].player;
+				map[x][y + 1].player->speed = PLAYER_SPEED;
+				map[x][y].player = NULL;
+			}
 
-    else if (input.down == 1) {
-        if (y < MAP_SIZE - 2) {
-            printf("down x %i y %i \n", map[x][y].entity->x, map[x][y].entity->y++);
-            map[x][y + 1].entity = map[x][y].entity;
-            map[x][y].entity = NULL;
-        }
+		} else if (input.left == 1) {
+			if (x > 1) {
+				map[x][y].player->x--;
+				map[x - 1][y].player = map[x][y].player;
+				map[x - 1][y].player->speed = PLAYER_SPEED;
+				map[x][y].player = NULL;
+			}
+		} else if (input.right == 1) {
+			if (x < MAP_SIZE - 2) {
+				map[x][y].player->x++;
+				map[x + 1][y].player = map[x][y].player;
+				map[x + 1][y].player->speed = PLAYER_SPEED;
+				map[x][y].player = NULL;
+			}
+		}
+	}
 
-    }
 
-    else if (input.left == 1) {
-        if (x > 1) {
-            printf("down x %i y %i \n", map[x][y].entity->x--, map[x][y].entity->y);
-            map[x - 1][y].entity = map[x][y].entity;
-            map[x][y].entity = NULL;
-        }
-    }
+}
 
-    else if (input.right == 1) {
-        if (x < MAP_SIZE - 2) {
-            printf("down x %i y %i \n", map[x][y].entity->x++, map[x][y].entity->y);
-            map[x + 1][y].entity = map[x][y].entity;
-            map[x][y].entity = NULL;
-        }
-    }
+void playerThrowBomb(MapCase **map, Entity *player)
+{
+	if (input.fire == 1) {
+		/* Player can only drop bomb when he has ammo and isn't in fire */
 
-//    if (input.fire == 1) {
-//        /* You can only fire when the thinkTime is 0 or less */
-//
-//        if (map[x][y].entity.thinkTime <= 0) {
-//            addBomb(map, map[x][y].entity.x, map[x][y].entity.y);
-//
-//            map[x][y].entity.thinkTime = MAX_RELOAD_TIME;
-//        }
-//    }
+		if (player->ammo > 0 && map[player->x][player->y].bomb == NULL &&
+			map[player->x][player->y].fire == NULL) {
+			addBomb(map, player->x, player->y);
+			player->ammo--;
+		}
+	}
 }

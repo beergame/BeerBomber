@@ -1,3 +1,14 @@
-#include "structs.h"
+#ifndef INIT_H
+# define INIT_H
 
-extern Game game;
+# include "structs.h"
+
+Game game;
+
+void freeSprites(void);
+
+void freeMap(MapCase **);
+
+void closeFont(TTF_Font *);
+
+#endif /* INIT_H */

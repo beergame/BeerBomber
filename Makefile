@@ -13,7 +13,8 @@ CC =		gcc
 SRCS =		$(wildcard src/*.c)
 OBJS =		$(SRCS:%.c=%.o)
 CFLAGS =	-Wall -pedantic -Werror
-# Flags for Mac.
+
+# OS Flags.
 OS = $(shell uname)
 ifeq ($(OS), Darwin)
     FLAGS = -I/usr/local/include/SDL -L/usr/local/lib -lSDLmain -lSDL \
@@ -25,8 +26,9 @@ endif
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-		@echo "-> Build BeerBomber"
-		$(CC) $(OBJS) $(CFLAGS) $(FLAGS) -o $(NAME)
+		@echo "> Build BeerBomber"
+		@$(CC) $(OBJS) $(CFLAGS) $(FLAGS) -o $(NAME)
+		@echo "> Done."
 
 clean:
 	rm -f $(OBJS)

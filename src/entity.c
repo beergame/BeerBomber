@@ -1,65 +1,56 @@
 #include "entity.h"
 
-extern void drawImage(SDL_Surface *, int, int);
-
-void clearEntities()
+void freeDeadEntities(MapCase **map)
 {
-    int i;
+	/* Loop through all the entities and free dead ones */
 
-    /* Clear the list */
-
-    for (i = 0; i < MAX_ENTITIES; i++) {
-        memset(&entity[i], 0, sizeof(Entity));
-    }
+	for (int i = 0; i < MAP_SIZE; i++) {
+		for (int j = 0; j < MAP_SIZE; j++) {
+			if (map[i][j].bomb != NULL && map[i][j].bomb->life == 0) {
+				free(map[i][j].bomb);
+				map[i][j].bomb = NULL;
+			}
+			if (map[i][j].fire != NULL && map[i][j].fire->life == 0) {
+				free(map[i][j].fire);
+				map[i][j].fire = NULL;
+			}
+			if (map[i][j].player != NULL && map[i][j].player->life == 0) {
+				free(map[i][j].player);
+				map[i][j].player = NULL;
+			}
+		}
+	}
 }
 
-int getFreeEntity()
+void entitiesActions(MapCase **map)
 {
-    int i;
+	/* Loop through all the entities and perform their action */
 
-    /* Loop through all the entities and find a free slot */
-
-    for (i = 0; i < MAX_ENTITIES; i++) {
-        if (entity[i].active == 0) {
-            memset(&entity[i], 0, sizeof(Entity));
-
-            entity[i].active = 1;
-
-            return i;
-        }
-    }
-
-    /* Return -1 if you couldn't any free slots */
-
-    return -1;
-}
-
-void doEntities()
-{
-    int i;
-
-    /* Loop through the entities and perform their action */
-
-    for (i = 0; i < MAX_ENTITIES; i++) {
-        self = &entity[i];
-
-        if (self->active == 1) {
-            self->action();
-        }
-    }
+	for (int i = 0; i < MAP_SIZE; i++) {
+		for (int j = 0; j < MAP_SIZE; j++) {
+			if (map[i][j].bomb != NULL && map[i][j].bomb->life > 0)
+				map[i][j].bomb->action(map, map[i][j].bomb);
+			if (map[i][j].fire != NULL && map[i][j].fire->life > 0)
+				map[i][j].fire->action(map, map[i][j].fire);
+		}
+	}
+	freeDeadEntities(map);
 }
 
 void drawEntities(MapCase **map)
 {
-    for (int i = 0; i < MAP_SIZE; i++) {
-        for (int j = 0; j < MAP_SIZE; j++) {
-            if (map[i][j].entity != NULL)
-                map[i][j].entity->draw(map[i][j].entity->sprite, i, j);
-        }
-    }
-}
+	/* Loop through the entities and call their draw action */
 
-void drawStandardEntity()
-{
-    drawImage(self->sprite, self->x, self->y);
+	for (int i = 0; i < MAP_SIZE; i++) {
+		for (int j = 0; j < MAP_SIZE; j++) {
+			if (map[i][j].bomb != NULL && map[i][j].bomb->life > 0)
+				map[i][j].bomb->draw(map[i][j].bomb->sprite, i, j);
+			if (map[i][j].player != NULL && map[i][j].player->life > 0)
+				map[i][j].player->draw(map[i][j].player->sprite, i, j);
+			if (map[i][j].block != NULL)
+				map[i][j].block->draw(map[i][j].block->sprite, i, j);
+			if (map[i][j].fire != NULL && map[i][j].fire->life > 0)
+				map[i][j].fire->draw(map[i][j].fire->sprite, i, j);
+		}
+	}
 }

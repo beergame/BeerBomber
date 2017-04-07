@@ -1,5 +1,5 @@
-#ifndef BOMB_H
-# define BOMB_H
+#ifndef FIRE_H
+# define FIRE_H
 
 # include "structs.h"
 
@@ -7,6 +7,4 @@ void drawImage(SDL_Surface *, int, int);
 
 SDL_Surface *getSprite(int);
 
-Entity *addFire(MapCase **, int, int);
-
-#endif /* BOMB_H */
+#endif /* FIRE_H */
