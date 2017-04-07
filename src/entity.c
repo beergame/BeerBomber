@@ -2,6 +2,8 @@
 
 extern void drawImage(SDL_Surface *, int, int);
 
+extern void freeBomb(MapCase **);
+
 void clearEntities()
 {
     int i;
@@ -26,23 +28,39 @@ int getFreeEntity()
     return -1;
 }
 
-void doEntities()
+void doEntities(MapCase **map)
 {
-    int i;
-
     /* Loop through the entities and perform their action */
 
-    for (i = 0; i < MAX_ENTITIES; i++) {
-        self = &entity[i];
+    for (int i = 0; i < MAP_SIZE; i++) {
+        for (int j = 0; j < MAP_SIZE; j++) {
+            if (map[i][j].bomb != NULL && map[i][j].bomb->life > 0)
+                map[i][j].bomb->action(map, map[i][j].bomb);
+            /*if (map[i][j].player != NULL)
+                map[i][j].player->draw(map[i][j].player->sprite, i, j);
+            if (map[i][j].block != NULL)
+                map[i][j].block->draw(map[i][j].block->sprite, i, j);
+            if (map[i][j].fire != NULL)
+                map[i][j].fire->draw(map[i][j].fire->sprite, i, j);*/
+        }
     }
+   freeBomb(map);
 }
 
 void drawEntities(MapCase **map)
 {
+    /* Loop through the entities and draw it */
+
     for (int i = 0; i < MAP_SIZE; i++) {
         for (int j = 0; j < MAP_SIZE; j++) {
-            if (map[i][j].entity != NULL)
-                map[i][j].entity->draw(map[i][j].entity->sprite, i, j);
+            if (map[i][j].bomb != NULL && map[i][j].bomb->life > 0)
+                map[i][j].bomb->draw(map[i][j].bomb->sprite, i, j);
+            if (map[i][j].player != NULL)
+                map[i][j].player->draw(map[i][j].player->sprite, i, j);
+            if (map[i][j].block != NULL)
+                map[i][j].block->draw(map[i][j].block->sprite, i, j);
+            if (map[i][j].fire != NULL)
+                map[i][j].fire->draw(map[i][j].fire->sprite, i, j);
         }
     }
 }

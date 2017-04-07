@@ -13,16 +13,14 @@ MapCase **loadMap()
         map[i] = (MapCase *) malloc(sizeof(MapCase));
         for (int j = 0; j < MAP_SIZE; j++) {
             map[i][j].sprite = (SDL_Surface *) malloc(sizeof(SDL_Surface));
-            map[i][j].entity = NULL;
+            map[i][j].player = NULL;
+            map[i][j].bomb = NULL;
+            map[i][j].block = NULL;
+            map[i][j].fire = NULL;
 
             if (i == 0 || j == 0 || i == MAP_SIZE - 1 || j == MAP_SIZE - 1) {
-                map[i][j].mapType = TYPE_BLOCK;
-                map[i][j].sprite = getSprite(MAP_SPRITE_BLOCK);
-            } else if (!(i % 2) && !(j % 2)) {
-                map[i][j].mapType = TYPE_BLOCK;
                 map[i][j].sprite = getSprite(MAP_SPRITE_BLOCK);
             } else {
-                map[i][j].mapType = TYPE_BASE;
                 map[i][j].sprite = getSprite(MAP_SPRITE_BASE);
             }
         }

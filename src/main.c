@@ -12,7 +12,9 @@ extern Entity *initPlayer(MapCase **, int, int);
 
 extern void doPlayer(MapCase **, Entity *);
 
-extern void doEntities(void);
+extern void doPlayerThrowBomb(MapCase **, Entity *);
+
+extern void doEntities(MapCase **);
 
 extern void loadAllSprites(void);
 
@@ -80,9 +82,11 @@ int main(int argc, char *argv[])
 
             doPlayer(game.map, player1);
 
+            doPlayerThrowBomb(game.map, player1);
+
             /* Update the entities */
 
-            //doEntities();
+            doEntities(game.map);
 
             /* Do the collisions */
 

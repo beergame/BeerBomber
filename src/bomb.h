@@ -1,3 +1,9 @@
-#include "structs.h"
+#ifndef BOMB_H
+# define BOMB_H
+# include "structs.h"
 
-extern Entity *self, entity[MAX_ENTITIES];
+void drawImage(SDL_Surface *, int, int);
+SDL_Surface *getSprite(int);
+
+#endif /* BOMB_H */
+

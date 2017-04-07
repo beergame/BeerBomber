@@ -1,26 +1,29 @@
 #include "defs.h"
 
+struct MapCase;
+
 typedef struct      Entity
 {
     int             type;
     int             speed;
     int             x;
     int             y;
-    int             thinkTime;
+    int             life;
+    int             ammo;
     SDL_Surface     *sprite;
 
-    void            (*action)(void);
+    void            (*action)(struct MapCase **, struct Entity *);
 
     void            (*draw)(SDL_Surface *, int, int);
 }                   Entity;
 
 typedef struct      MapCase
 {
-    unsigned int    mapType;
-    int             inFire;
-    int             hasBomb;
+    Entity          *player;
+    Entity          *bomb;
+    Entity          *block;
+    Entity          *fire;
     SDL_Surface     *sprite;
-    Entity          *entity;
 }                   MapCase;
 
 typedef struct      Game
