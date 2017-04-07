@@ -19,10 +19,11 @@
 
 #define MAX_SPRITES 40
 #define PLAYER_SPEED 20
-#define PLAYER_MAX_LIFE 3
+#define PLAYER_MAX_LIFE 2
 #define PLAYER_MAX_AMMO 3
 
 #define BOMB_LIFETIME 150
+#define FIRE_LIFETIME 10
 
 #define IN_REDEFINE 0
 #define IN_GAME 1

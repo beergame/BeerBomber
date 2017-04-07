@@ -1,4 +1,10 @@
-#include "structs.h"
+#ifndef INPUT_H
+# define INPUT_H
 
-extern Control input, customControl;
-extern Game game;
+# include "structs.h"
+
+Control input;
+Control customControl;
+Game game;
+
+#endif /* INPUT_H */

@@ -1,6 +1,8 @@
-#include "structs.h"
+#ifndef COLLISIONS_H
+# define COLLISIONS_H
 
-extern Entity entity[MAX_ENTITIES];
-extern Entity player;
-extern Game game;
-extern Entity *self;
+# include "structs.h"
+
+Game game;
+
+#endif /* COLLISIONS_H */
