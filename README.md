@@ -6,16 +6,16 @@ Bomberman clone in C/SDL
 
 # Build BeerBomber
 
-Your need SDL 1.2 Library installed, you can install it with `brew` for MacOS
+Your need SDL 2.0 Library installed, you can install it with `brew` for MacOS
 
 ```shell
-$ brew install sdl sdl_image sdl_ttf sdl_mixer
+$ brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer
 ```
 
 Or with `apt-source` for Linux based OS
 
 ```shell
-$ sudo apt-get install sdl sdl_image sdl_ttf sdl_mixer
+$ sudo apt-get install sdl2 sdl2_image sdl2_ttf sdl2_mixer
 ```
 
 Then you can build BeerBomber with the Make rule `all`
