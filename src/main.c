@@ -45,7 +45,6 @@ int main(int argc, char *argv[])
 
 			getInput(game);
 
-
 			/* Update the player's position and bomb throwing */
 
 			if (player1 != NULL && player1->life > 0) {

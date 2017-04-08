@@ -10,10 +10,6 @@ SDL_Texture *loadImage(Game *game, char *path)
 		printf("Failed to load image %s\n", path);
 		return NULL;
 	}
-//
-//	/* Make the background transparent */
-//
-//	SDL_SetColorKey(temp, (SDL_RLEACCEL), SDL_MapRGB(temp->format, 0, 0, 0));
 
 	/* Return the processed texture */
 
