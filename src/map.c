@@ -7,6 +7,9 @@ MapCase **loadMap()
 	Entity *block = malloc(sizeof(Entity));
 	block->sprite = getSprite(MAP_SPRITE_BLOCK);
 	block->draw = &drawImage;
+	block->type = TYPE_BLOCK;
+	block->life = 1;
+	Entity *bush = addBush();
 
 	if (!(tmp = malloc(MAP_SIZE * sizeof(MapCase *)))) {
 		printf("malooc error \n");
@@ -30,8 +33,8 @@ MapCase **loadMap()
 			if (i == 0 || j == 0 || i == MAP_SIZE - 1 ||
 					j == MAP_SIZE - 1 || (!(i % 2) && !(j % 2))) {
 				tmp[i][j].block = block;
-			} else {
-				tmp[i][j].block = addBush(tmp, i, j);
+			} else if (i != 1) {
+				tmp[i][j].block = bush;
 			}
 		}
 	}

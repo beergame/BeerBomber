@@ -47,7 +47,7 @@ void drawEntities(Game *game, MapCase **map)
 				map[i][j].bomb->draw(game, map[i][j].bomb->sprite, i, j);
 			if (map[i][j].player != NULL && map[i][j].player->life > 0)
 				map[i][j].player->draw(game, map[i][j].player->sprite, i, j);
-			if (map[i][j].block != NULL)
+			if (map[i][j].block != NULL && map[i][j].block->life > 0)
 				map[i][j].block->draw(game, map[i][j].block->sprite, i, j);
 			if (map[i][j].fire != NULL && map[i][j].fire->life > 0)
 				map[i][j].fire->draw(game, map[i][j].fire->sprite, i, j);

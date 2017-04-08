@@ -9,8 +9,8 @@
 # include "SDL2/SDL_mixer.h"
 # include "SDL2/SDL_ttf.h"
 
-# define SCREEN_WIDTH 480
-# define SCREEN_HEIGHT 320
+# define SCREEN_WIDTH 683
+# define SCREEN_HEIGHT 380
 # define MAP_SIZE 15
 # define BOARD_WIDTH (SCREEN_WIDTH / 2) - (MAP_SIZE * 16 / 2)
 # define BOARD_HEIGHT (SCREEN_HEIGHT / 2) - (MAP_SIZE * 16 / 2)

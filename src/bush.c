@@ -1,16 +1,13 @@
 #include "bush.h"
 
-Entity *addbush(MapCase **map, int x, int y)
+Entity *addBush()
 {
-	Entity *bush = (Entity *) malloc(sizeof(Entity));
-
-	bush->x = x;
-	bush->y = y;
-	bush->life = 1;
+	Entity *bush = malloc(sizeof(Entity));
 	bush->sprite = getSprite(MAP_SPRITE_BUSH);
 	bush->draw = &drawImage;
-	map[x][y].block = bush;
+	bush->type = TYPE_BUSH;
+	bush->life = 1;
 
-	return bush;
+	return (bush);
 }
 

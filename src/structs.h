@@ -8,6 +8,7 @@ struct				Game;
 
 typedef struct		Entity
 {
+	int				type;
 	int				speed;
 	int				x;
 	int				y;
