@@ -33,7 +33,7 @@ void delay(unsigned int);
 
 void doRedefine(Game *);
 
-void loadMap(MapCase **);
+MapCase **loadMap();
 
 void drawMap(MapCase **);
 

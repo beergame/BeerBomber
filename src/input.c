@@ -123,7 +123,6 @@ int getSingleInput()
 
 			case SDL_KEYDOWN:
 				key = event.key.keysym.sym;
-//				printf("SDL_KEYDOWN %d\n", event.key.keysym.sym);
 				break;
 
 			case SDL_JOYAXISMOTION:

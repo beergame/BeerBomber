@@ -1,7 +1,5 @@
 #include "draw.h"
 
-void drawImage(SDL_Texture *, int, int);
-
 SDL_Texture *getSprite(int);
 
 void draw(Game *game)
@@ -18,16 +16,15 @@ void draw(Game *game)
 
 	sprintf(text, "PLAYER LIFE: %d", game->score);
 
-	drawString(text, 100, 10, game->font, 1, 0);
+	drawString(game, text, 100, 10, game->font, 1, 0);
 
 	/* Draw the map */
 
-	drawImage(getSprite(game->map[0][0].type), 1, 1);
-//	drawMap(game->map);
+	drawMap(game, game->map);
 
 	/* Draw the entities */
 
-//	drawEntities(game->map);
+	drawEntities(game, game->map);
 
 	/* Update the buffer */
 

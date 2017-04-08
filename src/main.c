@@ -22,12 +22,11 @@ int main(int argc, char *argv[])
 
 	/* Load map */
 
-	loadMap(game->map);
+	game->map = loadMap();
 
-	printf("%i", &game->map[0][0]);
 	/* Initialise the player */
 
-//	Entity *player1 = initPlayer(game->map, 1, 1);
+	Entity *player1 = initPlayer(game->map, 1, 1);
 
 	/* Reset the redefine index */
 
@@ -46,19 +45,20 @@ int main(int argc, char *argv[])
 
 			getInput(game);
 
+
 			/* Update the player's position and bomb throwing */
 
-//			if (player1 != NULL && player1->life > 0) {
-//				playerMove(game->map, player1);
-//				playerThrowBomb(game->map, player1);}
-//			} else {
-//				player1 = initPlayer(game->map, 1, 1);
-//			}
-//			game->score = player1->life;
-//
-//			/* Call entities's actions */
-//
-//			entitiesActions(game->map);
+			if (player1 != NULL && player1->life > 0) {
+				playerMove(game->map, player1);
+				playerThrowBomb(game->map, player1);
+			} else {
+				player1 = initPlayer(game->map, 1, 1);
+			}
+			game->score = player1->life;
+
+			/* Call entities's actions */
+
+			entitiesActions(game->map);
 
 			/* Do the collisions */
 

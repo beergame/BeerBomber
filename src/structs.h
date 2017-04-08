@@ -4,6 +4,7 @@
 # include "defs.h"
 
 struct				MapCase;
+struct				Game;
 
 typedef struct		Entity
 {
@@ -16,12 +17,12 @@ typedef struct		Entity
 
 	void			(*action)(struct MapCase **, struct Entity *);
 
-	void			(*draw)(SDL_Texture *, int, int);
+	void			(*draw)(struct Game *, SDL_Texture *, int, int);
 } Entity;
 
 typedef struct		MapCase
 {
-	int				type;
+	SDL_Texture		*sprite;
 	Entity			*player;
 	Entity			*bomb;
 	Entity			*block;

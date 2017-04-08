@@ -3,11 +3,11 @@
 
 # include "structs.h"
 
-void drawMap(MapCase **map);
+void drawMap(Game *, MapCase **map);
 
-void drawEntities(MapCase **map);
+void drawEntities(Game *, MapCase **map);
 
-void drawString(char *, int, int, TTF_Font *, int, int);
+void drawString(Game *, char *, int, int, TTF_Font *, int, int);
 
 #endif /* DRAW_H */
 

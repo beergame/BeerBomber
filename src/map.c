@@ -1,6 +1,6 @@
 #include "map.h"
 
-void loadMap(MapCase **map)
+MapCase **loadMap()
 {
 	MapCase **tmp;
 
@@ -10,7 +10,7 @@ void loadMap(MapCase **map)
 		exit(1);
 	}
 	for (int i = 0; i < MAP_SIZE; i++) {
-		tmp[i] = (MapCase *) malloc(sizeof(MapCase));
+		tmp[i] = (MapCase *) malloc(sizeof(MapCase) + 400);
 		if (tmp[i] == NULL) {
 			printf("malooc error \n");
 
@@ -18,7 +18,7 @@ void loadMap(MapCase **map)
 		}
 		for (int j = 0; j < MAP_SIZE; j++) {
 			printf("x");
-			tmp[i][j].type = 0;
+			tmp[i][j].sprite = getSprite(MAP_SPRITE_BASE);
 			tmp[i][j].player = NULL;
 			tmp[i][j].bomb = NULL;
 			tmp[i][j].block = NULL;
@@ -27,7 +27,7 @@ void loadMap(MapCase **map)
 		printf("\n");
 	}
 
-	map = tmp;
+	return tmp;
 }
 
 void freeMap(MapCase **map)
@@ -40,15 +40,11 @@ void freeMap(MapCase **map)
 	map = NULL;
 }
 
-void drawMap(MapCase **map)
+void drawMap(Game *game, MapCase **map)
 {
-	printf("toto %i\n", map[1][1].type);
 	for (int i = 0; i < MAP_SIZE; i++) {
 		for (int j = 0; j < MAP_SIZE; j++) {
-			printf("test\n");
-			if (1) {
-				drawImage(getSprite(map[i][j].type), i, j);
-			}
+			drawImage(game, map[i][j].sprite, i, j);
 		}
 	}
 }

@@ -34,7 +34,7 @@ void doRedefine(Game *game)
 
 	while (key == -2) {
 		key = getSingleInput();
-puts("test");
+
 		drawRedefine(game);
 	}
 

@@ -3,7 +3,7 @@
 
 #include "structs.h"
 
-void *drawImage(SDL_Texture *, int, int);
+void *drawImage(Game *, SDL_Texture *, int, int);
 
 SDL_Texture *getSprite(int);
 
