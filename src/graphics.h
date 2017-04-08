@@ -3,7 +3,6 @@
 
 # include "structs.h"
 
-Game game;
 Sprite sprite[MAX_SPRITES];
 
 DECLSPEC SDL_Surface *SDLCALL IMG_Load(const char *file);

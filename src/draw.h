@@ -3,8 +3,6 @@
 
 # include "structs.h"
 
-Game game;
-
 void drawMap(MapCase **map);
 
 void drawEntities(MapCase **map);

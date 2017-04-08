@@ -1,6 +1,6 @@
 #include "input.h"
 
-void getInput()
+void getInput(Game *game)
 {
 	int key;
 	SDL_Event event;
@@ -28,7 +28,7 @@ void getInput()
 				else if (key == customControl.fire)
 					input.fire = 1;
 				else if (key == SDLK_ESCAPE)
-					game.status = IN_REDEFINE;
+					game->status = IN_REDEFINE;
 				break;
 
 			case SDL_KEYUP:
@@ -123,6 +123,7 @@ int getSingleInput()
 
 			case SDL_KEYDOWN:
 				key = event.key.keysym.sym;
+//				printf("SDL_KEYDOWN %d\n", event.key.keysym.sym);
 				break;
 
 			case SDL_JOYAXISMOTION:

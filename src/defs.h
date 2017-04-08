@@ -13,7 +13,7 @@
 # define SCREEN_HEIGHT 480
 # define BOARD_WIDTH (SCREEN_WIDTH / 5)
 # define BOARD_HEIGHT (SCREEN_HEIGHT / 3)
-# define MAP_SIZE 15
+# define MAP_SIZE 5
 # define MAX_PLAYER 4
 # define MAX_ENTITIES 20
 # define MAX_SPRITES 40

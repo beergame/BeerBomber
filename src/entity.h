@@ -3,7 +3,7 @@
 
 # include "structs.h"
 
-void drawImage(SDL_Surface *, int, int);
+void drawImage(SDL_Texture *, int, int);
 
 #endif /* ENTITY_H */
 

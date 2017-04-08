@@ -16,16 +16,16 @@ typedef struct		Entity
 
 	void			(*action)(struct MapCase **, struct Entity *);
 
-	void			(*draw)(SDL_Surface *, int, int);
+	void			(*draw)(SDL_Texture *, int, int);
 } Entity;
 
 typedef struct		MapCase
 {
+	int				type;
 	Entity			*player;
 	Entity			*bomb;
 	Entity			*block;
 	Entity			*fire;
-	SDL_Texture		*sprite;
 } MapCase;
 
 typedef struct		Game

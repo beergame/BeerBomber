@@ -1,42 +1,54 @@
 #include "map.h"
 
-MapCase **loadMap()
+void loadMap(MapCase **map)
 {
-	MapCase **map;
+	MapCase **tmp;
 
-	map = (MapCase **) malloc(MAP_SIZE * sizeof(MapCase *));
+	if (!(tmp = (MapCase **) malloc(MAP_SIZE * sizeof(MapCase *)))) {
+		printf("malooc error \n");
+
+		exit(1);
+	}
 	for (int i = 0; i < MAP_SIZE; i++) {
-		map[i] = (MapCase *) malloc(sizeof(MapCase));
-		for (int j = 0; j < MAP_SIZE; j++) {
-			map[i][j].sprite = (SDL_Surface *) malloc(sizeof(SDL_Surface));
-			map[i][j].player = NULL;
-			map[i][j].bomb = NULL;
-			map[i][j].block = NULL;
-			map[i][j].fire = NULL;
+		tmp[i] = (MapCase *) malloc(sizeof(MapCase));
+		if (tmp[i] == NULL) {
+			printf("malooc error \n");
 
-			if (i == 0 || j == 0 || i == MAP_SIZE - 1 || j == MAP_SIZE - 1)
-				map[i][j].sprite = getSprite(MAP_SPRITE_BLOCK);
-			else
-				map[i][j].sprite = getSprite(MAP_SPRITE_BASE);
+			exit(1);
 		}
+		for (int j = 0; j < MAP_SIZE; j++) {
+			printf("x");
+			tmp[i][j].type = 0;
+			tmp[i][j].player = NULL;
+			tmp[i][j].bomb = NULL;
+			tmp[i][j].block = NULL;
+			tmp[i][j].fire = NULL;
+		}
+		printf("\n");
 	}
 
-	return (map);
+	map = tmp;
 }
 
 void freeMap(MapCase **map)
 {
 	for (int i = 0; i < MAP_SIZE; i++) {
 		free(map[i]);
+		map[i] = NULL;
 	}
 	free(map);
+	map = NULL;
 }
 
 void drawMap(MapCase **map)
 {
+	printf("toto %i\n", map[1][1].type);
 	for (int i = 0; i < MAP_SIZE; i++) {
 		for (int j = 0; j < MAP_SIZE; j++) {
-			drawImage(map[i][j].sprite, i, j);
+			printf("test\n");
+			if (1) {
+				drawImage(getSprite(map[i][j].type), i, j);
+			}
 		}
 	}
 }

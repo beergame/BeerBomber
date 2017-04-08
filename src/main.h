@@ -3,18 +3,17 @@
 
 # include "structs.h"
 
-Game game;
 Control customControl, input;
 Sprite sprite[MAX_SPRITES];
 Redefine redefine;
 
-void init(char *);
+void init(char *, Game *);
 
-void cleanup(void);
+void cleanup(Game *);
 
-void getInput(void);
+void getInput(Game *);
 
-void draw(void);
+void draw(Game *);
 
 Entity *initPlayer(MapCase **, int, int);
 
@@ -24,7 +23,7 @@ void playerThrowBomb(MapCase **, Entity *);
 
 void entitiesActions(MapCase **);
 
-void loadAllSprites(void);
+void loadAllSprites(Game *);
 
 void doCollisions(void);
 
@@ -32,9 +31,9 @@ TTF_Font *loadFont(char *, int);
 
 void delay(unsigned int);
 
-void doRedefine(void);
+void doRedefine(Game *);
 
-MapCase **loadMap();
+void loadMap(MapCase **);
 
 void drawMap(MapCase **);
 
