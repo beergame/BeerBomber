@@ -2,16 +2,36 @@
 
 void bombExplode(MapCase **map, int x, int y)
 {
-	for (int i = x - 2; i < x + 3; i++) {
-		if (map[i][y].fire == NULL) {
+	for (int i = x; i < x + 3; i++) {
+		if (map[i][y].block != NULL &&
+				map[i][y].block->type == TYPE_BLOCK)
+			break;
+		if (map[i][y].fire == NULL)
 			addFire(map, i, y);
-		}
 	}
 
-	for (int i = y - 2; i < y + 3; i++) {
-		if (map[x][i].fire == NULL) {
+	for (int i = x - 1; i > x - 3; i--) {
+		if (map[i][y].block != NULL &&
+				map[i][y].block->type == TYPE_BLOCK)
+			break;
+		if (map[i][y].fire == NULL)
+			addFire(map, i, y);
+	}
+
+	for (int i = y + 1; i < y + 3; i++) {
+		if (map[x][i].block != NULL &&
+				map[x][i].block->type == TYPE_BLOCK)
+			break;
+		if (map[x][i].fire == NULL)
 			addFire(map, x, i);
-		}
+	}
+
+	for (int i = y - 1; i > y - 3; i--) {
+		if (map[x][i].block != NULL &&
+				map[x][i].block->type == TYPE_BLOCK)
+			break;
+		if (map[x][i].fire == NULL)
+			addFire(map, x, i);
 	}
 }
 
