@@ -26,8 +26,8 @@ void drawImage(Game *game, SDL_Texture *image, int x, int y)
 
 	/* Set x and y in right position on the screen */
 
-	x = (x * 16) + BOARD_HEIGHT;
-	y = (y * 16) + BOARD_WIDTH;
+	x = (x * 16) + BOARD_WIDTH;
+	y = (y * 16) + BOARD_HEIGHT;
 
 	/* Set the blitting rectangle to the size of the src image */
 
