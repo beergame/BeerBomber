@@ -2,29 +2,32 @@
 
 void draw()
 {
-	char text[20];
+//	char text[20];
 
 	/* Blank the screen */
 
-	SDL_FillRect(game.screen, NULL, 0);
+	SDL_RenderClear(game.renderer);
 
-	/* Draw the score */
+	SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255);
 
-	sprintf(text, "PLAYER LIFE: %d", game.score);
-
-	drawString(text, 100, 10, game.font, 1, 0);
-
-	/* Draw the map */
-
-	drawMap(game.map);
-
-	/* Draw the entities */
-
-	drawEntities(game.map);
+//	/* Draw the score */
+//
+//	sprintf(text, "PLAYER LIFE: %d", game.score);
+//
+//	drawString(text, 100, 10, game.font, 1, 0);
+//
+//	/* Draw the map */
+//
+//	drawMap(game.map);
+//
+//	/* Draw the entities */
+//
+//	drawEntities(game.map);
+//
 
 	/* Update the buffer */
 
-	SDL_Flip(game.screen);
+	SDL_RenderPresent(game.renderer);
 
 	/* Sleep briefly */
 

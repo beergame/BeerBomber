@@ -1,11 +1,11 @@
 #include "graphics.h"
 
-SDL_Surface *loadImage(char *name)
+SDL_Texture *loadImage(char *name)
 {
 	/* Load the image using SDL Image */
 
 	SDL_Surface *temp = IMG_Load(name);
-	SDL_Surface *image;
+	SDL_Texture *image;
 
 	if (temp == NULL) {
 		printf("Failed to load image %s\n", name);
@@ -14,11 +14,13 @@ SDL_Surface *loadImage(char *name)
 
 	/* Make the background transparent */
 
-	SDL_SetColorKey(temp, (SDL_SRCCOLORKEY|SDL_RLEACCEL), SDL_MapRGB(temp->format, 0, 0, 0));
+	SDL_SetColorKey(temp, SDL_True, SDL_MapRGB(temp->format, 0, 0, 0));
 
-	/* Convert the image to the screen's native format */
+	/* Create texture and charge it in renderer */
 
-	image = SDL_DisplayFormat(temp);
+	image = SDL_CreateTextureFromSurface(game.renderer, temp);
+
+	/* Free surface ;) */
 
 	SDL_FreeSurface(temp);
 
@@ -27,12 +29,12 @@ SDL_Surface *loadImage(char *name)
 		return NULL;
 	}
 
-	/* Return the processed image */
+	/* Return the processed texture */
 
 	return image;
 }
 
-void drawImage(SDL_Surface *image, int x, int y)
+void drawImage(SDL_Texture *image, int x, int y)
 {
 	SDL_Rect dest;
 
@@ -48,9 +50,9 @@ void drawImage(SDL_Surface *image, int x, int y)
 	dest.w = image->w;
 	dest.h = image->h;
 
-	/* Blit the entire image onto the screen at coordinates x and y */
+	/* Copy the entire image onto the renderer at coordinates x and y */
 
-	SDL_BlitSurface(image, NULL, game.screen, &dest);
+	SDL_RenderCopy(game.renderer, image, NULL, &dest);
 }
 
 void loadSprite(int index, char *name)
@@ -69,7 +71,7 @@ void loadSprite(int index, char *name)
 		exit(1);
 }
 
-SDL_Surface *getSprite(int index)
+SDL_Texture *getSprite(int index)
 {
 	if (index >= MAX_SPRITES || index < 0) {
 		printf("Invalid index for sprite! Index: %d Maximum: %d\n", index, MAX_SPRITES);
@@ -87,7 +89,7 @@ void freeSprites()
 
 	for (i = 0; i < MAX_SPRITES; i++) {
 		if (sprite[i].image != NULL) {
-			SDL_FreeSurface(sprite[i].image);
+			SDL_DestroyTexture(sprite[i].image);
 		}
 	}
 }

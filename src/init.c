@@ -22,7 +22,15 @@ void init(char *title)
 
 	/* Open a screen */
 
-	game.screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, SDL_HWPALETTE | SDL_DOUBLEBUF);
+	game.screen = SDL_CreateWindow(title,
+								   SDL_WINDOWPOS_UNDEFINED,
+								   SDL_WINDOWPOS_UNDEFINED,
+								   SCREEN_WIDTH, SCREEN_HEIGHT,
+								   SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+
+	/* Create Renderer SDL 2.0 */
+
+	game.renderer = SDL_CreateRenderer(game.screen, -1, 0);
 
 	if (game.screen == NULL) {
 		printf("Couldn't set screen mode to %d x %d: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
@@ -37,10 +45,6 @@ void init(char *title)
 
 		exit(1);
 	}
-
-	/* Set the screen title */
-
-	SDL_WM_SetCaption(title, NULL);
 
 	/* Open the joystick */
 

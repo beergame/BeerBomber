@@ -12,7 +12,7 @@ typedef struct		Entity
 	int				y;
 	int				life;
 	int				ammo;
-	SDL_Surface		*sprite;
+	SDL_Texture		*sprite;
 
 	void			(*action)(struct MapCase **, struct Entity *);
 
@@ -25,7 +25,7 @@ typedef struct		MapCase
 	Entity			*bomb;
 	Entity			*block;
 	Entity			*fire;
-	SDL_Surface		*sprite;
+	SDL_Texture		*sprite;
 } MapCase;
 
 typedef struct		Game
@@ -33,14 +33,15 @@ typedef struct		Game
 	int				score;
 	int				status;
 	MapCase			**map;
-	SDL_Surface		*screen;
+	SDL_Window		*screen;
+	SDL_Renderer	*renderer;
 	TTF_Font		*font;
 	SDL_Joystick	*joystick;
 }					Game;
 
 typedef struct		Sprite
 {
-	SDL_Surface		*image;
+	SDL_Texture		*image;
 }					Sprite;
 
 typedef struct		Sound

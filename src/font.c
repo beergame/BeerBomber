@@ -27,6 +27,7 @@ void drawString(char *text, int x, int y, TTF_Font *font, int centerX, int cente
 {
 	SDL_Rect dest;
 	SDL_Surface *surface;
+	SDL_Texture *texture;
 	SDL_Color foregroundColor;
 	SDL_Color backgroundColor;
 
@@ -57,9 +58,13 @@ void drawString(char *text, int x, int y, TTF_Font *font, int centerX, int cente
 	dest.w = surface->w;
 	dest.h = surface->h;
 
-	SDL_BlitSurface(surface, NULL, game.screen, &dest);
+	/* Create texture from Surface */
+
+	texture = SDL_CreateTextureFromSurface(game.renderer, surface);
 
 	/* Free the generated string image */
 
 	SDL_FreeSurface(surface);
+
+	SDL_RenderCopy(game.renderer, image, NULL, &dest);
 }

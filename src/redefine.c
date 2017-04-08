@@ -75,7 +75,7 @@ void drawRedefine()
 {
 	/* Blank the screen */
 
-	SDL_FillRect(game.screen, NULL, 0);
+	SDL_RenderClear(game.renderer);
 
 	/* Draw the redefine string */
 
@@ -83,7 +83,7 @@ void drawRedefine()
 
 	/* Update the buffer */
 
-	SDL_Flip(game.screen);
+	SDL_RenderPresent(game.renderer);
 
 	/* Sleep briefly */
 

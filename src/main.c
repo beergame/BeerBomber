@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-	unsigned int frameLimit = SDL_GetTicks() + 16;
+//	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go;
 
 	/* Start up SDL */
@@ -21,15 +21,15 @@ int main(int argc, char *argv[])
 
 	/* Load the font */
 
-	game.font = loadFont("font/blackWolf.ttf", 16);
+//	game.font = loadFont("font/blackWolf.ttf", 16);
 
 	/* Load map */
 
-	game.map = loadMap();
+//	game.map = loadMap();
 
 	/* Initialise the player */
 
-	Entity *player1 = initPlayer(game.map, 1, 1);
+//	Entity *player1 = initPlayer(game.map, 1, 1);
 
 	/* Reset the redefine index */
 
@@ -39,28 +39,28 @@ int main(int argc, char *argv[])
 	/* Loop indefinitely for messages */
 
 	while (go == 1) {
-		if (game.status == IN_REDEFINE) {
+		if (game.status != IN_REDEFINE) {
 			/* Handle the key redefining */
 
-			doRedefine();
+//			doRedefine();
 		} else {
 			/* Get the input */
 
-			getInput();
-
-			/* Update the player's position and bomb throwing */
-
-			if (player1 != NULL && player1->life > 0) {
-				playerMove(game.map, player1);
-				playerThrowBomb(game.map, player1);
-			} else {
-				player1 = initPlayer(game.map, 1, 1);
-			}
-			game.score = player1->life;
-
-			/* Call entities's actions */
-
-			entitiesActions(game.map);
+//			getInput();
+//
+//			/* Update the player's position and bomb throwing */
+//
+//			if (player1 != NULL && player1->life > 0) {
+//				playerMove(game.map, player1);
+//				playerThrowBomb(game.map, player1);
+//			} else {
+//				player1 = initPlayer(game.map, 1, 1);
+//			}
+//			game.score = player1->life;
+//
+//			/* Call entities's actions */
+//
+//			entitiesActions(game.map);
 
 			/* Do the collisions */
 
@@ -73,9 +73,9 @@ int main(int argc, char *argv[])
 
 		/* Sleep briefly to stop sucking up all the CPU time */
 
-		delay(frameLimit);
+//		delay(frameLimit);
 
-		frameLimit = SDL_GetTicks() + 16;
+//		frameLimit = SDL_GetTicks() + 16;
 	}
 
 	/* Exit the program */
