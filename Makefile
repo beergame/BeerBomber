@@ -17,8 +17,7 @@ CFLAGS =	-Wall -pedantic -Werror
 # OS Flags.
 OS = $(shell uname)
 ifeq ($(OS), Darwin)
-    FLAGS = -I/usr/local/include/SDL -L/usr/local/lib -lSDLmain -lSDL \
-	-Wl,-framework,Cocoa -lSDL_image -lSDL_mixer -lSDL_ttf
+    FLAGS = -I/usr/local/include/SDL2 -D_THREAD_SAFE -L/usr/local/lib -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 else
     FLAGS = `sdl-config --libs` -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
 endif

@@ -3,6 +3,5 @@
 
 # include "structs.h"
 
-Game game;
 
 #endif /* COLLISIONS_H */

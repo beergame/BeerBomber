@@ -5,15 +5,17 @@ void fireCounter(MapCase **map, Entity *fire)
 	fire->life--;
 
 	if (map[fire->x][fire->y].player != NULL &&
-		fire->life == FIRE_LIFETIME - 5) {
-		printf("player life - 1\n");
+			fire->life == FIRE_LIFETIME - 5)
 		map[fire->x][fire->y].player->life--;
-	}
+	if (map[fire->x][fire->y].block != NULL &&
+			map[fire->x][fire->y].block->type == TYPE_BUSH &&
+			   fire->life == FIRE_LIFETIME - 5)
+		map[fire->x][fire->y].block = NULL;
 }
 
 Entity *addFire(MapCase **map, int x, int y)
 {
-	Entity *fire = (Entity *) malloc(sizeof(Entity));
+	Entity *fire = malloc(sizeof(Entity));
 
 	fire->x = x;
 	fire->y = y;

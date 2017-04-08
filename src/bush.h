@@ -1,5 +1,5 @@
-#ifndef FIRE_H
-# define FIRE_H
+#ifndef BUSH_H
+# define BUSH_H
 
 # include "structs.h"
 
@@ -7,4 +7,4 @@ void drawImage(Game *, SDL_Texture *, int, int);
 
 SDL_Texture *getSprite(int);
 
-#endif /* FIRE_H */
+#endif /* BUSH_H */

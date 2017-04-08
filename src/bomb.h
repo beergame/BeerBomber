@@ -3,9 +3,9 @@
 
 # include "structs.h"
 
-void drawImage(SDL_Surface *, int, int);
+void drawImage(Game *, SDL_Texture *, int, int);
 
-SDL_Surface *getSprite(int);
+SDL_Texture *getSprite(int);
 
 Entity *addFire(MapCase **, int, int);
 

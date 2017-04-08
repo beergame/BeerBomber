@@ -1,6 +1,6 @@
 #include "redefine.h"
 
-void doRedefine()
+void doRedefine(Game *game)
 {
 	int key = -1;
 
@@ -35,7 +35,7 @@ void doRedefine()
 	while (key == -2) {
 		key = getSingleInput();
 
-		drawRedefine();
+		drawRedefine(game);
 	}
 
 	switch (redefine.redefineIndex) {
@@ -66,24 +66,23 @@ void doRedefine()
 
 	if (redefine.redefineIndex == 5) {
 		redefine.redefineIndex = 0;
-
-		game.status = IN_GAME;
+		game->status = IN_GAME;
 	}
 }
 
-void drawRedefine()
+void drawRedefine(Game *game)
 {
 	/* Blank the screen */
 
-	SDL_FillRect(game.screen, NULL, 0);
+	SDL_RenderClear(game->renderer);
 
 	/* Draw the redefine string */
 
-	drawString(redefine.redefineString, 0, 0, game.font, 1, 1);
+	drawString(game, redefine.redefineString, 0, 0, game->font, 1, 1);
 
 	/* Update the buffer */
 
-	SDL_Flip(game.screen);
+	SDL_RenderPresent(game->renderer);
 
 	/* Sleep briefly */
 

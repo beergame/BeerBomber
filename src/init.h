@@ -3,8 +3,6 @@
 
 # include "structs.h"
 
-Game game;
-
 void freeSprites(void);
 
 void freeMap(MapCase **);

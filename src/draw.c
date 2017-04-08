@@ -1,30 +1,34 @@
 #include "draw.h"
 
-void draw()
+SDL_Texture *getSprite(int);
+
+void draw(Game *game)
 {
 	char text[20];
 
 	/* Blank the screen */
 
-	SDL_FillRect(game.screen, NULL, 0);
+	SDL_RenderClear(game->renderer);
+
+	SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255);
 
 	/* Draw the score */
 
-	sprintf(text, "PLAYER LIFE: %d", game.score);
+	sprintf(text, "PLAYER LIFE: %d", game->score);
 
-	drawString(text, 100, 10, game.font, 1, 0);
+	drawString(game, text, 100, 10, game->font, 1, 0);
 
 	/* Draw the map */
 
-	drawMap(game.map);
+	drawMap(game, game->map);
 
 	/* Draw the entities */
 
-	drawEntities(game.map);
+	drawEntities(game, game->map);
 
 	/* Update the buffer */
 
-	SDL_Flip(game.screen);
+	SDL_RenderPresent(game->renderer);
 
 	/* Sleep briefly */
 

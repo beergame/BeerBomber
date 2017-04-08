@@ -3,6 +3,4 @@
 
 # include "structs.h"
 
-extern Game game;
-
 #endif /* FONT_H */

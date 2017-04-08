@@ -5,6 +5,5 @@
 
 Control input;
 Control customControl;
-Game game;
 
 #endif /* INPUT_H */
