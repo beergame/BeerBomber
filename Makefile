@@ -13,20 +13,15 @@ CC =		gcc
 SRCS =		$(wildcard src/*.c)
 OBJS =		$(SRCS:%.c=%.o)
 CFLAGS =	-Wall -pedantic -Werror
-
-# OS Flags.
-OS = $(shell uname)
-ifeq ($(OS), Darwin)
-    FLAGS = -I/usr/local/include/SDL2 -D_THREAD_SAFE -L/usr/local/lib -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
-else
-    FLAGS = `sdl-config --libs` -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
-endif
+# SDL 2.0 Flags.
+SDLFLAGS = `sdl2-config --libs` `sdl2-config --cflags` \
+			-lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
 		@echo "> Build BeerBomber"
-		@$(CC) $(OBJS) $(CFLAGS) $(FLAGS) -o $(NAME)
+		@$(CC) $(OBJS) $(CFLAGS) $(SDLFLAGS) -o $(NAME)
 		@echo "> Done."
 
 clean:

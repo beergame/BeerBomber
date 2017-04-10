@@ -1,6 +1,6 @@
 #include "input.h"
 
-void getInput(Game *game)
+int getInput(Game *game)
 {
 	int key;
 	SDL_Event event;
@@ -12,8 +12,7 @@ void getInput(Game *game)
 
 			/* Closing the Window will exit the program */
 			case SDL_QUIT:
-				exit(0);
-				break;
+				return (1);
 
 			case SDL_KEYDOWN:
 				key = event.key.keysym.sym;
@@ -100,6 +99,7 @@ void getInput(Game *game)
 				break;
 		}
 	}
+	return (0);
 }
 
 void flushInputs()
@@ -118,8 +118,7 @@ int getSingleInput()
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
 			case SDL_QUIT:
-				exit(0);
-				break;
+				return (1);
 
 			case SDL_KEYDOWN:
 				key = event.key.keysym.sym;
@@ -138,7 +137,7 @@ int getSingleInput()
 	}
 
 	if (key == SDLK_ESCAPE)
-		exit(0);
+		return (1);
 
 	return key;
 }
