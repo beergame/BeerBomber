@@ -1,6 +1,6 @@
 #include "redefine.h"
 
-void doRedefine(Game *game)
+int doRedefine(Game *game)
 {
 	int key = -1;
 
@@ -34,6 +34,8 @@ void doRedefine(Game *game)
 
 	while (key == -2) {
 		key = getSingleInput();
+		if (key == 1)
+			return (1);
 
 		drawRedefine(game);
 	}
@@ -68,6 +70,8 @@ void doRedefine(Game *game)
 		redefine.redefineIndex = 0;
 		game->status = IN_GAME;
 	}
+
+	return (0);
 }
 
 void drawRedefine(Game *game)

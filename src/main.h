@@ -11,7 +11,7 @@ void init(char *, Game *);
 
 void cleanup(Game *);
 
-void getInput(Game *);
+int getInput(Game *);
 
 void draw(Game *);
 
@@ -31,7 +31,7 @@ TTF_Font *loadFont(char *, int);
 
 void delay(unsigned int);
 
-void doRedefine(Game *);
+int doRedefine(Game *);
 
 MapCase **loadMap();
 

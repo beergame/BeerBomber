@@ -74,7 +74,7 @@ void cleanup(Game *game)
 
 	freeSprites();
 
-//	freeMap(game->map);
+	freeMap(game->map);
 
 	/* Close the font */
 
