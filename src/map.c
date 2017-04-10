@@ -11,19 +11,12 @@ MapCase **loadMap()
 	block->life = 1;
 	Entity *bush = addBush();
 
-	if (!(tmp = malloc(MAP_SIZE * sizeof(MapCase *)))) {
-		printf("malooc error \n");
-
-		exit(1);
-	}
+	if (!(tmp = malloc(MAP_SIZE * sizeof(MapCase *))))
+		return (NULL);
 	for (int i = 0; i < MAP_SIZE; i++) {
-		if (!(tmp[i] = malloc(sizeof(MapCase)))) {
-			printf("malooc error \n");
-
-			exit(1);
-		}
+		if (!(tmp[i] = malloc(MAP_SIZE * sizeof(MapCase))))
+			return (NULL);
 		for (int j = 0; j < MAP_SIZE; j++) {
-			tmp[i][j].sprite = malloc(100); /* OMFFG DAMN BUGS SDL 2.0 */
 			tmp[i][j].sprite = getSprite(MAP_SPRITE_BASE);
 			tmp[i][j].player = NULL;
 			tmp[i][j].bomb = NULL;

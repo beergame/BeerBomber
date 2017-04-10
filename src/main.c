@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
 	init("BeerBomber", game);
 
-	go = 1;
+	go = 0;
 
 	/* Load all the sprites */
 
@@ -35,15 +35,15 @@ int main(int argc, char *argv[])
 
 	/* Loop indefinitely for messages */
 
-	while (go == 1) {
+	while (go == 0) {
 		if (game->status == IN_REDEFINE) {
 			/* Handle the key redefining */
 
-			doRedefine(game);
+			go = doRedefine(game);
 		} else {
 			/* Get the input */
 
-			getInput(game);
+			go = getInput(game);
 
 			/* Update the player's position and bomb throwing */
 
@@ -74,8 +74,9 @@ int main(int argc, char *argv[])
 		frameLimit = SDL_GetTicks() + 16;
 	}
 
+	/* Clean and exit the program */
+
 	cleanup(game);
-	/* Exit the program */
 
 	return (0);
 }
