@@ -52,7 +52,6 @@ enum sprite
 enum map
 {
 	TYPE_BLOCK,
-	TYPE_BASE,
 	TYPE_BUSH
 };
 
