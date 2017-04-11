@@ -11,6 +11,6 @@
     "make all"
   ],
   "group": "stable",
-  "dist": "precise",
+  "dist": trusty,
   "os": "linux"
 }
