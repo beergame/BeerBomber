@@ -3,7 +3,6 @@
 Entity *initPlayer(MapCase **map, int x, int y)
 {
 	Entity *player = (Entity *) malloc(sizeof(Entity));
-
 	player->x = x;
 	player->y = y;
 	player->speed = PLAYER_SPEED;
@@ -11,7 +10,6 @@ Entity *initPlayer(MapCase **map, int x, int y)
 	player->ammo = PLAYER_MAX_AMMO;
 	player->sprite = getSprite(PLAYER_SPRITE1);
 	player->draw = &drawImage;
-
 	map[x][y].player = player;
 
 	return player;
@@ -26,31 +24,37 @@ void playerMove(MapCase **map, Entity *player)
 
 	if (map[x][y].player->speed <= 0) {
 		if (input.up == 1) {
-			if (y > 1 && !(map[x][y - 1].block)) {
+			if (y > 1 && !(map[x][y - 1].block) && !(map[x][y - 1].bomb)) {
 				map[x][y].player->y--;
+				map[x][y].player->speed = PLAYER_SPEED;
+				map[x][y].player->sprite = getSprite(PLAYER_SPRITE2);
 				map[x][y - 1].player = map[x][y].player;
-				map[x][y - 1].player->speed = PLAYER_SPEED;
 				map[x][y].player = NULL;
 			}
 		} else if (input.down == 1) {
-			if (y < MAP_SIZE - 2 && !(map[x][y + 1].block)) {
+			if (y < MAP_SIZE - 2 && !(map[x][y + 1].block) &&
+					!(map[x][y + 1].bomb)) {
 				map[x][y].player->y++;
+				map[x][y].player->speed = PLAYER_SPEED;
+				map[x][y].player->sprite = getSprite(PLAYER_SPRITE1);
 				map[x][y + 1].player = map[x][y].player;
-				map[x][y + 1].player->speed = PLAYER_SPEED;
 				map[x][y].player = NULL;
 			}
 		} else if (input.left == 1) {
-			if (x > 1 && !(map[x - 1][y].block)) {
+			if (x > 1 && !(map[x - 1][y].block) && !(map[x - 1][y].bomb)) {
 				map[x][y].player->x--;
+				map[x][y].player->speed = PLAYER_SPEED;
+				map[x][y].player->sprite = getSprite(PLAYER_SPRITE9);
 				map[x - 1][y].player = map[x][y].player;
-				map[x - 1][y].player->speed = PLAYER_SPEED;
 				map[x][y].player = NULL;
 			}
 		} else if (input.right == 1) {
-			if (x < MAP_SIZE - 2 && !(map[x + 1][y].block)) {
+			if (x < MAP_SIZE - 2 && !(map[x + 1][y].block) &&
+					!(map[x + 1][y].bomb)) {
 				map[x][y].player->x++;
+				map[x][y].player->speed = PLAYER_SPEED;
+				map[x][y].player->sprite = getSprite(PLAYER_SPRITE5);
 				map[x + 1][y].player = map[x][y].player;
-				map[x + 1][y].player->speed = PLAYER_SPEED;
 				map[x][y].player = NULL;
 			}
 		}

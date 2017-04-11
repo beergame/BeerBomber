@@ -67,13 +67,9 @@ void init(char *title, Game *game)
 
 void cleanup(Game *game)
 {
-	SDL_DestroyRenderer(game->renderer);
-	SDL_DestroyWindow(game->screen);
-
-	/* Free the sprites */
+	/* Free the sprites and map */
 
 	freeSprites();
-
 	freeMap(game->map);
 
 	/* Close the font */
@@ -88,6 +84,9 @@ void cleanup(Game *game)
 	/* Close SDL_TTF */
 
 	TTF_Quit();
+
+	SDL_DestroyRenderer(game->renderer);
+	SDL_DestroyWindow(game->screen);
 
 	/* Shut down SDL */
 

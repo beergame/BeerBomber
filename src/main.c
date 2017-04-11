@@ -5,8 +5,8 @@ int main(int argc, char *argv[])
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go;
 
-	Game *game = malloc (sizeof(Game));
-	/* Start up SDL */
+	Game *game = malloc(sizeof(Game));
+	/* Start SDL */
 
 	init("BeerBomber", game);
 
