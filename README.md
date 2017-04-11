@@ -1,4 +1,4 @@
-# BeerBomber
+# BeerBomber [![Build Status](https://travis-ci.org/beergame/BeerBomber.svg?branch=staging)](https://travis-ci.org/beergame/BeerBomber)
 Bomberman clone in C/SDL
 
 # Contributor
