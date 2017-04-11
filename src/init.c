@@ -85,8 +85,8 @@ void cleanup(Game *game)
 
 	TTF_Quit();
 
-//	SDL_DestroyRenderer(game->renderer);
-//	SDL_DestroyWindow(game->screen);
+	SDL_DestroyRenderer(game->renderer);
+	SDL_DestroyWindow(game->screen);
 
 	/* Shut down SDL */
 
