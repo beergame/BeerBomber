@@ -19,50 +19,47 @@ Entity *initPlayer(MapCase **map, int x, int y)
 void playerMoveOn(MapCase **map, Entity *player,
 				  int x, int y, SDL_Texture *sprite)
 {
-	player->x = x;
-	player->y = y;
-	player->speed = PLAYER_SPEED;
-	player->sprite = sprite;
 	map[x][y].player = player;
-	player = NULL;
+	map[player->x][player->y].player = NULL;
+	map[x][y].player->x = x;
+	map[x][y].player->y = y;
+	map[x][y].player->speed = PLAYER_SPEED;
+	map[x][y].player->sprite = sprite;
 }
 
 void playerMove(MapCase **map, Entity *player) {
 	int x = player->x;
 	int y = player->y;
 	map[x][y].player->speed--;
-	if (map[x][y].player->speed <= 0)
-		if (input.up == 1)
-			if (y > 1 && !(map[x][y - 1].block) && !(map[x][y - 1].bomb))
+	if (map[x][y].player->speed <= 0) {
+		if (input.up == 1 && y > 1 && !(map[x][y - 1].block) &&
+				!(map[x][y - 1].bomb))
+			playerMoveOn(map, map[x][y].player,
+						 x, y - 1, getSprite(PLAYER_ONE_UP));
+		else if (input.down == 1 && y < MAP_SIZE - 2 &&
+			!(map[x][y + 1].block) && !(map[x][y + 1].bomb))
 				playerMoveOn(map, map[x][y].player,
-							 x, y - 1, getSprite(PLAYER_ONE_UP));
-		else if (input.down == 1)
-				if (y < MAP_SIZE - 2 && !(map[x][y + 1].block) &&
-					!(map[x][y + 1].bomb))
-					playerMoveOn(map, map[x][y].player,
-								 x, y + 1, getSprite(PLAYER_ONE_DOWN));
-		else if (input.left == 1)
-				if (x > 1 && !(map[x - 1][y].block) && !(map[x - 1][y].bomb))
-					playerMoveOn(map, map[x][y].player,
-								 x, y - 1, getSprite(PLAYER_ONE_LEFT));
-		else if (input.right == 1)
-				if (x < MAP_SIZE - 2 && !(map[x + 1][y].block) &&
-					!(map[x + 1][y].bomb))
-					playerMoveOn(map, map[x][y].player,
-								 x, y - 1, getSprite(PLAYER_ONE_RIGHT));
+							 x, y + 1, getSprite(PLAYER_ONE_DOWN));
+		else if (input.left == 1 && x > 1 &&
+				!(map[x - 1][y].block) && !(map[x - 1][y].bomb))
+			playerMoveOn(map, map[x][y].player,
+						 x - 1, y, getSprite(PLAYER_ONE_LEFT));
+		else if (input.right == 1 && x < MAP_SIZE - 2 &&
+				!(map[x + 1][y].block) && !(map[x + 1][y].bomb))
+			playerMoveOn(map, map[x][y].player,
+						 x + 1, y, getSprite(PLAYER_ONE_RIGHT));
+	}
 }
 
 void playerThrowBomb(MapCase **map, Entity *player)
 {
-	if (input.fire == 1) {
-		player->reload--;
-		if (player->ammo > 0 &&
-				map[player->x][player->y].bomb == NULL &&
-				map[player->x][player->y].fire == NULL &&
-				player->reload <= 0) {
-			addBomb(map, player->x, player->y);
-			player->ammo--;
-			player->reload = PLAYER_RELOAD_TIME;
-		}
+	player->reload--;
+	if (input.fire == 1 && player->ammo > 0 &&
+			map[player->x][player->y].bomb == NULL &&
+			map[player->x][player->y].fire == NULL &&
+			player->reload <= 0) {
+		addBomb(map, player->x, player->y);
+		player->ammo--;
+		player->reload = PLAYER_RELOAD_TIME;
 	}
 }
