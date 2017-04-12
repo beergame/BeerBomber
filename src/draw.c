@@ -1,7 +1,5 @@
 #include "draw.h"
 
-SDL_Texture *getSprite(int);
-
 void draw(Game *game)
 {
 	char text[20];
