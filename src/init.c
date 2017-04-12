@@ -8,7 +8,6 @@ void init(char *title, Game *game)
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
 		printf("Could not initialize SDL: %s\n", SDL_GetError());
-
 		exit(1);
 	}
 
@@ -16,21 +15,26 @@ void init(char *title, Game *game)
 
 	if (TTF_Init() < 0) {
 		printf("Couldn't initialize SDL TTF: %s\n", SDL_GetError());
-
 		exit(1);
 	}
 
 	/* Open a screen */
 
-	game->screen = SDL_CreateWindow(title,
-								   SDL_WINDOWPOS_UNDEFINED,
-								   SDL_WINDOWPOS_UNDEFINED,
-								   SCREEN_WIDTH, SCREEN_HEIGHT,
-								   SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+	game->screen = SDL_CreateWindow(
+			title,
+			SDL_WINDOWPOS_UNDEFINED,
+			SDL_WINDOWPOS_UNDEFINED,
+			SCREEN_WIDTH, SCREEN_HEIGHT,
+			SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN
+	);
 
 	/* Create Renderer SDL 2.0 */
 
-	game->renderer = SDL_CreateRenderer(game->screen, -1, 0);
+	game->renderer = SDL_CreateRenderer(
+			game->screen,
+			-1,
+			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+	);
 
 	game->status = IN_REDEFINE;
 

@@ -14,6 +14,7 @@ typedef struct		Entity
 	int				y;
 	int				life;
 	int				ammo;
+	int				reload;
 	SDL_Texture		*sprite;
 
 	void			(*action)(struct MapCase **, struct Entity *);

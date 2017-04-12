@@ -27,9 +27,9 @@ $(NAME):	$(OBJS)
 clean:
 	rm -f $(OBJS)
 
-fclean:
+fclean: clean
 	rm $(NAME)
 
-re:	fclean clean all clean
+re:	fclean all
 
-.PHONY: fclean clean
+.PHONY: fclean all clean
