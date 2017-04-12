@@ -6,16 +6,16 @@ void freeDeadEntities(MapCase **map)
 
 	for (int i = 0; i < MAP_SIZE; i++) {
 		for (int j = 0; j < MAP_SIZE; j++) {
-			if (map[i][j].bomb != NULL && map[i][j].bomb->life == 0) {
+			if (map[i][j].bomb != NULL && map[i][j].bomb->life <= 0) {
 				free(map[i][j].bomb);
 				map[i][j].bomb = NULL;
 			}
-			if (map[i][j].fire != NULL && map[i][j].fire->life == 0) {
+			if (map[i][j].fire != NULL && map[i][j].fire->life <= 0) {
 				free(map[i][j].fire);
 				map[i][j].fire = NULL;
 			}
-			if (map[i][j].player != NULL && map[i][j].player->life == 0) {
-				free(map[i][j].player);
+			// TODO free player at the end
+			if (map[i][j].player != NULL && map[i][j].player->life <= 0) {
 				map[i][j].player = NULL;
 			}
 		}
