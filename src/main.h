@@ -7,7 +7,7 @@ Control customControl, input;
 Sprite sprite[MAX_SPRITES];
 Redefine redefine;
 
-void init(char *, Game *);
+void initBeerBomber(Game *);
 
 void cleanup(Game *);
 
@@ -25,8 +25,6 @@ void entitiesActions(MapCase **);
 
 void loadAllSprites(Game *);
 
-void doCollisions(void);
-
 TTF_Font *loadFont(char *, int);
 
 void delay(unsigned int);
@@ -35,6 +33,8 @@ int doRedefine(Game *);
 
 MapCase **loadMap();
 
-void drawMap(MapCase **);
+void *clientBeerBomber(void *);
+
+void *serverBeerBomber(void *);
 
 #endif /* MAIN_H */

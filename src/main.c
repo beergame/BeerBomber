@@ -1,14 +1,29 @@
 #include "main.h"
 
-int main(int argc, char *argv[])
+int main(void)
 {
+//	pthread_t server;
+	pthread_t client;
+
+	printf("Avant la création du thread.\n");
+
+	if (pthread_create(&client, NULL, clientBeerBomber, NULL)) {
+		perror("pthread_create client");
+		return (EXIT_FAILURE);
+	}
+
+	if (pthread_join(client, NULL)) {
+		perror("pthread_join client");
+		return (EXIT_FAILURE);
+	}
+
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go;
 
 	Game *game = malloc(sizeof(Game));
 	/* Start SDL */
 
-	init("BeerBomber", game);
+	initBeerBomber(game);
 
 	go = 0;
 

@@ -1,4 +1,6 @@
 {
+  "notifications":
+    slack: brainstorm-etna:hMgNrjhxmXb6CpKKRe5e6oTZ,
   "language": "c",
   "sudo": true,
   "before_install": [

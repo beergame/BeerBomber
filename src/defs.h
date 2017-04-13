@@ -1,9 +1,10 @@
-#ifndef DEFS_H
-# define DEFS_H
+#ifndef __DEFS_H__
+# define __DEFS_H__
 
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
+# include <pthread.h>
 # include "SDL2/SDL.h"
 # include "SDL2/SDL_image.h"
 # include "SDL2/SDL_mixer.h"
@@ -61,4 +62,4 @@ enum map
 	TYPE_BUSH
 };
 
-#endif /* DEFS_H */
+#endif /* __DEFS_H__ */
