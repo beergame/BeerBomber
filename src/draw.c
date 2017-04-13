@@ -10,6 +10,8 @@ void draw(Game *game)
 
 	SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255);
 
+	drawBackground(game, MAP_BACK_ONE);
+
 	/* Draw the score */
 
 	sprintf(text, "PLAYER LIFE: %d", game->score);

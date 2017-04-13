@@ -114,6 +114,7 @@ void loadPlayerTexture(Game *game, char *path, int index)
 	sprite[index++].image = clip[2][0];
 	sprite[index++].image = clip[3][0];
 	SDL_SetRenderTarget(game->renderer, NULL);
+	SDL_DestroyTexture(texture);
 }
 
 void loadAllSprites(Game *game)
@@ -131,4 +132,16 @@ void loadAllSprites(Game *game)
 	loadSprite(game, MAP_SPRITE_BLOCK, "gfx/map/block_1x1.png");
 	loadSprite(game, MAP_SPRITE_BUSH, "gfx/map/bush_1x1.png");
 	loadSprite(game, MAP_SPRITE_FIRE, "gfx/map/fire_1.png");
+
+	loadSprite(game, MAP_BACK_ONE, "gfx/background/1.png");
+}
+
+void drawBackground(Game *game, int index)
+{
+	SDL_Rect pos;
+	pos.x = 0;
+	pos.y = 0;
+	pos.h = SCREEN_HEIGHT;
+	pos.w = SCREEN_WIDTH;
+	SDL_RenderCopy(game->renderer, getSprite(index), NULL, &pos);
 }

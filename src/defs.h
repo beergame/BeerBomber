@@ -54,6 +54,8 @@ enum sprite
 	MAP_SPRITE_BLOCK,
 	MAP_SPRITE_BUSH,
 	MAP_SPRITE_FIRE,
+
+	MAP_BACK_ONE,
 };
 
 enum map
