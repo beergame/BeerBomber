@@ -2,7 +2,7 @@
 Bomberman clone in C/SDL
 
 # Contributor
-[Aurelien PARANAVITHANA](https://github.com/AurelienParana), [Roland Coulibaly](https://github.com/rolandcoulibaly), [Victor Balssa](https://github.com/Nandotk), [Simon Garreau-Férandin](https://github.com/garreas)
+[Aurelien Paranavithana](https://github.com/AurelienParana), [Roland Coulibaly](https://github.com/rolandcoulibaly), [Victor Balssa](https://github.com/Nandotk), [Simon Garreau-Férandin](https://github.com/garreas)
 
 # Build BeerBomber
 
