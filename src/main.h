@@ -11,6 +11,8 @@ void initBeerBomber(Game *);
 
 void cleanup(Game *);
 
+int doConfig(Game *);
+
 int getInput(Game *);
 
 void draw(Game *);

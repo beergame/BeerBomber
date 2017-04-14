@@ -24,7 +24,8 @@
 # define BOMB_LIFETIME 150
 # define FIRE_LIFETIME 20
 # define IN_REDEFINE 0
-# define IN_GAME 1
+# define IN_CONFIG 1
+# define IN_GAME 2
 # define DEAD_ZONE 3200
 
 enum sprite
@@ -56,6 +57,10 @@ enum sprite
 	MAP_SPRITE_FIRE,
 
 	MAP_BACK_ONE,
+	BTN_NEWGAME,
+	BTN_NEWGAME_B,
+	BTN_JOINGAME,
+	BTN_JOINGAME_B,
 };
 
 enum map

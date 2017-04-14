@@ -39,6 +39,8 @@ void initBeerBomber(Game *game)
 	);
 
 	game->status = IN_REDEFINE;
+	game->font = loadFont("font/blackWolf.ttf", 16);
+	game->btn = 2;
 
 	if (game->screen == NULL) {
 		printf("Couldn't set screen mode to %d x %d: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());

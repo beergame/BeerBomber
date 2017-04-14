@@ -35,6 +35,7 @@ typedef struct		Game
 {
 	int				score;
 	int				status;
+	int				btn;
 	MapCase			**map;
 	SDL_Window		*screen;
 	SDL_Renderer	*renderer;

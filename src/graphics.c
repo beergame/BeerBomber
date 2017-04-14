@@ -134,6 +134,11 @@ void loadAllSprites(Game *game)
 	loadSprite(game, MAP_SPRITE_FIRE, "gfx/map/fire_1.png");
 
 	loadSprite(game, MAP_BACK_ONE, "gfx/background/1.png");
+
+	loadSprite(game, BTN_NEWGAME, "gfx/btn/newgame.png");
+	loadSprite(game, BTN_NEWGAME_B, "gfx/btn/newgame.png");
+	loadSprite(game, BTN_JOINGAME, "gfx/btn/joingame.png");
+	loadSprite(game, BTN_JOINGAME_B, "gfx/btn/joingame.png");
 }
 
 void drawBackground(Game *game, int index)
@@ -143,5 +148,19 @@ void drawBackground(Game *game, int index)
 	pos.y = 0;
 	pos.h = SCREEN_HEIGHT;
 	pos.w = SCREEN_WIDTH;
+	SDL_RenderCopy(game->renderer, getSprite(index), NULL, &pos);
+}
+
+void drawBtn(Game *game, int x, int y, int index)
+{
+	SDL_Rect pos;
+	int w;
+	int h;
+
+	SDL_QueryTexture(getSprite(index), NULL, NULL, &w, &h);
+	pos.x = x;
+	pos.y = y;
+	pos.h = h;
+	pos.w = w;
 	SDL_RenderCopy(game->renderer, getSprite(index), NULL, &pos);
 }

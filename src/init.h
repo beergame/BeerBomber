@@ -9,4 +9,6 @@ void freeMap(MapCase **);
 
 void closeFont(TTF_Font *);
 
+TTF_Font *loadFont(char *, int);
+
 #endif /* INIT_H */

@@ -33,13 +33,13 @@ void drawString(Game *game, char *text, int x, int y, TTF_Font *font, int center
 
 	/* White text on a black background */
 
-	foregroundColor.r = 255;
-	foregroundColor.g = 255;
-	foregroundColor.b = 255;
+	foregroundColor.r = 0;
+	foregroundColor.g = 0;
+	foregroundColor.b = 0;
 
-	backgroundColor.r = 0;
-	backgroundColor.g = 0;
-	backgroundColor.b = 0;
+	backgroundColor.r = 255;
+	backgroundColor.g = 255;
+	backgroundColor.b = 255;
 
 	/* Use SDL_TTF to generate a string image, this returns an SDL_Surface */
 

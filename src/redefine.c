@@ -77,18 +77,17 @@ int doRedefine(Game *game)
 void drawRedefine(Game *game)
 {
 	/* Blank the screen */
-
 	SDL_RenderClear(game->renderer);
 
-	/* Draw the redefine string */
+	/* Draw background */
+	drawBackground(game, MAP_BACK_ONE);
 
+	/* Draw the redefine string */
 	drawString(game, redefine.redefineString, 0, 0, game->font, 1, 1);
 
 	/* Update the buffer */
-
 	SDL_RenderPresent(game->renderer);
 
 	/* Sleep briefly */
-
 	SDL_Delay(1);
 }
