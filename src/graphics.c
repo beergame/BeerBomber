@@ -136,9 +136,9 @@ void loadAllSprites(Game *game)
 	loadSprite(game, MAP_BACK_ONE, "gfx/background/1.png");
 
 	loadSprite(game, BTN_NEWGAME, "gfx/btn/newgame.png");
-	loadSprite(game, BTN_NEWGAME_B, "gfx/btn/newgame.png");
+	loadSprite(game, BTN_NEWGAME_B, "gfx/btn/newgame_b.png");
 	loadSprite(game, BTN_JOINGAME, "gfx/btn/joingame.png");
-	loadSprite(game, BTN_JOINGAME_B, "gfx/btn/joingame.png");
+	loadSprite(game, BTN_JOINGAME_B, "gfx/btn/joingame_b.png");
 }
 
 void drawBackground(Game *game, int index)

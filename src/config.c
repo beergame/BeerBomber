@@ -9,8 +9,8 @@ int doConfig(Game *game)
 	} else if (input.fire == 1) {
 		return (game->btn);
 	}
-	(game->btn < 2) ? game->btn = 2;
-	(game->btn > 3) ? game->btn = 1;
+	(game->btn < 2) ? game->btn = 2: 0;
+	(game->btn > 3) ? game->btn = 3: 0;
 	drawConfig(game);
 
 	return (0);
@@ -24,12 +24,12 @@ void drawConfig(Game *game)
 	/* Draw background */
 	drawBackground(game, MAP_BACK_ONE);
 
-	if (game->btn == 1) {
-		drawBtn(game, x, y, BTN_NEWGAME_B);
-		drawBtn(game, x, y, BTN_JOINGAME);
+	if (game->btn == 2) {
+		drawBtn(game, 300, 380, BTN_NEWGAME);
+		drawBtn(game, 800, 380, BTN_JOINGAME_B);
 	} else {
-		drawBtn(game, x, y, BTN_NEWGAME);
-		drawBtn(game, x, y, BTN_JOINGAME_B);
+		drawBtn(game, 300, 380, BTN_NEWGAME_B);
+		drawBtn(game, 800, 380, BTN_JOINGAME);
 	}
 
 	/* Update the buffer */

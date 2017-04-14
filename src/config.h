@@ -3,6 +3,8 @@
 
 # include "structs.h"
 
+Control input;
+
 void flushInputs(void);
 
 int getSingleInput(void);
@@ -15,6 +17,6 @@ void drawBackground(Game *, int);
 
 void drawConfig(Game *);
 
-void drawBtn(Game *);
+void drawBtn(Game *, int, int, int);
 
 #endif /* __CONFIG_H__ */

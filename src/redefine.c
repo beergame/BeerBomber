@@ -68,7 +68,7 @@ int doRedefine(Game *game)
 
 	if (redefine.redefineIndex == 5) {
 		redefine.redefineIndex = 0;
-		game->status = IN_GAME;
+		game->status = IN_CONFIG;
 	}
 
 	return (0);
