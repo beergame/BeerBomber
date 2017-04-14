@@ -3,7 +3,7 @@
 int main(void)
 {
 //	pthread_t server;
-//	pthread_t client;
+	pthread_t client = NULL;
 
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int onConfig = 0;
@@ -29,21 +29,21 @@ int main(void)
 
 	/* On new game: start 2 thread client/server */
 //	if (onConfig == 2) {
-//		if (pthread_create(&server, NULL, serverBeerBomber, NULL)) {
+//		if (pthread_create(&server, NULL, serverBeerBomber, &game)) {
 //			perror("pthread_create server");
 //			return (EXIT_FAILURE);
 //		}
 //	}
-//	if (onConfig == 3) {
-//		if (pthread_create(&client, NULL, clientBeerBomber, NULL)) {
-//			perror("pthread_create client");
-//			return (EXIT_FAILURE);
-//		}
-//	}
-//	if (pthread_join(client, NULL)) {
-//		perror("pthread_join client");
-//		return (EXIT_FAILURE);
-//	}
+	if (onConfig == 3) {
+		if (pthread_create(&client, NULL, clientBeerBomber, (void *)game)) {
+			perror("pthread_create client");
+			return (EXIT_FAILURE);
+		}
+	}
+	if (pthread_join(client, NULL)) {
+		perror("pthread_join client");
+		return (EXIT_FAILURE);
+	}
 //	if (pthread_join(server, NULL)) {
 //		perror("pthread_join server");
 //		return (EXIT_FAILURE);
