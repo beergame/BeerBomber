@@ -3,9 +3,8 @@
 
 # include "structs.h"
 
-Control customControl, input;
 Sprite sprite[MAX_SPRITES];
-Redefine redefine;
+Redefine redefine2;
 
 void initBeerBomber(Game *);
 
@@ -19,9 +18,9 @@ void draw(Game *);
 
 Entity *initPlayer(MapCase **, int, int);
 
-void playerMove(MapCase **, Entity *);
+void playerMove(Game *, MapCase **, Entity *);
 
-void playerThrowBomb(MapCase **, Entity *);
+void playerThrowBomb(Game *, MapCase **, Entity *);
 
 void entitiesActions(MapCase **);
 

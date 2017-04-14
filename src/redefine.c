@@ -42,23 +42,23 @@ int doRedefine(Game *game)
 
 	switch (redefine.redefineIndex) {
 		case 0:
-			customControl.left = key;
+			game->customControl->left = key;
 			break;
 
 		case 1:
-			customControl.right = key;
+			game->customControl->right = key;
 			break;
 
 		case 2:
-			customControl.up = key;
+			game->customControl->up = key;
 			break;
 
 		case 3:
-			customControl.down = key;
+			game->customControl->down = key;
 			break;
 
 		default:
-			customControl.fire = key;
+			game->customControl->fire = key;
 			break;
 	}
 

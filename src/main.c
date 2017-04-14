@@ -13,6 +13,9 @@ int main(void)
 	initBeerBomber(game);
 	loadAllSprites(game);
 
+	redefine.redefineIndex = 0;
+	redefine.redefineString[0] = '\0';
+
 	while (!go) {
 		if (game->status == IN_REDEFINE) {
 			/* Handle the key redefining */
@@ -35,6 +38,7 @@ int main(void)
 //		}
 //	}
 	if (onConfig == 3) {
+		game->status = IN_GAME;
 		if (pthread_create(&client, NULL, clientBeerBomber, (void *)game)) {
 			perror("pthread_create client");
 			return (EXIT_FAILURE);

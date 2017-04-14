@@ -27,37 +27,38 @@ void playerMoveOn(MapCase **map, Entity *player,
 	map[x][y].player->sprite = sprite;
 }
 
-void playerMove(MapCase **map, Entity *player) {
+void playerMove(Game *game, MapCase **map, Entity *player)
+{
 	int x = player->x;
 	int y = player->y;
 	map[x][y].player->speed--;
 	if (map[x][y].player->speed <= 0) {
-		if (input.up == 1 && y > 1 && !(map[x][y - 1].block) &&
-				!(map[x][y - 1].bomb))
+		if (game->input->up == 1 && y > 1 && !(map[x][y - 1].block) &&
+			!(map[x][y - 1].bomb))
 			playerMoveOn(map, map[x][y].player,
 						 x, y - 1, getSprite(PLAYER_ONE_UP));
-		else if (input.down == 1 && y < MAP_SIZE - 2 &&
-			!(map[x][y + 1].block) && !(map[x][y + 1].bomb))
-				playerMoveOn(map, map[x][y].player,
-							 x, y + 1, getSprite(PLAYER_ONE_DOWN));
-		else if (input.left == 1 && x > 1 &&
-				!(map[x - 1][y].block) && !(map[x - 1][y].bomb))
+		else if (game->input->down == 1 && y < MAP_SIZE - 2 &&
+				 !(map[x][y + 1].block) && !(map[x][y + 1].bomb))
+			playerMoveOn(map, map[x][y].player,
+						 x, y + 1, getSprite(PLAYER_ONE_DOWN));
+		else if (game->input->left == 1 && x > 1 &&
+				 !(map[x - 1][y].block) && !(map[x - 1][y].bomb))
 			playerMoveOn(map, map[x][y].player,
 						 x - 1, y, getSprite(PLAYER_ONE_LEFT));
-		else if (input.right == 1 && x < MAP_SIZE - 2 &&
-				!(map[x + 1][y].block) && !(map[x + 1][y].bomb))
+		else if (game->input->right == 1 && x < MAP_SIZE - 2 &&
+				 !(map[x + 1][y].block) && !(map[x + 1][y].bomb))
 			playerMoveOn(map, map[x][y].player,
 						 x + 1, y, getSprite(PLAYER_ONE_RIGHT));
 	}
 }
 
-void playerThrowBomb(MapCase **map, Entity *player)
+void playerThrowBomb(Game *game, MapCase **map, Entity *player)
 {
 	player->reload--;
-	if (input.fire == 1 && player->ammo > 0 &&
-			map[player->x][player->y].bomb == NULL &&
-			map[player->x][player->y].fire == NULL &&
-			player->reload <= 0) {
+	if (game->input->fire == 1 && player->ammo > 0 &&
+		map[player->x][player->y].bomb == NULL &&
+		map[player->x][player->y].fire == NULL &&
+		player->reload <= 0) {
 		addBomb(map, player->x, player->y);
 		player->ammo--;
 		player->reload = PLAYER_RELOAD_TIME;

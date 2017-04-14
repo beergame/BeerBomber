@@ -3,8 +3,6 @@
 
 # include "structs.h"
 
-Control input;
-
 void drawImage(Game *, SDL_Texture *, int, int);
 
 Entity *addBomb(MapCase **, int, int);

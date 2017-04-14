@@ -3,8 +3,6 @@
 
 # include "structs.h"
 
-Control input;
-
 void flushInputs(void);
 
 int getSingleInput(void);

@@ -2,11 +2,11 @@
 
 int doConfig(Game *game)
 {
-	if (input.left == 1) {
+	if (game->input->left == 1) {
 		game->btn--;
-	} else if (input.right == 1) {
+	} else if (game->input->right == 1) {
 		game->btn++;
-	} else if (input.fire == 1) {
+	} else if (game->input->fire == 1) {
 		return (game->btn);
 	}
 	(game->btn < 2) ? game->btn = 2: 0;

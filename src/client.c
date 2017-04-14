@@ -2,7 +2,7 @@
 
 void *clientBeerBomber(void *args)
 {
-	printf("Nous sommes dans le thread client.\n");
+	printf("client thread\n");
 
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go = 0;
@@ -10,7 +10,6 @@ void *clientBeerBomber(void *args)
 	struct Game *game = (Game *) args;
 	/* Load map */
 
-	printf("tesy");
 	game->map = loadMap();
 
 	/* Initialise the player */
@@ -19,16 +18,15 @@ void *clientBeerBomber(void *args)
 
 	/* Reset the redefine index */
 
-	redefine.redefineIndex = 0;
-	redefine.redefineString[0] = '\0';
+	redefine2.redefineIndex = 0;
+	redefine2.redefineString[0] = '\0';
 
-	/* Loop indefinitely for messages */
 	while (!go) {
 		if (game->status == IN_REDEFINE) {
 			/* Handle the key redefining */
 			go = doRedefine(game);
 
-		} else {
+		} else if (game->status == IN_GAME){
 			/* Get the input */
 
 			go = getInput(game);
@@ -37,8 +35,8 @@ void *clientBeerBomber(void *args)
 
 			if (player1 != NULL && player1->life > 0) {
 				game->score = player1->life;
-				playerMove(game->map, player1);
-				playerThrowBomb(game->map, player1);
+				playerMove(game, game->map, player1);
+				playerThrowBomb(game, game->map, player1);
 			} else {
 				player1 = initPlayer(game->map, 1, 1);
 			}
@@ -55,7 +53,7 @@ void *clientBeerBomber(void *args)
 
 		delay(frameLimit);
 
-		frameLimit = SDL_GetTicks() + 16;
+		frameLimit = SDL_GetTicks() + 1600;
 	}
 
 	pthread_exit(NULL);
