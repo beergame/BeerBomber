@@ -42,23 +42,23 @@ int doRedefine(Game *game)
 
 	switch (redefine.redefineIndex) {
 		case 0:
-			customControl.left = key;
+			game->customControl->left = key;
 			break;
 
 		case 1:
-			customControl.right = key;
+			game->customControl->right = key;
 			break;
 
 		case 2:
-			customControl.up = key;
+			game->customControl->up = key;
 			break;
 
 		case 3:
-			customControl.down = key;
+			game->customControl->down = key;
 			break;
 
 		default:
-			customControl.fire = key;
+			game->customControl->fire = key;
 			break;
 	}
 
@@ -68,7 +68,7 @@ int doRedefine(Game *game)
 
 	if (redefine.redefineIndex == 5) {
 		redefine.redefineIndex = 0;
-		game->status = IN_GAME;
+		game->status = IN_CONFIG;
 	}
 
 	return (0);
@@ -77,18 +77,17 @@ int doRedefine(Game *game)
 void drawRedefine(Game *game)
 {
 	/* Blank the screen */
-
 	SDL_RenderClear(game->renderer);
 
-	/* Draw the redefine string */
+	/* Draw background */
+	drawBackground(game, MAP_BACK_ONE);
 
+	/* Draw the redefine string */
 	drawString(game, redefine.redefineString, 0, 0, game->font, 1, 1);
 
 	/* Update the buffer */
-
 	SDL_RenderPresent(game->renderer);
 
 	/* Sleep briefly */
-
 	SDL_Delay(1);
 }

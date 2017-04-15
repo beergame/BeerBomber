@@ -1,10 +1,7 @@
-#ifndef REDEFINE_H
-# define REDEFINE_H
+#ifndef __CONFIG_H__
+# define __CONFIG_H__
 
 # include "structs.h"
-
-Control customControl;
-Redefine redefine;
 
 void flushInputs(void);
 
@@ -16,4 +13,8 @@ void drawRedefine(Game *);
 
 void drawBackground(Game *, int);
 
-#endif /* REDEFINE_H */
+void drawConfig(Game *);
+
+void drawBtn(Game *, int, int, int);
+
+#endif /* __CONFIG_H__ */

@@ -1,6 +1,6 @@
 #include "init.h"
 
-void init(char *title, Game *game)
+void initBeerBomber(Game *game)
 {
 	int joystickCount, buttonCount;
 
@@ -21,12 +21,14 @@ void init(char *title, Game *game)
 	/* Open a screen */
 
 	game->screen = SDL_CreateWindow(
-			title,
+			"BeerBomber",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			SCREEN_WIDTH, SCREEN_HEIGHT,
 			SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN
 	);
+
+	SDL_SetWindowIcon(game->screen, IMG_Load("gfx/icon/beerbomber.png"));
 
 	/* Create Renderer SDL 2.0 */
 
@@ -37,6 +39,8 @@ void init(char *title, Game *game)
 	);
 
 	game->status = IN_REDEFINE;
+	game->font = loadFont("font/blackWolf.ttf", 16);
+	game->btn = 2;
 
 	if (game->screen == NULL) {
 		printf("Couldn't set screen mode to %d x %d: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
@@ -44,13 +48,13 @@ void init(char *title, Game *game)
 		exit(1);
 	}
 
-//	/* Set the audio rate to 22050, 16 bit stereo, 2 channels and a 4096 byte buffer */
-//
-//	if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096) != 0) {
-//		printf("Could not open audio: %s\n", Mix_GetError());
-//
-//		exit(1);
-//	}
+	/* Set the audio rate to 22050, 16 bit stereo, 2 channels and a 4096 byte buffer */
+
+	if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096) != 0) {
+		printf("Could not open audio: %s\n", Mix_GetError());
+
+		exit(1);
+	}
 
 	/* Open the joystick */
 

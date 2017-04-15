@@ -9,5 +9,7 @@ void drawEntities(Game *, MapCase **map);
 
 void drawString(Game *, char *, int, int, TTF_Font *, int, int);
 
+void drawBackground(Game *, int);
+
 #endif /* DRAW_H */
 

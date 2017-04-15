@@ -1,9 +1,9 @@
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef __CLIENT_H__
+# define __CLIENT_H__
 
 # include "structs.h"
 
-Sprite sprite[MAX_SPRITES];
+//Sprite sprite[MAX_SPRITES];
 Redefine redefine;
 
 void initBeerBomber(Game *);
@@ -34,8 +34,4 @@ int doRedefine(Game *);
 
 MapCase **loadMap();
 
-void clientBeerBomber(Game *);
-
-void *serverBeerBomber(void *);
-
-#endif /* MAIN_H */
+#endif /* __CLIENT_H__ */
