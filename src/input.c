@@ -12,11 +12,11 @@ int getInput(Game *game)
 
 			/* Closing the Window will exit the program */
 			case SDL_QUIT:
+				game->status = GAME_END;
 				return (1);
 
 			case SDL_KEYDOWN:
 				key = event.key.keysym.sym;
-				printf("get input: %i \n", key);
 				if (key == game->customControl->left)
 					game->input->left = 1;
 				else if (key == game->customControl->right)
@@ -100,6 +100,7 @@ int getInput(Game *game)
 				break;
 		}
 	}
+
 	return (0);
 }
 

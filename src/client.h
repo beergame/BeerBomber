@@ -3,8 +3,8 @@
 
 # include "structs.h"
 
-Sprite sprite[MAX_SPRITES];
-Redefine redefine2;
+//Sprite sprite[MAX_SPRITES];
+Redefine redefine;
 
 void initBeerBomber(Game *);
 
@@ -33,9 +33,5 @@ void delay(unsigned int);
 int doRedefine(Game *);
 
 MapCase **loadMap();
-
-void *clientBeerBomber(void *);
-
-void *serverBeerBomber(void *);
 
 #endif /* __CLIENT_H__ */

@@ -34,7 +34,7 @@ int doRedefine(Game *);
 
 MapCase **loadMap();
 
-void *clientBeerBomber(void *);
+void clientBeerBomber(Game *);
 
 void *serverBeerBomber(void *);
 

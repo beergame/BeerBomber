@@ -26,6 +26,7 @@
 # define IN_REDEFINE 0
 # define IN_CONFIG 1
 # define IN_GAME 2
+# define GAME_END 3
 # define DEAD_ZONE 3200
 
 enum sprite
