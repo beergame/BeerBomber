@@ -1,6 +1,6 @@
 #include "client.h"
 
-void clientBeerBomber(Game *game)
+void client_beer_bomber(Game *game)
 {
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go = 0;
@@ -39,4 +39,54 @@ void clientBeerBomber(Game *game)
 		delay(frameLimit);
 		frameLimit = SDL_GetTicks() + 16;
 	}
+}
+
+
+
+int			my_connect(char **cmd)
+{
+	struct protoent	*pe;
+	struct sockaddr_in	sin;
+	int			s;
+	int			port;
+
+	if (cmd[1] != NULL)
+		port = my_getnbr(cmd[1]);
+	pe = getprotobyname("TCP");
+	if (pe == NULL)
+		return (-1);
+	s = socket(AF_INET, SOCK_STREAM, pe->p_proto);
+	if (s == -1)
+		return (-1);
+	sin.sin_family = AF_INET;
+	sin.sin_port = htons(port);
+	sin.sin_addr.s_addr = inet_addr(cmd[0]);
+	if (connect(s, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
+	{
+		my_putstr("Error connect()\n");
+		return (-1);
+	}
+	free_tab(cmd);
+	return (s);
+}
+
+int		my_client(int s)
+{
+	fd_set	fd_read;
+	int		r;
+
+	r = 1;
+	while (r)
+	{
+		FD_ZERO(&fd_read);
+		FD_SET(0, &fd_read);
+		FD_SET(s, &fd_read);
+		if (select(s + 1, &fd_read, NULL, NULL, NULL) == -1)
+			r = 0;
+		if (FD_ISSET(0, &fd_read))
+			r = send_input(s);
+		if (FD_ISSET(s, &fd_read))
+			r = get_msg(s);
+	}
+	return (0);
 }

@@ -40,13 +40,13 @@ int main(void)
 
 	/* On new game: start 2 thread client/server */
 	if (onConfig == 2) {
-		if (pthread_create(&server, NULL, serverBeerBomber, &game)) {
+		if (pthread_create(&server, NULL, server_beer_bomber, &game->btn)) {
 			perror("pthread_create server");
 			return (EXIT_FAILURE);
 		}
 	}
 	game->status = IN_GAME;
-	clientBeerBomber(game);
+	client_beer_bomber(game);
 	if (pthread_join(server, NULL)) {
 		perror("pthread_join server");
 		return (EXIT_FAILURE);
