@@ -20,7 +20,7 @@ void allocate_fd(int fd, int type, t_player **players)
 	for (int i = 0; i < MAX_PLAYER; i++) {
 		if (players[i] == NULL) {
 			players[i] = player;
-			return ;
+			return;
 		}
 	}
 }
@@ -33,7 +33,7 @@ void client_read(int fd)
 	r = read(fd, buf, BUFF_SIZE);
 	if (r > 0) {
 		buf[r - 1] = '\0';
-		printf("CLIENT: %s\n", buf);
+		printf("server: CLIENT: %s\n", buf);
 	}
 }
 
@@ -75,8 +75,8 @@ int my_server(t_env *e)
 	FD_ZERO(&e->fd_write);
 	e->fd_max = 0;
 	for (int i = 0; i < MAX_PLAYER; i++) {
-		if (e->players[i] != NULL && e->players[i]->type != FD_FREE) {
-			printf("toto %i\n", e->players[i]->type);
+		if (e->players[i] != NULL &&
+			e->players[i]->type != FD_FREE) {
 			FD_SET(e->players[i]->fd, &e->fd_read);
 			FD_SET(e->players[i]->fd, &e->fd_write);
 			e->fd_max = e->players[i]->fd;
@@ -87,29 +87,32 @@ int my_server(t_env *e)
 		return (0);
 	for (int i = 0; i < MAX_PLAYER; i++) {
 		if (e->players[i] != NULL &&
-				FD_ISSET(e->players[i]->fd, &e->fd_read)) {
-			// TODO lauch each function
-			printf("do server\n");
+			FD_ISSET(e->players[i]->fd, &e->fd_read)) {
+			if (e->players[i]->type == FD_SERVER)
+				server_read(e, e->players[i]->fd);
+			if (e->players[i]->type == FD_CLIENT)
+				client_read(e->players[i]->fd);
 		}
 	}
 	return (1);
 }
 
-void *server_beer_bomber(void *arg)
+void *server_beer_bomber()
 {
-	printf("server thread\n");
+	printf("server: in thread\n");
 
-	int btn = (int) arg;
-	if (btn) {
-		t_env e;
-		e.players = malloc(MAX_PLAYER * sizeof(t_player *));
-		for (int i = 0; i < MAX_PLAYER; i++) {
-			e.players[i] = NULL;
-		}
-		e.port = 5000;
-		add_server(&e);
-		while (my_server(&e));
+
+	t_env env;
+	env.players = malloc(MAX_PLAYER * sizeof(t_player *));
+	env.map = load_server_map();
+	for (int i = 0; i < MAX_PLAYER; i++) {
+		env.players[i] = NULL;
 	}
+	env.port = 5000;
+	add_server(&env);
+	while (my_server(&env)) {
+
+	};
 
 	pthread_exit(NULL);
 }

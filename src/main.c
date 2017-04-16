@@ -5,7 +5,7 @@ int main(void)
 	pthread_t server = NULL;
 
 	unsigned int frameLimit = SDL_GetTicks() + 16;
-	int onConfig = 0;
+	int config = 0;
 	int go = 0;
 	Game *game = malloc(sizeof(Game));
 
@@ -29,29 +29,31 @@ int main(void)
 			go = doRedefine(game);
 		} else if (game->status == IN_CONFIG) {
 			go = getInput(game);
-			onConfig = doConfig(game);
+			config = is_new_game(game);
 		}
-		if (onConfig) {
+		if (config) {
 			go = 1;
 		}
 		delay(frameLimit);
 		frameLimit = SDL_GetTicks() + 16;
 	}
 
-	/* On new game: start 2 thread client/server */
-	if (onConfig == 2) {
-		if (pthread_create(&server, NULL, server_beer_bomber, &game->btn)) {
+	/* new game: start server thread */
+	if (config == 2) {
+		if (pthread_create(&server, NULL, server_beer_bomber, NULL)) {
 			perror("pthread_create server");
 			return (EXIT_FAILURE);
 		}
 	}
 	game->status = IN_GAME;
+	SDL_Delay(1000);
 	client_beer_bomber(game);
-	if (pthread_join(server, NULL)) {
-		perror("pthread_join server");
-		return (EXIT_FAILURE);
+	if (config == 2) {
+		if (pthread_join(server, NULL)) {
+			perror("pthread_join server");
+			return (EXIT_FAILURE);
+		}
 	}
-
 	cleanup(game);
 	return (0);
 }

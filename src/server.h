@@ -60,4 +60,6 @@ typedef struct	s_env
 	t_info		infos;
 }				t_env;
 
+t_map **load_server_map();
+
 #endif /* __SERVER_H__ */

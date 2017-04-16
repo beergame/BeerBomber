@@ -10,7 +10,7 @@ void initBeerBomber(Game *);
 
 void cleanup(Game *);
 
-int doConfig(Game *);
+int is_new_game(Game *);
 
 int getInput(Game *);
 
@@ -36,6 +36,6 @@ MapCase **loadMap();
 
 void client_beer_bomber(Game *);
 
-void *server_beer_bomber(void *);
+void *server_beer_bomber();
 
 #endif /* MAIN_H */
