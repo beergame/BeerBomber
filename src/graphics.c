@@ -26,16 +26,15 @@ void drawImage(Game *game, SDL_Texture *image, int x, int y)
 
 	/* Set x and y in right position on the screen */
 
-	x = (x * 16) + BOARD_WIDTH;
-	y = (y * 16) + BOARD_HEIGHT;
+	x = (x * 2 * 16) + BOARD_WIDTH;
+	y = (y * 2 * 16) + BOARD_HEIGHT;
 
 	/* Set the blitting rectangle to the size of the src image */
 
 	dest.x = x;
 	dest.y = y;
-	dest.h = h;
-	dest.w = w;
-
+	dest.h = h * 2;
+	dest.w = w * 2;
 
 	/* Copy the entire image onto the renderer at coordinates x and y */
 
@@ -81,8 +80,50 @@ void freeSprites()
 	}
 }
 
+void loadPlayerTexture(Game *game, char *path, int index)
+{
+	SDL_Texture *clip[4][7];
+	SDL_Surface *surf = IMG_Load(path);
+	int width = surf->w;
+	int height = surf->h;
+	int clipPerRow = 4;
+	int clipPerColumn = 7;
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(game->renderer, surf);
+	SDL_FreeSurface(surf);
+	for (int i = 0; i < clipPerRow; i++) {
+		for (int j = 0; j < clipPerColumn; j++) {
+			clip[i][j] = SDL_CreateTexture(
+					game->renderer,
+					SDL_PIXELFORMAT_RGBA8888,
+					SDL_TEXTUREACCESS_TARGET,
+					width / clipPerRow, height / clipPerColumn
+			);
+			SDL_SetTextureBlendMode(clip[i][j], SDL_BLENDMODE_BLEND);
+			SDL_Rect rect = {
+					i * width / clipPerRow,
+					j * height / clipPerColumn,
+					width / clipPerRow,
+					height / clipPerColumn
+			};
+			SDL_SetRenderTarget(game->renderer, clip[i][j]);
+			SDL_RenderCopy(game->renderer, texture, &rect, NULL);
+		}
+	}
+	sprite[index++].image = clip[1][0];
+	sprite[index++].image = clip[0][0];
+	sprite[index++].image = clip[2][0];
+	sprite[index++].image = clip[3][0];
+	SDL_SetRenderTarget(game->renderer, NULL);
+	SDL_DestroyTexture(texture);
+}
+
 void loadAllSprites(Game *game)
 {
+	loadPlayerTexture(game, "gfx/players/one.png", PLAYER_ONE_UP);
+	loadPlayerTexture(game, "gfx/players/two.png", PLAYER_TWO_UP);
+	loadPlayerTexture(game, "gfx/players/three.png", PLAYER_THREE_UP);
+	loadPlayerTexture(game, "gfx/players/four.png", PLAYER_FOUR_UP);
+
 	loadSprite(game, BOMB_SPRITE, "gfx/bomb/bomb_stand_1.png");
 	loadSprite(game, BOMB_SPRITE2, "gfx/bomb/bomb_stand_2.png");
 	loadSprite(game, BOMB_SPRITE3, "gfx/bomb/bomb_stand_3.png");
@@ -92,14 +133,34 @@ void loadAllSprites(Game *game)
 	loadSprite(game, MAP_SPRITE_BUSH, "gfx/map/bush_1x1.png");
 	loadSprite(game, MAP_SPRITE_FIRE, "gfx/map/fire_1.png");
 
-	loadSprite(game, PLAYER_SPRITE1, "gfx/players/player1_1.png");
-	loadSprite(game, PLAYER_SPRITE2, "gfx/players/player1_2.png");
-	loadSprite(game, PLAYER_SPRITE3, "gfx/players/player1_3.png");
-	loadSprite(game, PLAYER_SPRITE4, "gfx/players/player1_4.png");
-	loadSprite(game, PLAYER_SPRITE5, "gfx/players/player1_5.png");
-	loadSprite(game, PLAYER_SPRITE6, "gfx/players/player1_6.png");
-	loadSprite(game, PLAYER_SPRITE7, "gfx/players/player1_7.png");
-	loadSprite(game, PLAYER_SPRITE8, "gfx/players/player1_8.png");
-	loadSprite(game, PLAYER_SPRITE9, "gfx/players/player1_9.png");
-	loadSprite(game, PLAYER_SPRITE10, "gfx/players/player1_10.png");
+	loadSprite(game, MAP_BACK_ONE, "gfx/background/1.png");
+
+	loadSprite(game, BTN_NEWGAME, "gfx/btn/newgame.png");
+	loadSprite(game, BTN_NEWGAME_B, "gfx/btn/newgame_b.png");
+	loadSprite(game, BTN_JOINGAME, "gfx/btn/joingame.png");
+	loadSprite(game, BTN_JOINGAME_B, "gfx/btn/joingame_b.png");
+}
+
+void drawBackground(Game *game, int index)
+{
+	SDL_Rect pos;
+	pos.x = 0;
+	pos.y = 0;
+	pos.h = SCREEN_HEIGHT;
+	pos.w = SCREEN_WIDTH;
+	SDL_RenderCopy(game->renderer, getSprite(index), NULL, &pos);
+}
+
+void drawBtn(Game *game, int x, int y, int index)
+{
+	SDL_Rect pos;
+	int w;
+	int h;
+
+	SDL_QueryTexture(getSprite(index), NULL, NULL, &w, &h);
+	pos.x = x;
+	pos.y = y;
+	pos.h = h;
+	pos.w = w;
+	SDL_RenderCopy(game->renderer, getSprite(index), NULL, &pos);
 }

@@ -1,43 +1,52 @@
-#ifndef DEFS_H
-# define DEFS_H
+#ifndef __DEFS_H__
+# define __DEFS_H__
 
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
+# include <pthread.h>
 # include "SDL2/SDL.h"
 # include "SDL2/SDL_image.h"
 # include "SDL2/SDL_mixer.h"
 # include "SDL2/SDL_ttf.h"
 
-# define SCREEN_WIDTH 683
-# define SCREEN_HEIGHT 380
+# define SCREEN_WIDTH 1366
+# define SCREEN_HEIGHT 760
 # define MAP_SIZE 15
-# define BOARD_WIDTH (SCREEN_WIDTH / 2) - (MAP_SIZE * 16 / 2)
-# define BOARD_HEIGHT (SCREEN_HEIGHT / 2) - (MAP_SIZE * 16 / 2)
+# define BOARD_WIDTH (SCREEN_WIDTH / 2) - (MAP_SIZE * 32 / 2)
+# define BOARD_HEIGHT (SCREEN_HEIGHT / 2) - (MAP_SIZE * 32 / 2)
 # define MAX_PLAYER 4
-# define MAX_ENTITIES 20
 # define MAX_SPRITES 40
-# define PLAYER_SPEED 10
+# define PLAYER_SPEED 13
 # define PLAYER_MAX_LIFE 2
 # define PLAYER_MAX_AMMO 100
+# define PLAYER_RELOAD_TIME 9
 # define BOMB_LIFETIME 150
 # define FIRE_LIFETIME 20
 # define IN_REDEFINE 0
-# define IN_GAME 1
+# define IN_CONFIG 1
+# define IN_GAME 2
+# define GAME_END 3
 # define DEAD_ZONE 3200
 
 enum sprite
 {
-	PLAYER_SPRITE1,
-	PLAYER_SPRITE2,
-	PLAYER_SPRITE3,
-	PLAYER_SPRITE4,
-	PLAYER_SPRITE5,
-	PLAYER_SPRITE6,
-	PLAYER_SPRITE7,
-	PLAYER_SPRITE8,
-	PLAYER_SPRITE9,
-	PLAYER_SPRITE10,
+	PLAYER_ONE_UP,
+	PLAYER_ONE_DOWN,
+	PLAYER_ONE_LEFT,
+	PLAYER_ONE_RIGHT,
+	PLAYER_TWO_UP,
+	PLAYER_TWO_DOWN,
+	PLAYER_TWO_LEFT,
+	PLAYER_TWO_RIGHT,
+	PLAYER_THREE_UP,
+	PLAYER_THREE_DOWN,
+	PLAYER_THREE_LEFT,
+	PLAYER_THREE_RIGHT,
+	PLAYER_FOUR_UP,
+	PLAYER_FOUR_DOWN,
+	PLAYER_FOUR_LEFT,
+	PLAYER_FOUR_RIGHT,
 
 	BOMB_SPRITE,
 	BOMB_SPRITE2,
@@ -47,13 +56,18 @@ enum sprite
 	MAP_SPRITE_BLOCK,
 	MAP_SPRITE_BUSH,
 	MAP_SPRITE_FIRE,
+
+	MAP_BACK_ONE,
+	BTN_NEWGAME,
+	BTN_NEWGAME_B,
+	BTN_JOINGAME,
+	BTN_JOINGAME_B,
 };
 
 enum map
 {
 	TYPE_BLOCK,
-	TYPE_BASE,
 	TYPE_BUSH
 };
 
-#endif /* DEFS_H */
+#endif /* __DEFS_H__ */

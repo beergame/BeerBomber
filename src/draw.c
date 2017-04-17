@@ -1,7 +1,5 @@
 #include "draw.h"
 
-SDL_Texture *getSprite(int);
-
 void draw(Game *game)
 {
 	char text[20];
@@ -11,6 +9,8 @@ void draw(Game *game)
 	SDL_RenderClear(game->renderer);
 
 	SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255);
+
+	drawBackground(game, MAP_BACK_ONE);
 
 	/* Draw the score */
 

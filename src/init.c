@@ -1,6 +1,6 @@
 #include "init.h"
 
-void init(char *title, Game *game)
+void initBeerBomber(Game *game)
 {
 	int joystickCount, buttonCount;
 
@@ -8,7 +8,6 @@ void init(char *title, Game *game)
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
 		printf("Could not initialize SDL: %s\n", SDL_GetError());
-
 		exit(1);
 	}
 
@@ -16,23 +15,32 @@ void init(char *title, Game *game)
 
 	if (TTF_Init() < 0) {
 		printf("Couldn't initialize SDL TTF: %s\n", SDL_GetError());
-
 		exit(1);
 	}
 
 	/* Open a screen */
 
-	game->screen = SDL_CreateWindow(title,
-								   SDL_WINDOWPOS_UNDEFINED,
-								   SDL_WINDOWPOS_UNDEFINED,
-								   SCREEN_WIDTH, SCREEN_HEIGHT,
-								   SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+	game->screen = SDL_CreateWindow(
+			"BeerBomber",
+			SDL_WINDOWPOS_UNDEFINED,
+			SDL_WINDOWPOS_UNDEFINED,
+			SCREEN_WIDTH, SCREEN_HEIGHT,
+			SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN
+	);
+
+	SDL_SetWindowIcon(game->screen, IMG_Load("gfx/icon/beerbomber.png"));
 
 	/* Create Renderer SDL 2.0 */
 
-	game->renderer = SDL_CreateRenderer(game->screen, -1, 0);
+	game->renderer = SDL_CreateRenderer(
+			game->screen,
+			-1,
+			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+	);
 
 	game->status = IN_REDEFINE;
+	game->font = loadFont("font/blackWolf.ttf", 16);
+	game->btn = 2;
 
 	if (game->screen == NULL) {
 		printf("Couldn't set screen mode to %d x %d: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
@@ -40,13 +48,13 @@ void init(char *title, Game *game)
 		exit(1);
 	}
 
-//	/* Set the audio rate to 22050, 16 bit stereo, 2 channels and a 4096 byte buffer */
-//
-//	if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096) != 0) {
-//		printf("Could not open audio: %s\n", Mix_GetError());
-//
-//		exit(1);
-//	}
+	/* Set the audio rate to 22050, 16 bit stereo, 2 channels and a 4096 byte buffer */
+
+	if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096) != 0) {
+		printf("Could not open audio: %s\n", Mix_GetError());
+
+		exit(1);
+	}
 
 	/* Open the joystick */
 
@@ -67,13 +75,9 @@ void init(char *title, Game *game)
 
 void cleanup(Game *game)
 {
-	SDL_DestroyRenderer(game->renderer);
-	SDL_DestroyWindow(game->screen);
-
-	/* Free the sprites */
+	/* Free the sprites and map */
 
 	freeSprites();
-
 	freeMap(game->map);
 
 	/* Close the font */
@@ -88,6 +92,9 @@ void cleanup(Game *game)
 	/* Close SDL_TTF */
 
 	TTF_Quit();
+
+	SDL_DestroyRenderer(game->renderer);
+	SDL_DestroyWindow(game->screen);
 
 	/* Shut down SDL */
 

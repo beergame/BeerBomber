@@ -14,6 +14,7 @@ typedef struct		Entity
 	int				y;
 	int				life;
 	int				ammo;
+	int				reload;
 	SDL_Texture		*sprite;
 
 	void			(*action)(struct MapCase **, struct Entity *);
@@ -30,11 +31,23 @@ typedef struct		MapCase
 	Entity			*fire;
 } MapCase;
 
+typedef struct		Control
+{
+	int				up;
+	int				down;
+	int				left;
+	int				right;
+	int				fire;
+}					Control;
+
 typedef struct		Game
 {
 	int				score;
 	int				status;
+	int				btn;
 	MapCase			**map;
+	Control			*customControl;
+	Control			*input;
 	SDL_Window		*screen;
 	SDL_Renderer	*renderer;
 	TTF_Font		*font;
@@ -50,15 +63,6 @@ typedef struct		Sound
 {
 	Mix_Chunk		*effect;
 }					Sound;
-
-typedef struct		Control
-{
-	int				up;
-	int				down;
-	int				left;
-	int				right;
-	int				fire;
-}					Control;
 
 typedef struct		Redefine
 {

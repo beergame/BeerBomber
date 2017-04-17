@@ -1,82 +1,57 @@
 #include "main.h"
 
-int main(int argc, char *argv[])
+int main(void)
 {
+	pthread_t server = NULL;
+
 	unsigned int frameLimit = SDL_GetTicks() + 16;
-	int go;
+	int onConfig = 0;
+	int go = 0;
+	Game *game = malloc(sizeof(Game));
 
-	Game *game = malloc (sizeof(Game));
-	/* Start up SDL */
-
-	init("BeerBomber", game);
-
-	go = 0;
-
-	/* Load all the sprites */
-
+	initBeerBomber(game);
 	loadAllSprites(game);
-
-	/* Load the font */
-
-	game->font = loadFont("font/blackWolf.ttf", 16);
-
-	/* Load map */
-
-	game->map = loadMap();
-
-	/* Initialise the player */
-
-	Entity *player1 = initPlayer(game->map, 1, 1);
-
-	/* Reset the redefine index */
 
 	redefine.redefineIndex = 0;
 	redefine.redefineString[0] = '\0';
 
-	/* Loop indefinitely for messages */
+	game->input = malloc(sizeof(Control));
+	game->customControl = malloc(sizeof(Control));
+	game->input->down = 0;
+	game->input->up = 0;
+	game->input->right = 0;
+	game->input->left = 0;
+	game->input->fire = 0;
 
-	while (go == 0) {
+	while (!go) {
 		if (game->status == IN_REDEFINE) {
 			/* Handle the key redefining */
-
 			go = doRedefine(game);
-		} else {
-			/* Get the input */
-
+		} else if (game->status == IN_CONFIG) {
 			go = getInput(game);
-
-			/* Update the player's position and bomb throwing */
-
-			if (player1 != NULL && player1->life > 0) {
-				playerMove(game->map, player1);
-				playerThrowBomb(game->map, player1);
-			} else {
-				player1 = initPlayer(game->map, 1, 1);
-			}
-			game->score = player1->life;
-
-			/* Call entities's actions */
-
-			entitiesActions(game->map);
-
-			/* Do the collisions */
-
-			//doCollisions();
-
-			/* Draw everything */
-
-			draw(game);
+			onConfig = doConfig(game);
 		}
-		/* Sleep briefly to stop sucking up all the CPU time */
-
+		if (onConfig) {
+			go = 1;
+		}
 		delay(frameLimit);
-
 		frameLimit = SDL_GetTicks() + 16;
 	}
 
-	/* Clean and exit the program */
+	/* On new game: start 2 thread client/server */
+	if (onConfig == 2) {
+		if (pthread_create(&server, NULL, serverBeerBomber, &game)) {
+			perror("pthread_create server");
+			return (EXIT_FAILURE);
+		}
+	}
+	game->status = IN_GAME;
+	clientBeerBomber(game);
+	if (pthread_join(server, NULL)) {
+		perror("pthread_join server");
+		return (EXIT_FAILURE);
+	}
 
 	cleanup(game);
-
 	return (0);
 }

@@ -12,93 +12,95 @@ int getInput(Game *game)
 
 			/* Closing the Window will exit the program */
 			case SDL_QUIT:
+				game->status = GAME_END;
 				return (1);
 
 			case SDL_KEYDOWN:
 				key = event.key.keysym.sym;
-				if (key == customControl.left)
-					input.left = 1;
-				else if (key == customControl.right)
-					input.right = 1;
-				else if (key == customControl.up)
-					input.up = 1;
-				else if (key == customControl.down)
-					input.down = 1;
-				else if (key == customControl.fire)
-					input.fire = 1;
+				if (key == game->customControl->left)
+					game->input->left = 1;
+				else if (key == game->customControl->right)
+					game->input->right = 1;
+				else if (key == game->customControl->up)
+					game->input->up = 1;
+				else if (key == game->customControl->down)
+					game->input->down = 1;
+				else if (key == game->customControl->fire)
+					game->input->fire = 1;
 				else if (key == SDLK_ESCAPE)
 					game->status = IN_REDEFINE;
 				break;
 
 			case SDL_KEYUP:
 				key = event.key.keysym.sym;
-				if (key == customControl.left)
-					input.left = 0;
-				else if (key == customControl.right)
-					input.right = 0;
-				else if (key == customControl.up)
-					input.up = 0;
-				else if (key == customControl.down)
-					input.down = 0;
-				else if (key == customControl.fire)
-					input.fire = 0;
+				if (key == game->customControl->left)
+					game->input->left = 0;
+				else if (key == game->customControl->right)
+					game->input->right = 0;
+				else if (key == game->customControl->up)
+					game->input->up = 0;
+				else if (key == game->customControl->down)
+					game->input->down = 0;
+				else if (key == game->customControl->fire)
+					game->input->fire = 0;
 				break;
 
 			case SDL_JOYBUTTONDOWN:
 				key = event.jbutton.button;
-				if (key == customControl.left)
-					input.left = 1;
-				else if (key == customControl.right)
-					input.right = 1;
-				else if (key == customControl.up)
-					input.up = 1;
-				else if (key == customControl.down)
-					input.down = 1;
-				else if (key == customControl.fire)
-					input.fire = 1;
+				if (key == game->customControl->left)
+					game->input->left = 1;
+				else if (key == game->customControl->right)
+					game->input->right = 1;
+				else if (key == game->customControl->up)
+					game->input->up = 1;
+				else if (key == game->customControl->down)
+					game->input->down = 1;
+				else if (key == game->customControl->fire)
+					game->input->fire = 1;
 				break;
 
 			case SDL_JOYBUTTONUP:
 				key = event.jbutton.button;
-				if (key == customControl.left)
-					input.left = 0;
-				else if (key == customControl.right)
-					input.right = 0;
-				else if (key == customControl.up)
-					input.up = 0;
-				else if (key == customControl.down)
-					input.down = 0;
-				else if (key == customControl.fire)
-					input.fire = 0;
+				if (key == game->customControl->left)
+					game->input->left = 0;
+				else if (key == game->customControl->right)
+					game->input->right = 0;
+				else if (key == game->customControl->up)
+					game->input->up = 0;
+				else if (key == game->customControl->down)
+					game->input->down = 0;
+				else if (key == game->customControl->fire)
+					game->input->fire = 0;
 				break;
 
 			case SDL_JOYAXISMOTION:
 				/* Horizontal movement */
 				if (event.jaxis.axis == 0) {
 					if (event.jaxis.value < -DEAD_ZONE)
-						input.left = 1;
+						game->input->left = 1;
 					else if (event.jaxis.value > DEAD_ZONE)
-						input.right = 1;
+						game->input->right = 1;
 					else {
-						input.left = 0;
-						input.right = 0;
+						game->input->left = 0;
+						game->input->right = 0;
 					}
 				}
 
 				/* Vertical movement */
 				if (event.jaxis.axis == 1) {
 					if (event.jaxis.value < -DEAD_ZONE) {
-						input.up = 1;
+						game->input->up = 1;
 					} else if (event.jaxis.value > DEAD_ZONE) {
-						input.down = 1;
+						game->input->down = 1;
 					} else {
-						input.up = 0;
-						input.down = 0;
+						game->input->up = 0;
+						game->input->down = 0;
 					}
 				}
 				break;
 		}
 	}
+
 	return (0);
 }
 
