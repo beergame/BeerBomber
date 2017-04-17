@@ -3,6 +3,6 @@
 
 # include "server.h"
 
-
+extern char *strdup(const char *s);
 
 #endif /* __MAP_SERVER_H__ */
