@@ -55,21 +55,19 @@ void server_read(t_env *e, int s)
 
 void add_server(t_env *e)
 {
-	int s;
-	struct sockaddr_in sin;
-	int pos;
+  int s;
+  struct sockaddr_in sin;
 
-	pos = 1;
-	if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
-		return;
-	sin.sin_family = AF_INET;
-	sin.sin_port = htons(e->port);
-	sin.sin_addr.s_addr = INADDR_ANY;
-	if (bind(s, (struct sockaddr *) &sin, sizeof(sin)) == -1)
-		return;
-	if (listen(s, MAX_PLAYER) == -1)
-		return;
-	allocate_fd(s, FD_SERVER, e->players);
+  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
+    return ;
+  sin.sin_family = AF_INET;
+  sin.sin_port = htons(e->port);
+  sin.sin_addr.s_addr = INADDR_ANY;
+  if (bind(s, (struct sockaddr *) &sin, sizeof(sin)) == -1)
+    return ;
+  if (listen(s, MAX_PLAYER) == -1)
+    return ;
+  allocate_fd(s, FD_SERVER, e->players);
 }
 
 int my_server(t_env *e)
