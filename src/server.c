@@ -111,6 +111,8 @@ int my_server(t_env *e)
 		return (send_response(e, e->players[tmp_req->player_nb]));
 	}
 
+
+	usleep(50);
 	return (1);
 }
 
