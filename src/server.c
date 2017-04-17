@@ -104,8 +104,8 @@ int my_server(t_env *e)
 	if (tmp_req != NULL) {
 		/* check if player can move or throw bomb */
 		do_player_move(e, tmp_req);
-		printf("test server 1\n");
 		do_player_throw_bomb(e, tmp_req);
+		printf("test server 1\n");
 
 		/* send response to player with all env data */
 		return (send_response(e, e->players[tmp_req->player_nb]));
@@ -118,10 +118,12 @@ void *server_beer_bomber()
 {
 	printf("server: in thread\n");
 
-
 	t_env env;
 	env.players = malloc(MAX_PLAYER * sizeof(t_player *));
 	env.map = load_server_map();
+	env.infos.game_status = 0;
+	env.infos.nb_players = 1;
+	env.infos.winner_player = 0;
 	for (int i = 0; i < MAX_PLAYER; i++) {
 		env.players[i] = NULL;
 	}

@@ -25,7 +25,7 @@ int my_connect()
 
 int serialize_request(t_request *req, int sock)
 {
-	char request[BUFF_SIZE];
+	char request[BUFF_SIZE] = "";
 	char buff[3];
 
 	sprintf(buff, "%i:", req->player_nb);
@@ -59,35 +59,61 @@ int send_request(int sock)
 	return (0);
 }
 
-int get_response(int sock)
+void unserialize_response(char *buffer, t_response *tmp)
 {
-	char server_response[2000];
+	char **response;
+	char **buff;
+	char **buff2;
 
-	if (recv(sock, server_response, 2000, 0) < 0) {
+	printf("client: buffer response server size: %s\n\n", buffer);
+	response = my_str_to_wordtab(buffer, ' ');
+	buff = my_str_to_wordtab(response[0], ':');
+	tmp->infos.game_status = atoi(buff[0]);
+	tmp->infos.nb_players = atoi(buff[1]);
+	tmp->infos.winner_player = atoi(buff[2]);
+
+	buff = my_str_to_wordtab(response[1], ';');
+	for (int i = 0; i < tmp->infos.nb_players; i++) {
+		buff2 = my_str_to_wordtab(buff[i], ':');
+		tmp->players[i]->x = atoi(buff2[0]);
+		tmp->players[i]->y = atoi(buff2[1]);
+		tmp->players[i]->ammo = atoi(buff2[2]);
+		tmp->players[i]->reload = atoi(buff2[3]);
+		tmp->players[i]->frags = atoi(buff2[4]);
+		tmp->players[i]->connected = atoi(buff2[5]);
+		tmp->players[i]->life = atoi(buff2[6]);
+		tmp->players[i]->speed = atoi(buff2[7]);
+	}
+
+	buff = my_str_to_wordtab(response[2], ';');
+	for (int i = 0; i < MAP_SIZE; ++i) {
+		buff2 = my_str_to_wordtab(buff[i], ':');
+		for (int j = 0; j < MAP_SIZE; ++j) {
+			tmp->map[i][j].data = buff2[j];
+		}
+	}
+}
+
+int get_response(int sock, t_response *tmp)
+{
+	char buffer[BUFF_SIZE];
+
+	if (recv(sock, buffer, BUFF_SIZE, 0) < 0) {
 		puts("recv failed");
 		return (1);
 	}
+	unserialize_response(buffer, tmp);
 
 	return (0);
 }
 
-int my_client(int s)
+// TODO A REVOIR !!
+int my_client(int s, t_response *tmp)
 {
 	int r = 0;
-//	fd_set fd_read;
-//	FD_ZERO(&fd_read);
-//	FD_SET(0, &fd_read);
-//	FD_SET(s, &fd_read);
-//	if (select(s + 1, &fd_read, NULL, NULL, NULL) == -1) {
-//		printf("pb select\n");
-//		r = 1;
-//	}
-//	if (FD_ISSET(0, &fd_read)) {
-		printf("client: send request\n");
-		r = send_request(s);
-//	}
-//	if (FD_ISSET(s, &fd_read))
-//		r = get_response(s);
+	printf("client: send request\n");
+	r = send_request(s);
+	r = get_response(s, tmp);
 
 	return (r);
 }
@@ -96,6 +122,13 @@ void client_beer_bomber(Game *game)
 {
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go = 0;
+	t_response *tmp = malloc(sizeof(t_response));
+	tmp->players = malloc(MAX_PLAYER * sizeof(t_player *));
+	tmp->players[0] = malloc(sizeof(t_player));
+	tmp->map = load_server_map();
+	tmp->infos.game_status = 0;
+	tmp->infos.nb_players = 1;
+	tmp->infos.winner_player = 0;
 
 	game->map = loadMap();
 	Entity *player1 = initPlayer(game->map, 1, 1);
@@ -110,7 +143,7 @@ void client_beer_bomber(Game *game)
 
 	int sock = my_connect();
 	SDL_Delay(100);
-	my_client(sock);
+	my_client(sock, tmp);
 	printf("test client 1\n");
 	while (!go) {
 		if (game->status == IN_REDEFINE) {
@@ -119,7 +152,8 @@ void client_beer_bomber(Game *game)
 		} else if (game->status == IN_GAME ||
 				game->status == IN_CONFIG) {
 			go = getInput(game);
-//			my_client(sock);
+			my_client(sock, tmp);
+			printf("client: ammo: %i", tmp->players[0]->ammo);
 			/* Update the player's position and bomb throwing */
 			if (player1 != NULL && player1->life > 0) {
 				game->score = player1->life;

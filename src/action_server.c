@@ -34,9 +34,11 @@ void do_player_move(t_env *e, t_request *req)
 
 void do_player_throw_bomb(t_env *e, t_request *req)
 {
-	printf("popo %i\n", req->player_nb);
 	t_player *player = e->players[req->player_nb];
 	player->reload--;
+	if (player->reload < 0) {
+		player->reload = 0;
+	}
 	if (req->fire == 1 && player->ammo > 0 &&
 		e->map[player->x][player->y].data[3] != '1' &&
 		e->map[player->x][player->y].data[4] != '1' &&

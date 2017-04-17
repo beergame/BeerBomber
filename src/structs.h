@@ -78,4 +78,37 @@ typedef struct		s_request
 	int				ckecksum;
 }					t_request;
 
+typedef struct	s_player
+{
+	int			fd;
+	int			type;
+	int			connected;
+	int			speed;
+	int			x;
+	int			y;
+	int			life;
+	int			ammo;
+	int			reload;
+	int			frags;
+}				t_player;
+
+typedef struct	s_map
+{
+	char		*data;
+}				t_map;
+
+typedef struct	s_info
+{
+	int			game_status;
+	int			nb_players;
+	int			winner_player;
+}				t_info;
+
+typedef struct s_response
+{
+	t_player	**players;
+	t_map		**map;
+	t_info		infos;
+}				t_response;
+
 #endif /* STRUCTS_H */
