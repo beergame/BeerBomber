@@ -32,6 +32,7 @@
 # define IN_GAME 2
 # define GAME_END 3
 # define DEAD_ZONE 3200
+# define BUFF_SIZE 2000
 
 enum sprite
 {

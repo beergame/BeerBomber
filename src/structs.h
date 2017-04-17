@@ -70,4 +70,12 @@ typedef struct		Redefine
 	char			redefineString[255];
 }					Redefine;
 
+typedef struct		s_request
+{
+	int				player_nb;
+	int				dir;
+	int				fire;
+	int				ckecksum;
+}					t_request;
+
 #endif /* STRUCTS_H */

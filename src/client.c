@@ -23,9 +23,23 @@ int my_connect()
 }
 
 
+char *serialize_request(t_request *req)
+{
+	char *buffer = malloc(BUFF_SIZE);
+	
+}
+
 int send_request(int sock)
 {
-	if (send(sock, "test client\n", strlen("test client\n"), 0) < 0) {
+	t_request req;
+	char *buffer;
+	req.fire = 0;
+	req.dir = 0;
+	req.player_nb = 1;
+	req.ckecksum = 0;
+
+	buffer = serialize_request(&req);
+	if (send(sock, buffer, strlen(buffer), 0) < 0) {
 		printf("Send failed\n");
 		return (1);
 	}

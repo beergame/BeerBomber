@@ -5,6 +5,7 @@
 # include <sys/socket.h>
 # include <sys/select.h>
 # include <stdio.h>
+# include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <pthread.h>
@@ -45,8 +46,9 @@ typedef struct	s_map
 
 typedef struct	s_info
 {
-	int			status;
+	int			game_status;
 	int			nb_players;
+	int			winner_player;
 }				t_info;
 
 typedef struct	s_env
@@ -60,6 +62,26 @@ typedef struct	s_env
 	t_info		infos;
 }				t_env;
 
-t_map **load_server_map();
+typedef struct  s_request
+{
+	int			player_nb;
+	int			dir;
+	int			fire;
+	int			ckecksum;
+}				t_request;
+
+typedef struct s_response
+{
+	t_player	**players;
+	t_map		**map;
+	t_info		infos;
+}				t_response;
+
+t_map			**load_server_map();
+t_request		*unserialize_request(char *buffer);
+int				send_response(t_env *, t_player *);
+
+void			do_player_move(t_env *, t_request *);
+void			do_player_throw_bomb(t_env *, t_request *);
 
 #endif /* __SERVER_H__ */
