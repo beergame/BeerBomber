@@ -42,7 +42,7 @@ int send_response(t_env *e, t_player *player)
 	res.infos = e->infos;
 
 	buffer = serialize_response(&res);
-	printf("server: %s\n", buffer);
+	printf("server: response: %s\n", buffer);
 	if (send(player->fd, buffer, strlen(buffer), 0) < 0) {
 		puts("Send failed");
 		return (0);

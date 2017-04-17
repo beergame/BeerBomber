@@ -23,27 +23,39 @@ int my_connect()
 }
 
 
-char *serialize_request(t_request *req)
+int serialize_request(t_request *req, int sock)
 {
-	char *buffer = malloc(BUFF_SIZE);
-	
+	char request[BUFF_SIZE];
+	char buff[3];
+
+	sprintf(buff, "%i:", req->player_nb);
+	strcat(request, buff);
+	sprintf(buff, "%i:", req->dir);
+	strcat(request, buff);
+	sprintf(buff, "%i:", req->fire);
+	strcat(request, buff);
+	sprintf(buff, "%i", req->ckecksum);
+	strcat(request, buff);
+
+	request[strlen(request)] =  '\0';
+
+	printf("client: request: %s \n", request);
+	if (send(sock, request, strlen(request), 0) < 0) {
+		printf("Send failed\n");
+		return (1);
+	}
+	return (0);
 }
 
 int send_request(int sock)
 {
 	t_request req;
-	char *buffer;
 	req.fire = 0;
 	req.dir = 0;
 	req.player_nb = 1;
 	req.ckecksum = 0;
 
-	buffer = serialize_request(&req);
-	if (send(sock, buffer, strlen(buffer), 0) < 0) {
-		printf("Send failed\n");
-		return (1);
-	}
-
+	serialize_request(&req, sock);
 	return (0);
 }
 
@@ -62,18 +74,18 @@ int get_response(int sock)
 int my_client(int s)
 {
 	int r = 0;
-	fd_set fd_read;
-	FD_ZERO(&fd_read);
-	FD_SET(0, &fd_read);
-	FD_SET(s, &fd_read);
+//	fd_set fd_read;
+//	FD_ZERO(&fd_read);
+//	FD_SET(0, &fd_read);
+//	FD_SET(s, &fd_read);
 //	if (select(s + 1, &fd_read, NULL, NULL, NULL) == -1) {
 //		printf("pb select\n");
 //		r = 1;
 //	}
-	if (FD_ISSET(0, &fd_read)) {
+//	if (FD_ISSET(0, &fd_read)) {
 		printf("client: send request\n");
 		r = send_request(s);
-	}
+//	}
 //	if (FD_ISSET(s, &fd_read))
 //		r = get_response(s);
 
@@ -99,6 +111,7 @@ void client_beer_bomber(Game *game)
 	int sock = my_connect();
 	SDL_Delay(100);
 	my_client(sock);
+	printf("test client 1\n");
 	while (!go) {
 		if (game->status == IN_REDEFINE) {
 			/* Handle the key redefining */

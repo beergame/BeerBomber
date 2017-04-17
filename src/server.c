@@ -32,7 +32,7 @@ t_request *get_player_request(int fd)
 
 	r = read(fd, buffer, BUFF_SIZE);
 	if (r > 0) {
-		buffer[r - 1] = '\0';
+		buffer[r] = '\0';
 		printf("server: CLIENT: %s\n", buffer);
 		return (unserialize_request(buffer));
 	}
@@ -74,7 +74,7 @@ void add_server(t_env *e)
 
 int my_server(t_env *e)
 {
-	t_request *tmp_req;
+	t_request *tmp_req = NULL;
 	FD_ZERO(&e->fd_read);
 	FD_ZERO(&e->fd_write);
 	e->fd_max = 0;
@@ -89,23 +89,29 @@ int my_server(t_env *e)
 	if (select(e->fd_max + 1,
 			   &e->fd_read, &e->fd_write, NULL, NULL) == -1)
 		return (0);
-	printf("toto");
 	for (int i = 0; i < MAX_PLAYER; i++) {
 		if (e->players[i] != NULL &&
 			FD_ISSET(e->players[i]->fd, &e->fd_read)) {
 			if (e->players[i]->type == FD_SERVER) {
 				server_read(e, e->players[i]->fd);
 			}
-			if (e->players[i]->type == FD_CLIENT) {}
-			tmp_req = get_player_request(e->players[i]->fd);
+			if (e->players[i]->type == FD_CLIENT) {
+				tmp_req = get_player_request(e->players[i]->fd);
+			}
 		}
 	}
-	/* check if player can move or throw bomb */
-	do_player_move(e, &tmp_req);
-	do_player_throw_bomb(e, &tmp_req);
 
-	/* send response to player with all env data */
-	return (send_response(e, e->players[tmp_req.player_nb]));
+	if (tmp_req != NULL) {
+		/* check if player can move or throw bomb */
+		do_player_move(e, tmp_req);
+		printf("test server 1\n");
+		do_player_throw_bomb(e, tmp_req);
+
+		/* send response to player with all env data */
+		return (send_response(e, e->players[tmp_req->player_nb]));
+	}
+
+	return (1);
 }
 
 void *server_beer_bomber()
