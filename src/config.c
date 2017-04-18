@@ -1,6 +1,6 @@
 #include "config.h"
 
-int doConfig(Game *game)
+int is_new_game(Game *game)
 {
 	if (game->input->left == 1) {
 		game->btn--;

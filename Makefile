@@ -9,7 +9,7 @@
 ##
 
 NAME =		beerbomber
-CC =		gcc -std=c99
+CC =		gcc -std=gnu99
 SRCS =		$(wildcard src/*.c)
 OBJS =		$(SRCS:%.c=%.o)
 CFLAGS =	-Wall -Werror -W -Wextra -pedantic

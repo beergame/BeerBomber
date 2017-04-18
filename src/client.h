@@ -34,4 +34,8 @@ int doRedefine(Game *);
 
 MapCase **loadMap();
 
+char **my_str_to_wordtab(char *, char);
+
+t_map **load_server_map();
+
 #endif /* __CLIENT_H__ */
