@@ -10,7 +10,6 @@
 # include <stdlib.h>
 # include <pthread.h>
 
-# define _BSD_SOURCE
 # define FD_FREE 0
 # define FD_CLIENT 1
 # define FD_SERVER 2
