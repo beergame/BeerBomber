@@ -17,6 +17,7 @@
 # define MAX_FD 255
 # define BUFF_SIZE 3000
 # define MAX_PLAYER 4
+# define MAX_TIMER 40
 # define MAP_SIZE 15
 
 # define PLAYER_SPEED 13
@@ -94,5 +95,6 @@ int				send_response(t_env *, t_player *);
 
 void			do_player_move(t_env *, t_request *);
 void			do_player_throw_bomb(t_env *, t_request *);
+void			do_timing_entity(t_env *);
 
 #endif /* __SERVER_H__ */

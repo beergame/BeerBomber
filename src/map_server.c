@@ -13,11 +13,11 @@ t_map **load_server_map()
 			tmp[i][j].data = strdup("00000000");
 			if (i == 0 || j == 0 || i == MAP_SIZE - 1 ||
 				j == MAP_SIZE - 1 || (!(i % 2) && !(j % 2))) {
-				/* @ = 01000000 */
-				tmp[i][j].data = (char *)"01000000";
+				/* 11000000 terrain indestructible */
+				tmp[i][j].data = (char *)"11000000";
 			} else if (i != 1) {
-				/* ` = 01100000 */
-				tmp[i][j].data = (char *)"01100000";
+				/* 01000000 */
+				tmp[i][j].data = (char *)"01000000";
 			}
 		}
 	}

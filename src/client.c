@@ -47,10 +47,22 @@ int serialize_request(t_request *req, int sock)
 	return (0);
 }
 
-int send_request(int sock)
+int send_deco(int sock)
 {
 	t_request req;
 	req.fire = 0;
+	req.dir = 0;
+	req.player_nb = 1;
+	req.ckecksum = 1;
+
+	serialize_request(&req, sock);
+	return (0);
+}
+
+int send_request(int sock)
+{
+	t_request req;
+	req.fire = 1;
 	req.dir = 0;
 	req.player_nb = 1;
 	req.ckecksum = 0;
@@ -65,7 +77,7 @@ void unserialize_response(char *buffer, t_response *tmp)
 	char **buff;
 	char **buff2;
 
-	printf("client: buffer response server size: %s\n\n", buffer);
+//	printf("client: buffer response server size: %s\n\n", buffer);
 	response = my_str_to_wordtab(buffer, ' ');
 	buff = my_str_to_wordtab(response[0], ':');
 	tmp->infos.game_status = atoi(buff[0]);
@@ -153,7 +165,8 @@ void client_beer_bomber(Game *game)
 				game->status == IN_CONFIG) {
 			go = getInput(game);
 			my_client(sock, tmp);
-			printf("client: ammo: %i", tmp->players[0]->ammo);
+			SDL_Delay(100);
+			printf("client: ammo: %i\n", tmp->players[0]->ammo);
 			/* Update the player's position and bomb throwing */
 			if (player1 != NULL && player1->life > 0) {
 				game->score = player1->life;
@@ -171,4 +184,5 @@ void client_beer_bomber(Game *game)
 		delay(frameLimit);
 		frameLimit = SDL_GetTicks() + 16;
 	}
+	send_deco(sock);
 }

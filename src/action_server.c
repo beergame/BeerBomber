@@ -12,19 +12,19 @@ void do_player_move(t_env *e, t_request *req)
 		int x = e->players[req->player_nb]->x;
 		int y = e->players[req->player_nb]->y;
 		if (req->dir) {
-			if (req->dir == 1 && y > 1 && (e->map[x][y - 1].data[1] != '1') &&
+			if (req->dir == 1 && y > 1 && (e->map[x][y - 1].data[0] != '1') &&
 				(e->map[x][y - 1].data[3] != '1'))
 				player_move(e, req, x, y - 1);
 			else if (req->dir == 2 && y < MAP_SIZE - 2 &&
-					 (e->map[x][y + 1].data[1] != '1') &&
+					 (e->map[x][y + 1].data[0] != '1') &&
 					 (e->map[x][y + 1].data[3] != '1'))
 				player_move(e, req, x, y + 1);
 			else if (req->dir == 3 && x > 1 &&
-					 (e->map[x - 1][y].data[1] != '1') &&
+					 (e->map[x - 1][y].data[0] != '1') &&
 					 (e->map[x - 1][y].data[3] != '1'))
 				player_move(e, req, x - 1, y);
 			else if (req->dir == 4 && x < MAP_SIZE - 2 &&
-					 (e->map[x + 1][y].data[1] != '1') &&
+					 (e->map[x + 1][y].data[0] != '1') &&
 					 (e->map[x + 1][y].data[3] != '1'))
 				player_move(e, req, x + 1, y);
 		}
@@ -65,51 +65,52 @@ void do_player_throw_bomb(t_env *e, t_request *r)
 	}
 }
 
-void bomb_explose(t_env *e, t_timer *t)
+void fire_action(t_env *e, t_timer *t, char c)
 {
-//	t_player *p = e->players[t->player_nb];
-	for (int i = t->x; i < t->x + 3; i++) {
-		if (e->map[i][t->y].data[1] == '1' &&
-			e->map[i][t->y].data[0] == '1')
-			break;
-		e->map[i][t->y].data[4] = '1';
+	for (int i = t->x; i < (t->x + 1); i++) {
+		if (e->map[i][t->y].data[0] == '1' &&
+			e->map[i][t->y].data[1] == '1') {
+			break ;
+		}
+		e->map[i][t->y].data[4] = c;
 	}
-
-	for (int i = t->x - 1; i > t->x - 3; i--) {
-		if (e->map[i][t->y].data[1] == '1' &&
-			e->map[i][t->y].data[0] == '1')
-			break;
-		e->map[i][t->y].data[4] = '1';
+	for (int i = t->x - 1; i > (t->x - 3); i--) {
+		if (e->map[i][t->y].data[0] == '1' &&
+			e->map[i][t->y].data[1] == '1') {
+			break ;
+		}
+		e->map[i][t->y].data[4] = c;
 	}
-
-	for (int i = t->y + 1; i < t->y + 3; i++) {
-		if (e->map[t->x][i].data[1] == '1' &&
-			e->map[t->x][i].data[0] == '1')
-			break;
-		e->map[t->x][i].data[4] = '1';
+	for (int i = t->y + 1; i < (t->y + 3); i++) {
+		if (e->map[t->x][i].data[0] == '1' &&
+			e->map[t->x][i].data[1] == '1') {
+			break ;
+		}
+		e->map[t->x][i].data[4] = c;
 	}
-
-	for (int i = t->y - 1; i > t->y - 3; i--) {
-		if (e->map[t->x][i].data[1] == '1' &&
-			e->map[t->x][i].data[0] == '1')
-			break;
-		e->map[t->x][i].data[4] = '1';
+	for (int i = t->y - 1; i > (t->y - 3); i--) {
+		if (e->map[t->x][i].data[0] == '1' &&
+			e->map[t->x][i].data[1] == '1') {
+			break ;
+		}
+		e->map[t->x][i].data[4] = c;
 	}
-	t->status = 1;
+	t->status++;
 	t->start = clock();
 }
 
-void do_timing_entity(t_env *e, t_timer **t)
+void do_timing_entity(t_env *e)
 {
 	int i = 0;
 	clock_t now = clock();
 
-	while (t[i] != NULL) {
-		if (t[i]->status == 0 && (now - t[i]->start) > 300) {
-			bomb_explose(e, t[i]);
+	while (e->timers[i] != NULL) {
+		if (e->timers[i]->status == 1 && (now - e->timers[i]->start) > 500) {
+			fire_action(e, e->timers[i], '0');
 		}
-		if (t[i]->status == 1 && (now - t[i]->start) > 100) {
-//			clean_fire(e, t);
+		if (e->timers[i]->status == 0 && (now - e->timers[i]->start) > 500) {
+			e->map[e->timers[i]->x][e->timers[i]->y].data[3] = '0';
+			fire_action(e, e->timers[i], '1');
 		}
 		i++;
 	}
