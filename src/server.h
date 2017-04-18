@@ -9,6 +9,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <pthread.h>
+# include <time.h>
 
 # define FD_FREE 0
 # define FD_CLIENT 1
@@ -51,6 +52,15 @@ typedef struct	s_info
 	int			winner_player;
 }				t_info;
 
+typedef struct	s_timer
+{
+	int			x;
+	int			y;
+	int			status;
+	int			player_nb;
+	clock_t		start;
+}				t_timer;
+
 typedef struct	s_env
 {
 	int			port;
@@ -60,9 +70,10 @@ typedef struct	s_env
 	t_player	**players;
 	t_map		**map;
 	t_info		infos;
+	t_timer		**timers;
 }				t_env;
 
-typedef struct  s_request
+typedef struct	s_request
 {
 	int			player_nb;
 	int			dir;
@@ -70,7 +81,7 @@ typedef struct  s_request
 	int			ckecksum;
 }				t_request;
 
-typedef struct s_response
+typedef struct	s_response
 {
 	t_player	**players;
 	t_map		**map;

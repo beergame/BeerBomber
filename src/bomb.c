@@ -35,6 +35,7 @@ void bombExplode(MapCase **map, int x, int y)
 	}
 }
 
+
 void bombCounter(MapCase **map, Entity *bomb)
 {
 	bomb->life--;
