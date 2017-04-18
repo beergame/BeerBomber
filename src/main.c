@@ -2,7 +2,7 @@
 
 int main(void)
 {
-	pthread_t server = NULL;
+	pthread_t server;
 
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int config = 0;
