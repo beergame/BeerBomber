@@ -3,7 +3,7 @@
 
 # include "structs.h"
 
-void drawImage(Game *, SDL_Texture *, int, int);
+void drawImage(t_game *, SDL_Texture *, int, int);
 
 #endif /* ENTITY_H */
 

@@ -130,23 +130,21 @@ int my_client(int s, t_response *tmp)
 	return (r);
 }
 
-void client_beer_bomber(Game *game)
+void client_beer_bomber(t_game *game)
 {
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go = 0;
 	t_response *tmp = malloc(sizeof(t_response));
 	tmp->players = malloc(MAX_PLAYER * sizeof(t_player *));
 	tmp->players[0] = malloc(sizeof(t_player));
-	tmp->map = load_server_map();
 	tmp->infos.game_status = 0;
 	tmp->infos.nb_players = 1;
 	tmp->infos.winner_player = 0;
 
-	game->map = loadMap();
-	Entity *player1 = initPlayer(game->map, 1, 1);
+	game->map = load_server_map();
 
-	redefine.redefineIndex = 0;
-	redefine.redefineString[0] = '\0';
+	redefine.i = 0;
+	redefine.buffer[0] = '\0';
 	game->input->down = 0;
 	game->input->up = 0;
 	game->input->right = 0;
@@ -168,15 +166,15 @@ void client_beer_bomber(Game *game)
 			SDL_Delay(100);
 			printf("client: ammo: %i\n", tmp->players[0]->ammo);
 			/* Update the player's position and bomb throwing */
-			if (player1 != NULL && player1->life > 0) {
-				game->score = player1->life;
-				playerMove(game, game->map, player1);
-				playerThrowBomb(game, game->map, player1);
-			} else {
-				player1 = initPlayer(game->map, 1, 1);
-			}
+//			if (player1 != NULL && player1->life > 0) {
+//				game->score = player1->life;
+//				playerMove(game, game->map, player1);
+//				playerThrowBomb(game, game->map, player1);
+//			} else {
+//				player1 = initPlayer(game->map, 1, 1);
+//			}
 			/* Call entities's actions (bomb / fire)*/
-			entitiesActions(game->map);
+//			entitiesActions(game->map);
 			/* Draw everything */
 			draw(game);
 		}

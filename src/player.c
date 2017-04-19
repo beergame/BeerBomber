@@ -1,8 +1,8 @@
 #include "player.h"
 
-Entity *initPlayer(MapCase **map, int x, int y)
+t_entity *initPlayer(t_map_case **map, int x, int y)
 {
-	Entity *player = malloc(sizeof(Entity));
+	t_entity *player = malloc(sizeof(t_entity));
 	player->x = x;
 	player->y = y;
 	player->speed = PLAYER_SPEED;
@@ -16,7 +16,7 @@ Entity *initPlayer(MapCase **map, int x, int y)
 	return (player);
 }
 
-void playerMoveOn(MapCase **map, Entity *player,
+void playerMoveOn(t_map_case **map, t_entity *player,
 				  int x, int y, SDL_Texture *sprite)
 {
 	map[x][y].player = player;
@@ -27,7 +27,7 @@ void playerMoveOn(MapCase **map, Entity *player,
 	map[x][y].player->sprite = sprite;
 }
 
-void playerMove(Game *game, MapCase **map, Entity *player)
+void playerMove(t_game *game, t_map_case **map, t_entity *player)
 {
 	int x = player->x;
 	int y = player->y;
@@ -52,7 +52,7 @@ void playerMove(Game *game, MapCase **map, Entity *player)
 	}
 }
 
-void playerThrowBomb(Game *game, MapCase **map, Entity *player)
+void playerThrowBomb(t_game *game, t_map_case **map, t_entity *player)
 {
 	player->reload--;
 	if (game->input->fire == 1 && player->ammo > 0 &&

@@ -23,7 +23,7 @@ void closeFont(TTF_Font *font)
 		TTF_CloseFont(font);
 }
 
-void drawString(Game *game, char *text, int x, int y, TTF_Font *font, int centerX, int centerY)
+void drawString(t_game *game, char *text, int x, int y, TTF_Font *font, int centerX, int centerY)
 {
 	SDL_Rect dest;
 	SDL_Surface *surface;

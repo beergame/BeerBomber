@@ -3,38 +3,38 @@
 
 # include "structs.h"
 
-Sprite sprite[MAX_SPRITES];
-Redefine redefine;
+//t_sprite sprite[MAX_SPRITES];
+t_redefine redefine;
 
-void initBeerBomber(Game *);
+void initBeerBomber(t_game *);
 
-void cleanup(Game *);
+void cleanup(t_game *);
 
-int is_new_game(Game *);
+int is_new_game(t_game *);
 
-int getInput(Game *);
+int getInput(t_game *);
 
-void draw(Game *);
+void draw(t_game *);
 
-Entity *initPlayer(MapCase **, int, int);
+t_entity *initPlayer(t_map_case **, int, int);
 
-void playerMove(Game *, MapCase **, Entity *);
+void playerMove(t_game *, t_map_case **, t_entity *);
 
-void playerThrowBomb(Game *, MapCase **, Entity *);
+void playerThrowBomb(t_game *, t_map_case **, t_entity *);
 
-void entitiesActions(MapCase **);
+void entitiesActions(t_map_case **);
 
-void loadAllSprites(Game *);
+void loadAllSprites(t_game *);
 
 TTF_Font *loadFont(char *, int);
 
 void delay(unsigned int);
 
-int doRedefine(Game *);
+int doRedefine(t_game *);
 
-MapCase **loadMap();
+t_map_case **load_map();
 
-void client_beer_bomber(Game *);
+void client_beer_bomber(t_game *);
 
 void *server_beer_bomber();
 

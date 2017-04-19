@@ -1,23 +1,22 @@
 #include "map.h"
 
-MapCase **loadMap()
+t_map_case **load_map()
 {
-	MapCase **tmp;
+	t_map_case **tmp;
 
-	Entity *block = malloc(sizeof(Entity));
+	t_entity *block = malloc(sizeof(t_entity));
 	block->sprite = getSprite(MAP_SPRITE_BLOCK);
 	block->draw = &drawImage;
 	block->type = TYPE_BLOCK;
 	block->life = 1;
-	Entity *bush = addBush();
+	t_entity *bush = addBush();
 
-	if (!(tmp = malloc(MAP_SIZE * sizeof(MapCase *))))
+	if (!(tmp = malloc(MAP_SIZE * sizeof(t_map_case *))))
 		return (NULL);
 	for (int i = 0; i < MAP_SIZE; i++) {
-		if (!(tmp[i] = malloc(MAP_SIZE * sizeof(MapCase))))
+		if (!(tmp[i] = malloc(MAP_SIZE * sizeof(t_map_case))))
 			return (NULL);
 		for (int j = 0; j < MAP_SIZE; j++) {
-			tmp[i][j].sprite = getSprite(MAP_SPRITE_BASE);
 			tmp[i][j].player = NULL;
 			tmp[i][j].bomb = NULL;
 			tmp[i][j].block = NULL;
@@ -35,7 +34,7 @@ MapCase **loadMap()
 	return tmp;
 }
 
-void freeMap(MapCase **map)
+void free_map(t_map_case **map)
 {
 	for (int i = 0; i < MAP_SIZE; i++) {
 		free(map[i]);
@@ -45,11 +44,30 @@ void freeMap(MapCase **map)
 	map = NULL;
 }
 
-void drawMap(Game *game, MapCase **map)
+void draw_map_base(t_game *game)
 {
 	for (int i = 0; i < MAP_SIZE; i++) {
 		for (int j = 0; j < MAP_SIZE; j++) {
-			drawImage(game, map[i][j].sprite, i, j);
+			drawImage(game, getSprite(MAP_SPRITE_BASE), i, j);
+		}
+	}
+}
+
+void draw_map_entity(t_game *game)
+{
+	for (int i = 0; i < MAP_SIZE; ++i) {
+		for (int j = 0; j < MAP_SIZE; ++j) {
+			if (game->map[i][j].data[0] == '0' &&
+				 game->map[i][j].data[1] == '1') {
+				drawImage(game, getSprite(MAP_SPRITE_BUSH), i, j);
+			} else if (game->map[i][j].data[0] == '1') {
+				drawImage(game, getSprite(MAP_SPRITE_BLOCK), i, j);
+			}
+			if (game->map[i][j].data[3] == '1') {
+				drawImage(game, getSprite(BOMB_SPRITE), i, j);
+			} else if (game->map[i][j].data[4] == '1') {
+				drawImage(game, getSprite(MAP_SPRITE_FIRE), i, j);
+			}
 		}
 	}
 }

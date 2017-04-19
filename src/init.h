@@ -5,7 +5,7 @@
 
 void freeSprites(void);
 
-void freeMap(MapCase **);
+void free_map(t_map_case **);
 
 void closeFont(TTF_Font *);
 

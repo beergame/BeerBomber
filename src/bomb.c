@@ -1,6 +1,6 @@
 #include "bomb.h"
 
-void bombExplode(MapCase **map, int x, int y)
+void bombExplode(t_map_case **map, int x, int y)
 {
 	for (int i = x; i < x + 3; i++) {
 		if (map[i][y].block != NULL &&
@@ -36,7 +36,7 @@ void bombExplode(MapCase **map, int x, int y)
 }
 
 
-void bombCounter(MapCase **map, Entity *bomb)
+void bombCounter(t_map_case **map, t_entity *bomb)
 {
 	bomb->life--;
 
@@ -50,9 +50,9 @@ void bombCounter(MapCase **map, Entity *bomb)
 	}
 }
 
-Entity *addBomb(MapCase **map, int x, int y)
+t_entity *addBomb(t_map_case **map, int x, int y)
 {
-	Entity *bomb = (Entity *) malloc(sizeof(Entity));
+	t_entity *bomb = (t_entity *) malloc(sizeof(t_entity));
 
 	bomb->x = x;
 	bomb->y = y;

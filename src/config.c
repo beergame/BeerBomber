@@ -1,6 +1,6 @@
 #include "config.h"
 
-int is_new_game(Game *game)
+int is_new_game(t_game *game)
 {
 	if (game->input->left == 1) {
 		game->btn--;
@@ -16,7 +16,7 @@ int is_new_game(Game *game)
 	return (0);
 }
 
-void drawConfig(Game *game)
+void drawConfig(t_game *game)
 {
 	/* Blank the screen */
 	SDL_RenderClear(game->renderer);

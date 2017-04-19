@@ -3,10 +3,10 @@
 
 # include "defs.h"
 
-struct				MapCase;
-struct				Game;
+struct				s_map_case;
+struct				s_game;
 
-typedef struct		Entity
+typedef struct		s_entity
 {
 	int				type;
 	int				speed;
@@ -17,58 +17,62 @@ typedef struct		Entity
 	int				reload;
 	SDL_Texture		*sprite;
 
-	void			(*action)(struct MapCase **, struct Entity *);
+	void			(*action)(struct s_map_case **, struct s_entity *);
 
-	void			(*draw)(struct Game *, SDL_Texture *, int, int);
-} Entity;
+	void			(*draw)(struct s_game *, SDL_Texture *, int, int);
+}					t_entity;
 
-typedef struct		MapCase
+//typedef struct		s_map_case
+//{
+//	t_entity		*player;
+//	t_entity		*bomb;
+//	t_entity		*block;
+//	t_entity		*fire;
+//}					t_map_case;
+
+typedef struct		s_map
 {
-	SDL_Texture		*sprite;
-	Entity			*player;
-	Entity			*bomb;
-	Entity			*block;
-	Entity			*fire;
-} MapCase;
+	char			*data;
+}					t_map;
 
-typedef struct		Control
+typedef struct		s_control
 {
 	int				up;
 	int				down;
 	int				left;
 	int				right;
 	int				fire;
-}					Control;
+}					t_control;
 
-typedef struct		Game
+typedef struct		s_game
 {
 	int				score;
 	int				status;
 	int				btn;
-	MapCase			**map;
-	Control			*customControl;
-	Control			*input;
+	t_map			**map;
+	t_control		*control;
+	t_control		*input;
 	SDL_Window		*screen;
 	SDL_Renderer	*renderer;
 	TTF_Font		*font;
 	SDL_Joystick	*joystick;
-}					Game;
+}					t_game;
 
-typedef struct		Sprite
+typedef struct		s_sprite
 {
 	SDL_Texture		*image;
-}					Sprite;
+}					t_sprite;
 
 typedef struct		Sound
 {
 	Mix_Chunk		*effect;
 }					Sound;
 
-typedef struct		Redefine
+typedef struct		s_redefine
 {
-	int				redefineIndex;
-	char			redefineString[255];
-}					Redefine;
+	int				i;
+	char			buffer[255];
+}					t_redefine;
 
 typedef struct		s_request
 {
@@ -91,11 +95,6 @@ typedef struct	s_player
 	int			reload;
 	int			frags;
 }				t_player;
-
-typedef struct	s_map
-{
-	char		*data;
-}				t_map;
 
 typedef struct	s_info
 {

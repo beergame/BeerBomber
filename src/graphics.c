@@ -1,6 +1,6 @@
 #include "graphics.h"
 
-SDL_Texture *loadImage(Game *game, char *path)
+SDL_Texture *loadImage(t_game *game, char *path)
 {
 	/* Load the image using SDL Image */
 
@@ -16,7 +16,7 @@ SDL_Texture *loadImage(Game *game, char *path)
 	return texture;
 }
 
-void drawImage(Game *game, SDL_Texture *image, int x, int y)
+void drawImage(t_game *game, SDL_Texture *image, int x, int y)
 {
 	int w;
 	int h;
@@ -41,7 +41,7 @@ void drawImage(Game *game, SDL_Texture *image, int x, int y)
 	SDL_RenderCopy(game->renderer, image, NULL, &dest);
 }
 
-void loadSprite(Game *game, int index, char *path)
+void loadSprite(t_game *game, int index, char *path)
 {
 	/* Load the image into the next slot in the sprite bank */
 
@@ -80,7 +80,7 @@ void freeSprites()
 	}
 }
 
-void loadPlayerTexture(Game *game, char *path, int index)
+void loadPlayerTexture(t_game *game, char *path, int index)
 {
 	SDL_Texture *clip[4][7];
 	SDL_Surface *surf = IMG_Load(path);
@@ -117,7 +117,7 @@ void loadPlayerTexture(Game *game, char *path, int index)
 	SDL_DestroyTexture(texture);
 }
 
-void loadAllSprites(Game *game)
+void loadAllSprites(t_game *game)
 {
 	loadPlayerTexture(game, "gfx/players/one.png", PLAYER_ONE_UP);
 	loadPlayerTexture(game, "gfx/players/two.png", PLAYER_TWO_UP);
@@ -141,7 +141,7 @@ void loadAllSprites(Game *game)
 	loadSprite(game, BTN_JOINGAME_B, "gfx/btn/joingame_b.png");
 }
 
-void drawBackground(Game *game, int index)
+void drawBackground(t_game *game, int index)
 {
 	SDL_Rect pos;
 	pos.x = 0;
@@ -151,7 +151,7 @@ void drawBackground(Game *game, int index)
 	SDL_RenderCopy(game->renderer, getSprite(index), NULL, &pos);
 }
 
-void drawBtn(Game *game, int x, int y, int index)
+void drawBtn(t_game *game, int x, int y, int index)
 {
 	SDL_Rect pos;
 	int w;

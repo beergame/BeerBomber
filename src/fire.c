@@ -1,6 +1,6 @@
 #include "fire.h"
 
-void fireCounter(MapCase **map, Entity *fire)
+void fireCounter(t_map_case **map, t_entity *fire)
 {
 	fire->life--;
 
@@ -16,9 +16,9 @@ void fireCounter(MapCase **map, Entity *fire)
 		map[fire->x][fire->y].block = NULL;
 }
 
-Entity *addFire(MapCase **map, int x, int y)
+t_entity *addFire(t_map_case **map, int x, int y)
 {
-	Entity *fire = malloc(sizeof(Entity));
+	t_entity *fire = malloc(sizeof(t_entity));
 
 	fire->x = x;
 	fire->y = y;

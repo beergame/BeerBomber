@@ -1,6 +1,6 @@
 #include "entity.h"
 
-void freeDeadEntities(MapCase **map)
+void freeDeadEntities(t_map_case **map)
 {
 	/* Loop through all the entities and free dead ones */
 
@@ -22,7 +22,7 @@ void freeDeadEntities(MapCase **map)
 	}
 }
 
-void entitiesActions(MapCase **map)
+void entitiesActions(t_map_case **map)
 {
 	/* Loop through all the entities and perform their action */
 
@@ -37,7 +37,7 @@ void entitiesActions(MapCase **map)
 	freeDeadEntities(map);
 }
 
-void drawEntities(Game *game, MapCase **map)
+void drawEntities(t_game *game, t_map_case **map)
 {
 	/* Loop through the entities and call their draw action */
 

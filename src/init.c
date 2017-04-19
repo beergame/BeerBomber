@@ -1,6 +1,6 @@
 #include "init.h"
 
-void initBeerBomber(Game *game)
+void initBeerBomber(t_game *game)
 {
 	int joystickCount, buttonCount;
 
@@ -73,12 +73,12 @@ void initBeerBomber(Game *game)
 	}
 }
 
-void cleanup(Game *game)
+void cleanup(t_game *game)
 {
 	/* Free the sprites and map */
 
 	freeSprites();
-	freeMap(game->map);
+	free_map(game->map);
 
 	/* Close the font */
 

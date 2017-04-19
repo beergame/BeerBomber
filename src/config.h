@@ -7,14 +7,14 @@ void flushInputs(void);
 
 int getSingleInput(void);
 
-void drawString(Game*, char *, int, int, TTF_Font *, int, int);
+void drawString(t_game*, char *, int, int, TTF_Font *, int, int);
 
-void drawRedefine(Game *);
+void drawRedefine(t_game *);
 
-void drawBackground(Game *, int);
+void drawBackground(t_game *, int);
 
-void drawConfig(Game *);
+void drawConfig(t_game *);
 
-void drawBtn(Game *, int, int, int);
+void drawBtn(t_game *, int, int, int);
 
 #endif /* __CONFIG_H__ */

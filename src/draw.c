@@ -1,6 +1,6 @@
 #include "draw.h"
 
-void draw(Game *game)
+void draw(t_game *game)
 {
 	char text[20];
 
@@ -20,7 +20,7 @@ void draw(Game *game)
 
 	/* Draw the map */
 
-	drawMap(game, game->map);
+	draw_map(game);
 
 	/* Draw the entities */
 

@@ -1,8 +1,8 @@
 #include "bush.h"
 
-Entity *addBush()
+t_entity *addBush()
 {
-	Entity *bush = malloc(sizeof(Entity));
+	t_entity *bush = malloc(sizeof(t_entity));
 	bush->sprite = getSprite(MAP_SPRITE_BUSH);
 	bush->draw = &drawImage;
 	bush->type = TYPE_BUSH;

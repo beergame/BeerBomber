@@ -7,16 +7,16 @@ int main(void)
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int config = 0;
 	int go = 0;
-	Game *game = malloc(sizeof(Game));
+	t_game *game = malloc(sizeof(t_game));
 
 	initBeerBomber(game);
 	loadAllSprites(game);
 
-	redefine.redefineIndex = 0;
-	redefine.redefineString[0] = '\0';
+	redefine.i = 0;
+	redefine.buffer[0] = '\0';
 
-	game->input = malloc(sizeof(Control));
-	game->customControl = malloc(sizeof(Control));
+	game->input = malloc(sizeof(t_control));
+	game->control = malloc(sizeof(t_control));
 	game->input->down = 0;
 	game->input->up = 0;
 	game->input->right = 0;
