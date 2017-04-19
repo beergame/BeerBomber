@@ -12,7 +12,7 @@ int getInput(t_game *game)
 
 			/* Closing the Window will exit the program */
 			case SDL_QUIT:
-				game->status = GAME_END;
+				game->info->status = GAME_END;
 				return (1);
 
 			case SDL_KEYDOWN:
@@ -28,7 +28,7 @@ int getInput(t_game *game)
 				else if (key == game->control->fire)
 					game->input->fire = 1;
 				else if (key == SDLK_ESCAPE)
-					game->status = IN_REDEFINE;
+					game->info->status = IN_REDEFINE;
 				break;
 
 			case SDL_KEYUP:
@@ -104,13 +104,13 @@ int getInput(t_game *game)
 	return (0);
 }
 
-void flushInputs()
+void flush_inputs()
 {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {}
 }
 
-int getSingleInput()
+int get_single_input()
 {
 	int key;
 	SDL_Event event;

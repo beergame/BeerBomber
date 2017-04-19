@@ -29,16 +29,16 @@
 
 typedef struct	s_player
 {
-	int			fd;
-	int			type;
-	int			connected;
-	int			speed;
 	int			x;
 	int			y;
+	int			fd;
+	int			type;
 	int			life;
 	int			ammo;
-	int			reload;
+	int			speed;
 	int			frags;
+	int			reload;
+	int			connected;
 }				t_player;
 
 typedef struct	s_map
@@ -48,35 +48,35 @@ typedef struct	s_map
 
 typedef struct	s_info
 {
-	int			game_status;
-	int			nb_players;
-	int			winner_player;
+	int			status;
+	int			winner;
+	int			playermax;
 }				t_info;
 
 typedef struct	s_timer
 {
 	int			x;
 	int			y;
-	int			status;
-	int			player_nb;
+	int			nb;
 	clock_t		start;
+	int			status;
 }				t_timer;
 
 typedef struct	s_env
 {
 	int			port;
-	fd_set		fd_write;
-	fd_set		fd_read;
 	int			fd_max;
-	t_player	**players;
+	fd_set		fd_read;
+	fd_set		fd_write;
 	t_map		**map;
-	t_info		infos;
-	t_timer		**timers;
+	t_info		*info;
+	t_timer		**timer;
+	t_player	**player;
 }				t_env;
 
 typedef struct	s_request
 {
-	int			player_nb;
+	int			nb;
 	int			dir;
 	int			fire;
 	int			ckecksum;
@@ -84,9 +84,9 @@ typedef struct	s_request
 
 typedef struct	s_response
 {
-	t_player	**players;
 	t_map		**map;
-	t_info		infos;
+	t_info		*info;
+	t_player	**player;
 }				t_response;
 
 t_map			**load_server_map();

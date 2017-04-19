@@ -1,6 +1,6 @@
 #include "client.h"
 
-int my_connect()
+int client_connect()
 {
 	struct protoent *pe;
 	struct sockaddr_in sin;
@@ -23,12 +23,12 @@ int my_connect()
 }
 
 
-int serialize_request(t_request *req, int sock)
+int send_serialize_request(t_request *req, int sock)
 {
 	char request[BUFF_SIZE] = "";
 	char buff[3];
 
-	sprintf(buff, "%i:", req->player_nb);
+	sprintf(buff, "%i:", req->nb);
 	strcat(request, buff);
 	sprintf(buff, "%i:", req->dir);
 	strcat(request, buff);
@@ -47,66 +47,76 @@ int serialize_request(t_request *req, int sock)
 	return (0);
 }
 
-int send_deco(int sock)
+int send_deco(int s)
 {
 	t_request req;
-	req.fire = 0;
+	req.nb = 1;
 	req.dir = 0;
-	req.player_nb = 1;
+	req.fire = 0;
 	req.ckecksum = 1;
+	send_serialize_request(&req, s);
 
-	serialize_request(&req, sock);
 	return (0);
 }
 
-int send_request(int sock)
+int send_request(int s, t_game *g)
 {
 	t_request req;
-	req.fire = 1;
-	req.dir = 0;
-	req.player_nb = 1;
+	req.nb = 1;
 	req.ckecksum = 0;
 
-	serialize_request(&req, sock);
+	if (g->input->up) {
+		req.dir = 1;
+	} else if (g->input->down) {
+		req.dir = 2;
+	} else if (g->input->left) {
+		req.dir = 3;
+	} else if (g->input->right) {
+		req.dir = 4;
+	}
+	if (g->input->fire) {
+		req.fire = 1;
+	}
+	send_serialize_request(&req, s);
+
 	return (0);
 }
 
-void unserialize_response(char *buffer, t_response *tmp)
+void unserialize_response(char *buffer, t_game *g)
 {
 	char **response;
 	char **buff;
 	char **buff2;
 
-//	printf("client: buffer response server size: %s\n\n", buffer);
 	response = my_str_to_wordtab(buffer, ' ');
 	buff = my_str_to_wordtab(response[0], ':');
-	tmp->infos.game_status = atoi(buff[0]);
-	tmp->infos.nb_players = atoi(buff[1]);
-	tmp->infos.winner_player = atoi(buff[2]);
+	g->info->status = atoi(buff[0]);
+	g->info->playermax = atoi(buff[1]);
+	g->info->winner = atoi(buff[2]);
 
 	buff = my_str_to_wordtab(response[1], ';');
-	for (int i = 0; i < tmp->infos.nb_players; i++) {
+	for (int i = 0; i < g->info->playermax; i++) {
 		buff2 = my_str_to_wordtab(buff[i], ':');
-		tmp->players[i]->x = atoi(buff2[0]);
-		tmp->players[i]->y = atoi(buff2[1]);
-		tmp->players[i]->ammo = atoi(buff2[2]);
-		tmp->players[i]->reload = atoi(buff2[3]);
-		tmp->players[i]->frags = atoi(buff2[4]);
-		tmp->players[i]->connected = atoi(buff2[5]);
-		tmp->players[i]->life = atoi(buff2[6]);
-		tmp->players[i]->speed = atoi(buff2[7]);
+		g->player[i]->x = atoi(buff2[0]);
+		g->player[i]->y = atoi(buff2[1]);
+		g->player[i]->ammo = atoi(buff2[2]);
+		g->player[i]->reload = atoi(buff2[3]);
+		g->player[i]->frags = atoi(buff2[4]);
+		g->player[i]->connected = atoi(buff2[5]);
+		g->player[i]->life = atoi(buff2[6]);
+		g->player[i]->speed = atoi(buff2[7]);
 	}
 
 	buff = my_str_to_wordtab(response[2], ';');
 	for (int i = 0; i < MAP_SIZE; ++i) {
 		buff2 = my_str_to_wordtab(buff[i], ':');
 		for (int j = 0; j < MAP_SIZE; ++j) {
-			tmp->map[i][j].data = buff2[j];
+			g->map[i][j].data = buff2[j];
 		}
 	}
 }
 
-int get_response(int sock, t_response *tmp)
+int get_response(int sock, t_game *g)
 {
 	char buffer[BUFF_SIZE];
 
@@ -114,73 +124,38 @@ int get_response(int sock, t_response *tmp)
 		puts("recv failed");
 		return (1);
 	}
-	unserialize_response(buffer, tmp);
+	unserialize_response(buffer, g);
 
 	return (0);
-}
-
-// TODO A REVOIR !!
-int my_client(int s, t_response *tmp)
-{
-	int r = 0;
-	printf("client: send request\n");
-	r = send_request(s);
-	r = get_response(s, tmp);
-
-	return (r);
 }
 
 void client_beer_bomber(t_game *game)
 {
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go = 0;
-	t_response *tmp = malloc(sizeof(t_response));
-	tmp->players = malloc(MAX_PLAYER * sizeof(t_player *));
-	tmp->players[0] = malloc(sizeof(t_player));
-	tmp->infos.game_status = 0;
-	tmp->infos.nb_players = 1;
-	tmp->infos.winner_player = 0;
+	init_client(game);
 
-	game->map = load_server_map();
-
-	redefine.i = 0;
-	redefine.buffer[0] = '\0';
-	game->input->down = 0;
-	game->input->up = 0;
-	game->input->right = 0;
-	game->input->left = 0;
-	game->input->fire = 0;
-
-	int sock = my_connect();
+	/* server fd */
+	int server = client_connect();
 	SDL_Delay(100);
-	my_client(sock, tmp);
-	printf("test client 1\n");
+	send_request(server, game);
+	SDL_Delay(200);
+	get_response(server, game);
+
 	while (!go) {
-		if (game->status == IN_REDEFINE) {
+		if (game->info->status == IN_REDEFINE) {
 			/* Handle the key redefining */
-			go = doRedefine(game);
-		} else if (game->status == IN_GAME ||
-				game->status == IN_CONFIG) {
+			go = do_redefine(game);
+		} else if (game->info->status == IN_GAME ||
+				game->info->status == IN_CONFIG) {
 			go = getInput(game);
-			my_client(sock, tmp);
-			SDL_Delay(100);
-			printf("client: ammo: %i\n", tmp->players[0]->ammo);
-			/* Update the player's position and bomb throwing */
-//			if (player1 != NULL && player1->life > 0) {
-//				game->score = player1->life;
-//				playerMove(game, game->map, player1);
-//				playerThrowBomb(game, game->map, player1);
-//			} else {
-//				player1 = initPlayer(game->map, 1, 1);
-//			}
-			/* Call entities's actions (bomb / fire)*/
-//			entitiesActions(game->map);
-			/* Draw everything */
+
+			send_request(server, game);
+
 			draw(game);
 		}
-		/* Sleep briefly to stop sucking up all the CPU time */
 		delay(frameLimit);
 		frameLimit = SDL_GetTicks() + 16;
 	}
-	send_deco(sock);
+	send_deco(server);
 }

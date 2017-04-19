@@ -3,17 +3,15 @@
 
 # include "structs.h"
 
-void flushInputs(void);
+void flush_inputs(void);
 
-int getSingleInput(void);
+int get_single_input(void);
 
 void drawString(t_game*, char *, int, int, TTF_Font *, int, int);
 
-void drawRedefine(t_game *);
+void draw_background(t_game *, int);
 
-void drawBackground(t_game *, int);
-
-void drawConfig(t_game *);
+void draw_config(t_game *, int);
 
 void drawBtn(t_game *, int, int, int);
 

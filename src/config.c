@@ -1,30 +1,30 @@
 #include "config.h"
 
-int is_new_game(t_game *game)
+int is_new_game(t_game *game, int *c)
 {
 	if (game->input->left == 1) {
-		game->btn--;
+		c--;
 	} else if (game->input->right == 1) {
-		game->btn++;
+		c++;
 	} else if (game->input->fire == 1) {
-		return (game->btn);
+		return (*c);
 	}
-	(game->btn < 2) ? game->btn = 2: 0;
-	(game->btn > 3) ? game->btn = 3: 0;
-	drawConfig(game);
+	(*c < 2) ? *c = 2: 0;
+	(*c > 3) ? *c = 3: 0;
+	draw_config(game, *c);
 
 	return (0);
 }
 
-void drawConfig(t_game *game)
+void draw_config(t_game *game, int c)
 {
 	/* Blank the screen */
 	SDL_RenderClear(game->renderer);
 
 	/* Draw background */
-	drawBackground(game, MAP_BACK_ONE);
+	draw_background(game, MAP_BACK_ONE);
 
-	if (game->btn == 2) {
+	if (c == 2) {
 		drawBtn(game, 300, 380, BTN_NEWGAME);
 		drawBtn(game, 800, 380, BTN_JOINGAME_B);
 	} else {

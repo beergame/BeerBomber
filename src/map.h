@@ -7,6 +7,4 @@ void drawImage(t_game *, SDL_Texture *, int, int);
 
 SDL_Texture *getSprite(int);
 
-t_entity *addBush();
-
 #endif /* MAP_H */

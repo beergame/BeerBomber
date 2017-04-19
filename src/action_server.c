@@ -2,15 +2,15 @@
 
 void player_move(t_env *e, t_request *req, int x, int y)
 {
-	e->players[req->player_nb]->x = x;
-	e->players[req->player_nb]->y = y;
+	e->player[req->nb]->x = x;
+	e->player[req->nb]->y = y;
 }
 
 void do_player_move(t_env *e, t_request *req)
 {
-	if (e->players[req->player_nb] != NULL) {
-		int x = e->players[req->player_nb]->x;
-		int y = e->players[req->player_nb]->y;
+	if (e->player[req->nb] != NULL) {
+		int x = e->player[req->nb]->x;
+		int y = e->player[req->nb]->y;
 		if (req->dir) {
 			if (req->dir == 1 && y > 1 && (e->map[x][y - 1].data[0] != '1') &&
 				(e->map[x][y - 1].data[3] != '1'))
@@ -41,16 +41,16 @@ void throw_bomb(t_env *e, t_player *p)
 	t->y = p->y;
 	t->status = 0;
 	t->start = now;
-	t->player_nb = p->fd;
+	t->nb = p->fd;
 	e->map[p->x][p->y].data[3] = '1';
 
-	while (e->timers[++i] != NULL);
-	e->timers[i] = t;
+	while (e->timer[++i] != NULL);
+	e->timer[i] = t;
 }
 
 void do_player_throw_bomb(t_env *e, t_request *r)
 {
-	t_player *p = e->players[r->player_nb];
+	t_player *p = e->player[r->nb];
 	p->reload--;
 	if (p->reload < 0) {
 		p->reload = 0;
@@ -104,13 +104,13 @@ void do_timing_entity(t_env *e)
 	int i = 0;
 	clock_t now = clock();
 
-	while (e->timers[i] != NULL) {
-		if (e->timers[i]->status == 1 && (now - e->timers[i]->start) > 500) {
-			fire_action(e, e->timers[i], '0');
+	while (e->timer[i] != NULL) {
+		if (e->timer[i]->status == 1 && (now - e->timer[i]->start) > 500) {
+			fire_action(e, e->timer[i], '0');
 		}
-		if (e->timers[i]->status == 0 && (now - e->timers[i]->start) > 500) {
-			e->map[e->timers[i]->x][e->timers[i]->y].data[3] = '0';
-			fire_action(e, e->timers[i], '1');
+		if (e->timer[i]->status == 0 && (now - e->timer[i]->start) > 500) {
+			e->map[e->timer[i]->x][e->timer[i]->y].data[3] = '0';
+			fire_action(e, e->timer[i], '1');
 		}
 		i++;
 	}

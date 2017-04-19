@@ -141,7 +141,7 @@ void loadAllSprites(t_game *game)
 	loadSprite(game, BTN_JOINGAME_B, "gfx/btn/joingame_b.png");
 }
 
-void drawBackground(t_game *game, int index)
+void draw_background(t_game *game, int index)
 {
 	SDL_Rect pos;
 	pos.x = 0;

@@ -1,6 +1,6 @@
 #include "init.h"
 
-void initBeerBomber(t_game *game)
+void init_main(t_game *game)
 {
 	int joystickCount, buttonCount;
 
@@ -38,9 +38,22 @@ void initBeerBomber(t_game *game)
 			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
 	);
 
-	game->status = IN_REDEFINE;
+	game->info = malloc(sizeof(t_info));
+	game->info->status = IN_REDEFINE;
+	game->info->winner = 0;
+	game->info->playermax = 1;
+	game->redefine = malloc(sizeof(t_redefine));
+	game->redefine->i = 0;
+	game->redefine->buffer[0] = '\0';
+	game->input = malloc(sizeof(t_control));
+	game->control = malloc(sizeof(t_control));
+	game->input->down = 0;
+	game->input->up = 0;
+	game->input->right = 0;
+	game->input->left = 0;
+	game->input->fire = 0;
+
 	game->font = loadFont("font/blackWolf.ttf", 16);
-	game->btn = 2;
 
 	if (game->screen == NULL) {
 		printf("Couldn't set screen mode to %d x %d: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
@@ -71,6 +84,23 @@ void initBeerBomber(t_game *game)
 
 		printf("Joystick has %d axes\n", SDL_JoystickNumAxes(game->joystick));
 	}
+}
+
+void init_client(t_game *g)
+{
+	/* data clearing */
+	g->map = load_server_map();
+	g->player = malloc(g->info->playermax * sizeof(t_player *));
+	for (int i = 0; i < g->info->playermax; ++i) {
+		g->player[i] = malloc(sizeof(t_player));
+	}
+	g->redefine->i = 0;
+	g->redefine->buffer[0] = '\0';
+	g->input->down = 0;
+	g->input->up = 0;
+	g->input->right = 0;
+	g->input->left = 0;
+	g->input->fire = 0;
 }
 
 void cleanup(t_game *game)

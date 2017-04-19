@@ -10,21 +10,21 @@ void draw(t_game *game)
 
 	SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255);
 
-	drawBackground(game, MAP_BACK_ONE);
+	draw_background(game, MAP_BACK_ONE);
 
 	/* Draw the score */
 
-	sprintf(text, "PLAYER LIFE: %d", game->score);
+	sprintf(text, "PLAYER LIFE: %d", game->info->winner);
 
 	drawString(game, text, 100, 10, game->font, 1, 0);
 
 	/* Draw the map */
 
-	draw_map(game);
+	draw_map_base(game);
 
 	/* Draw the entities */
 
-	drawEntities(game, game->map);
+	draw_map_entity(game);
 
 	/* Update the buffer */
 

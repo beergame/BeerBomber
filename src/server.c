@@ -1,6 +1,6 @@
 #include "server.h"
 
-void allocate_fd(int fd, int type, t_player **players)
+void allocate_fd(int fd, int type, t_player **p)
 {
 	t_player *player;
 
@@ -18,8 +18,8 @@ void allocate_fd(int fd, int type, t_player **players)
 	player->y = 1;
 
 	for (int i = 0; i < MAX_PLAYER; i++) {
-		if (players[i] == NULL) {
-			players[i] = player;
+		if (p[i] == NULL) {
+			p[i] = player;
 			return ;
 		}
 	}
@@ -50,7 +50,7 @@ void server_read(t_env *e, int s)
 				(socklen_t * ) & client_sin_len);
 	if (cs == -1)
 		return;
-	allocate_fd(cs, FD_CLIENT, e->players);
+	allocate_fd(cs, FD_CLIENT, e->player);
 }
 
 void add_server(t_env *e)
@@ -67,73 +67,76 @@ void add_server(t_env *e)
     return ;
   if (listen(s, MAX_PLAYER) == -1)
     return ;
-  allocate_fd(s, FD_SERVER, e->players);
+  allocate_fd(s, FD_SERVER, e->player);
 }
 
 int my_server(t_env *e)
 {
-	t_request *tmp_req = NULL;
+	t_request *client_req = NULL;
 	FD_ZERO(&e->fd_read);
 	FD_ZERO(&e->fd_write);
 	e->fd_max = 0;
 	for (int i = 0; i < MAX_PLAYER; i++) {
-		if (e->players[i] != NULL &&
-			e->players[i]->type != FD_FREE) {
-			FD_SET(e->players[i]->fd, &e->fd_read);
-			FD_SET(e->players[i]->fd, &e->fd_write);
-			e->fd_max = e->players[i]->fd;
+		if (e->player[i] != NULL &&
+			e->player[i]->type != FD_FREE) {
+			FD_SET(e->player[i]->fd, &e->fd_read);
+			FD_SET(e->player[i]->fd, &e->fd_write);
+			e->fd_max = e->player[i]->fd;
 		}
 	}
 	if (select(e->fd_max + 1,
 			   &e->fd_read, &e->fd_write, NULL, NULL) == -1)
 		return (0);
 	for (int i = 0; i < MAX_PLAYER; i++) {
-		if (e->players[i] != NULL &&
-			FD_ISSET(e->players[i]->fd, &e->fd_read)) {
-			if (e->players[i]->type == FD_SERVER) {
-				server_read(e, e->players[i]->fd);
+		if (e->player[i] != NULL &&
+			FD_ISSET(e->player[i]->fd, &e->fd_read)) {
+			if (e->player[i]->type == FD_SERVER) {
+				server_read(e, e->player[i]->fd);
 			}
-			if (e->players[i]->type == FD_CLIENT) {
-				tmp_req = get_player_request(e->players[i]->fd);
+			if (e->player[i]->type == FD_CLIENT) {
+				client_req = get_player_request(e->player[i]->fd);
 			}
 		}
 	}
 
-	if (tmp_req != NULL) {
+	if (client_req != NULL) {
 		/* check if player can move or throw bomb */
-		do_player_move(e, tmp_req);
-		do_player_throw_bomb(e, tmp_req);
+		do_player_move(e, client_req);
+		do_player_throw_bomb(e, client_req);
 		printf("test server 1\n");
 		do_timing_entity(e);
 
-		if (tmp_req->ckecksum == 1) {
+		if (client_req->ckecksum == 1) {
 			return (0);
 		}
 		/* send response to player with all env data */
-		return (send_response(e, e->players[tmp_req->player_nb]));
+		return (send_response(e, e->player[client_req->nb]));
 	}
 
 	usleep(50);
 	return (1);
 }
 
-void *server_beer_bomber()
+void *server_beer_bomber(void *args)
 {
 	printf("server: in thread\n");
 
 	t_env env;
-	env.players = malloc(MAX_PLAYER * sizeof(t_player *));
-	env.timers = malloc(MAX_TIMER * sizeof(t_timer *));
-	env.map = load_server_map();
-	env.infos.game_status = 0;
-	env.infos.nb_players = 1;
-	env.infos.winner_player = 0;
-	for (int i = 0; i < MAX_PLAYER; i++) {
-		env.players[i] = NULL;
+	env.info = malloc(sizeof(t_info));
+	env.info = (t_info *) args;
+
+	env.player = malloc(env.info->playermax * sizeof(t_player *));
+	for (int i = 0; i < env.info->playermax; i++) {
+		env.player[i] = NULL;
 	}
+
+	// TODO: create list for timer opti.
+	env.timer = malloc(MAX_TIMER * sizeof(t_timer *));
 	for (int i = 0; i < MAX_TIMER; ++i) {
-		env.timers[i] = NULL;
+		env.timer[i] = NULL;
 	}
+
+	env.map = load_server_map();
 	env.port = 5000;
 	add_server(&env);
 	while (my_server(&env));

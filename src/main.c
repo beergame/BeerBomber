@@ -7,29 +7,19 @@ int main(void)
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int config = 0;
 	int go = 0;
+	int choice = 2;
 	t_game *game = malloc(sizeof(t_game));
 
-	initBeerBomber(game);
+	init_main(game);
 	loadAllSprites(game);
 
-	redefine.i = 0;
-	redefine.buffer[0] = '\0';
-
-	game->input = malloc(sizeof(t_control));
-	game->control = malloc(sizeof(t_control));
-	game->input->down = 0;
-	game->input->up = 0;
-	game->input->right = 0;
-	game->input->left = 0;
-	game->input->fire = 0;
-
 	while (!go) {
-		if (game->status == IN_REDEFINE) {
+		if (game->info->status == IN_REDEFINE) {
 			/* Handle the key redefining */
-			go = doRedefine(game);
-		} else if (game->status == IN_CONFIG) {
+			go = do_redefine(game);
+		} else if (game->info->status == IN_CONFIG) {
 			go = getInput(game);
-			config = is_new_game(game);
+			config = is_new_game(game, &choice);
 		}
 		if (config) {
 			go = 1;
@@ -45,8 +35,7 @@ int main(void)
 			return (EXIT_FAILURE);
 		}
 	}
-	game->status = IN_GAME;
-	SDL_Delay(1000);
+	game->info->status = IN_GAME;
 	client_beer_bomber(game);
 	if (config == 2) {
 		if (pthread_join(server, NULL)) {
