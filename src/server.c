@@ -33,7 +33,6 @@ t_request *get_player_request(int fd)
 	r = read(fd, buffer, BUFF_SIZE);
 	if (r > 0) {
 		buffer[r] = '\0';
-		printf("server: CLIENT: %s\n", buffer);
 		return (unserialize_request(buffer));
 	}
 
@@ -49,25 +48,32 @@ void server_read(t_env *e, int s)
 	cs = accept(s, (struct sockaddr *) &client_sin,
 				(socklen_t * ) & client_sin_len);
 	if (cs == -1)
-		return;
+		return ;
 	allocate_fd(cs, FD_CLIENT, e->player);
 }
 
-void add_server(t_env *e)
+int add_server(t_env *e)
 {
-  int s;
-  struct sockaddr_in sin;
+	int s;
+	struct sockaddr_in sin;
 
-  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
-    return ;
-  sin.sin_family = AF_INET;
-  sin.sin_port = htons(e->port);
-  sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(s, (struct sockaddr *) &sin, sizeof(sin)) == -1)
-    return ;
-  if (listen(s, MAX_PLAYER) == -1)
-    return ;
-  allocate_fd(s, FD_SERVER, e->player);
+	if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
+		printf("error socket server\n");
+		return (0);
+	}
+	sin.sin_family = AF_INET;
+	sin.sin_port = htons(e->port);
+	sin.sin_addr.s_addr = INADDR_ANY;
+	if (bind(s, (struct sockaddr *) &sin, sizeof(sin)) == -1) {
+		printf("error bind server\n");
+		return (0);
+	}
+	if (listen(s, MAX_PLAYER) == -1) {
+		printf("error listen server\n");
+		return (0);
+	}
+	allocate_fd(s, FD_SERVER, e->player);
+	return (1);
 }
 
 int my_server(t_env *e)
@@ -85,8 +91,9 @@ int my_server(t_env *e)
 		}
 	}
 	if (select(e->fd_max + 1,
-			   &e->fd_read, &e->fd_write, NULL, NULL) == -1)
+			   &e->fd_read, &e->fd_write, NULL, NULL) == -1) {
 		return (0);
+	}
 	for (int i = 0; i < e->info->playermax + 1; i++) {
 		if (e->player[i] != NULL &&
 			FD_ISSET(e->player[i]->fd, &e->fd_read)) {
@@ -137,8 +144,11 @@ void *server_beer_bomber(void *args)
 
 	env.map = load_server_map();
 	env.port = 5000;
-	add_server(&env);
-	while (my_server(&env));
+	if (add_server(&env))
+	{
+		usleep(500 * 1000);
+		while (my_server(&env));
+	}
 
 	pthread_exit(NULL);
 }

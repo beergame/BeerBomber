@@ -44,7 +44,6 @@ int serialize_response(t_response *res, int sock)
 	}
 
 	response[strlen(response)] =  '\0';
-	printf("server: response: %s\n", response);
 	if (send(sock, response, strlen(response), 0) < 0) {
 		puts("Send failed");
 		return (0);

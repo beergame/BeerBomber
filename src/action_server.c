@@ -65,7 +65,20 @@ void do_player_throw_bomb(t_env *e, t_request *r)
 	}
 }
 
-void fire_action(t_env *e, t_timer *t, char c)
+void fire_action(t_env *e)
+{
+	for (int i = 0; i < MAP_SIZE; ++i) {
+		for (int j = 0; j < MAP_SIZE; ++j) {
+			if ((e->map[i][j].data[0] == '0' &&
+				e->map[i][j].data[1] == '1') &&
+				e->map[i][j].data[4] == '1') {
+				e->map[i][j].data[1] = '0';
+			}
+		}
+	}
+}
+
+void throw_fire(t_env *e, t_timer *t, char c)
 {
 	for (int i = t->x; i < (t->x + 1); i++) {
 		if (e->map[i][t->y].data[0] == '1' &&
@@ -95,6 +108,7 @@ void fire_action(t_env *e, t_timer *t, char c)
 		}
 		e->map[t->x][i].data[4] = c;
 	}
+	fire_action(e);
 	t->status++;
 	t->start = clock();
 }
@@ -106,11 +120,11 @@ void do_timing_entity(t_env *e)
 
 	while (e->timer[i] != NULL) {
 		if (e->timer[i]->status == 1 && (now - e->timer[i]->start) > BOMB_LIFETIME) {
-			fire_action(e, e->timer[i], '0');
+			throw_fire(e, e->timer[i], '0');
 		}
 		if (e->timer[i]->status == 0 && (now - e->timer[i]->start) > FIRE_LIFETIME) {
 			e->map[e->timer[i]->x][e->timer[i]->y].data[3] = '0';
-			fire_action(e, e->timer[i], '1');
+			throw_fire(e, e->timer[i], '1');
 		}
 		i++;
 	}
