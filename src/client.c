@@ -64,6 +64,7 @@ int send_request(int s, t_game *g)
 	t_request req;
 	req.nb = 1;
 	req.ckecksum = 0;
+	req.fire = 0;
 
 	if (g->input->up) {
 		req.dir = 1;
@@ -73,10 +74,10 @@ int send_request(int s, t_game *g)
 		req.dir = 3;
 	} else if (g->input->right) {
 		req.dir = 4;
+	} else {
+		req.dir = 0;
 	}
-	if (g->input->fire) {
-		req.fire = 1;
-	}
+	if (g->input->fire) req.fire = 1;
 	send_serialize_request(&req, s);
 
 	return (0);
@@ -136,6 +137,7 @@ void client_beer_bomber(t_game *game)
 	init_client(game);
 
 	/* server fd */
+	SDL_Delay(1000);
 	int server = client_connect();
 	SDL_Delay(100);
 	send_request(server, game);
@@ -149,9 +151,9 @@ void client_beer_bomber(t_game *game)
 		} else if (game->info->status == IN_GAME ||
 				game->info->status == IN_CONFIG) {
 			go = getInput(game);
-
 			send_request(server, game);
-
+			SDL_Delay(50);
+			get_response(server, game);
 			draw(game);
 		}
 		delay(frameLimit);

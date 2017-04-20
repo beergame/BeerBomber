@@ -23,6 +23,6 @@ int do_redefine(t_game *);
 
 void client_beer_bomber(t_game *);
 
-void *server_beer_bomber();
+void *server_beer_bomber(void *);
 
 #endif /* __MAIN_H__ */

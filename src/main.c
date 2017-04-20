@@ -21,16 +21,14 @@ int main(void)
 			go = getInput(game);
 			config = is_new_game(game, &choice);
 		}
-		if (config) {
-			go = 1;
-		}
+		if (config) { go = 1; }
 		delay(frameLimit);
 		frameLimit = SDL_GetTicks() + 16;
 	}
 
 	/* new game: start server thread */
 	if (config == 2) {
-		if (pthread_create(&server, NULL, server_beer_bomber, NULL)) {
+		if (pthread_create(&server, NULL, server_beer_bomber, game->info)) {
 			perror("pthread_create server");
 			return (EXIT_FAILURE);
 		}

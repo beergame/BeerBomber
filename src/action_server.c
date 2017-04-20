@@ -105,10 +105,10 @@ void do_timing_entity(t_env *e)
 	clock_t now = clock();
 
 	while (e->timer[i] != NULL) {
-		if (e->timer[i]->status == 1 && (now - e->timer[i]->start) > 500) {
+		if (e->timer[i]->status == 1 && (now - e->timer[i]->start) > BOMB_LIFETIME) {
 			fire_action(e, e->timer[i], '0');
 		}
-		if (e->timer[i]->status == 0 && (now - e->timer[i]->start) > 500) {
+		if (e->timer[i]->status == 0 && (now - e->timer[i]->start) > FIRE_LIFETIME) {
 			e->map[e->timer[i]->x][e->timer[i]->y].data[3] = '0';
 			fire_action(e, e->timer[i], '1');
 		}

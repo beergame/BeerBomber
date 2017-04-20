@@ -7,6 +7,8 @@ void draw_map_base(t_game *);
 
 void draw_map_entity(t_game *);
 
+void draw_player(t_game *);
+
 void drawString(t_game *, char *, int, int, TTF_Font *, int, int);
 
 void draw_background(t_game *, int);

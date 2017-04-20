@@ -26,6 +26,10 @@ void draw(t_game *game)
 
 	draw_map_entity(game);
 
+	/* Draw players */
+
+	draw_player(game);
+
 	/* Update the buffer */
 
 	SDL_RenderPresent(game->renderer);

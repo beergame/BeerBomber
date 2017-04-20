@@ -76,7 +76,7 @@ int my_server(t_env *e)
 	FD_ZERO(&e->fd_read);
 	FD_ZERO(&e->fd_write);
 	e->fd_max = 0;
-	for (int i = 0; i < MAX_PLAYER; i++) {
+	for (int i = 0; i < e->info->playermax + 1; i++) {
 		if (e->player[i] != NULL &&
 			e->player[i]->type != FD_FREE) {
 			FD_SET(e->player[i]->fd, &e->fd_read);
@@ -87,7 +87,7 @@ int my_server(t_env *e)
 	if (select(e->fd_max + 1,
 			   &e->fd_read, &e->fd_write, NULL, NULL) == -1)
 		return (0);
-	for (int i = 0; i < MAX_PLAYER; i++) {
+	for (int i = 0; i < e->info->playermax + 1; i++) {
 		if (e->player[i] != NULL &&
 			FD_ISSET(e->player[i]->fd, &e->fd_read)) {
 			if (e->player[i]->type == FD_SERVER) {
@@ -103,7 +103,6 @@ int my_server(t_env *e)
 		/* check if player can move or throw bomb */
 		do_player_move(e, client_req);
 		do_player_throw_bomb(e, client_req);
-		printf("test server 1\n");
 		do_timing_entity(e);
 
 		if (client_req->ckecksum == 1) {
@@ -113,7 +112,7 @@ int my_server(t_env *e)
 		return (send_response(e, e->player[client_req->nb]));
 	}
 
-	usleep(50);
+	usleep(50000);
 	return (1);
 }
 

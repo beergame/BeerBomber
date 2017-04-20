@@ -24,8 +24,8 @@
 # define PLAYER_MAX_LIFE 2
 # define PLAYER_MAX_AMMO 100
 # define PLAYER_RELOAD_TIME 9
-# define BOMB_LIFETIME 150
-# define FIRE_LIFETIME 20
+# define BOMB_LIFETIME 100000
+# define FIRE_LIFETIME 100000
 
 typedef struct	s_player
 {
