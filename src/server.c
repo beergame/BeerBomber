@@ -1,27 +1,27 @@
 #include "server.h"
 
-void allocate_fd(int fd, int type, t_player **p)
+void set_new_player(int fd, int type, t_player *p, int m)
 {
-	t_player *player;
-
-	if ((player = malloc(sizeof(t_player))) == NULL)
-		return;
-	player->fd = fd;
-	player->type = type;
-	player->connected = 1;
-	player->speed = PLAYER_SPEED;
-	player->ammo = PLAYER_MAX_AMMO;
-	player->life = PLAYER_MAX_LIFE;
-	player->reload = PLAYER_RELOAD_TIME;
-	player->frags = 0;
-	player->x = 1;
-	player->y = 1;
-
-	for (int i = 0; i < MAX_PLAYER; i++) {
-		if (p[i] == NULL) {
-			p[i] = player;
-			return ;
-		}
+	p->fd = fd;
+	p->type = type;
+	p->connected = 1;
+	p->speed = PLAYER_SPEED;
+	p->ammo = PLAYER_MAX_AMMO;
+	p->life = PLAYER_MAX_LIFE;
+	p->reload = PLAYER_RELOAD_TIME;
+	p->frags = 0;
+	if (m == 1) {
+		p->x = 1;
+		p->y = 1;
+	} else if (m == 2) {
+		p->x = MAP_SIZE - 1;
+		p->y = MAP_SIZE - 1;
+	} else if (m == 3) {
+		p->x = 1;
+		p->y = MAP_SIZE - 1;
+	} else if (m == 4) {
+		p->x = MAP_SIZE - 1;
+		p->y = 1;
 	}
 }
 
@@ -33,6 +33,7 @@ t_request *get_player_request(int fd)
 	r = read(fd, buffer, BUFF_SIZE);
 	if (r > 0) {
 		buffer[r] = '\0';
+		printf("server: requestclient: %s", buffer);
 		return (unserialize_request(buffer));
 	}
 
@@ -49,7 +50,12 @@ void server_read(t_env *e, int s)
 				(socklen_t * ) & client_sin_len);
 	if (cs == -1)
 		return ;
-	allocate_fd(cs, FD_CLIENT, e->player);
+	for (int i = 0; i < MAX_PLAYER; i++) {
+		if (e->player[i]->connected == 0) {
+			set_new_player(cs, FD_CLIENT, e->player[i], i);
+			return ;
+		}
+	}
 }
 
 int add_server(t_env *e)
@@ -61,6 +67,11 @@ int add_server(t_env *e)
 		printf("error socket server\n");
 		return (0);
 	}
+	if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR,
+				   &(int){ 1 }, sizeof(int)) < 0) {
+		printf("setsockopt(SO_REUSEADDR) failed\n");
+		return (0);
+	}
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(e->port);
 	sin.sin_addr.s_addr = INADDR_ANY;
@@ -68,11 +79,11 @@ int add_server(t_env *e)
 		printf("error bind server\n");
 		return (0);
 	}
-	if (listen(s, MAX_PLAYER) == -1) {
+	if (listen(s, 10) == -1) {
 		printf("error listen server\n");
 		return (0);
 	}
-	allocate_fd(s, FD_SERVER, e->player);
+	set_new_player(s, FD_SERVER, e->player[0], 0);
 	return (1);
 }
 
@@ -82,8 +93,8 @@ int my_server(t_env *e)
 	FD_ZERO(&e->fd_read);
 	FD_ZERO(&e->fd_write);
 	e->fd_max = 0;
-	for (int i = 0; i < e->info->playermax + 1; i++) {
-		if (e->player[i] != NULL &&
+	for (int i = 0; i < MAX_PLAYER; i++) {
+		if (e->player[i]->connected == 1 &&
 			e->player[i]->type != FD_FREE) {
 			FD_SET(e->player[i]->fd, &e->fd_read);
 			FD_SET(e->player[i]->fd, &e->fd_write);
@@ -94,9 +105,10 @@ int my_server(t_env *e)
 			   &e->fd_read, &e->fd_write, NULL, NULL) == -1) {
 		return (0);
 	}
-	for (int i = 0; i < e->info->playermax + 1; i++) {
-		if (e->player[i] != NULL &&
+	for (int i = 0; i < MAX_PLAYER; i++) {
+		if (e->player[i]->connected == 1 &&
 			FD_ISSET(e->player[i]->fd, &e->fd_read)) {
+			printf("tooooooo,%i -> %i\n", i, e->player[i]->fd);
 			if (e->player[i]->type == FD_SERVER) {
 				server_read(e, e->player[i]->fd);
 			}
@@ -131,9 +143,18 @@ void *server_beer_bomber(void *args)
 	env.info = malloc(sizeof(t_info));
 	env.info = (t_info *) args;
 
-	env.player = malloc(env.info->playermax * sizeof(t_player *));
-	for (int i = 0; i < env.info->playermax + 1; i++) {
-		env.player[i] = NULL;
+	env.player = malloc(MAX_PLAYER * sizeof(t_player *));
+	for (int i = 0; i < MAX_PLAYER; i++) {
+		if ((env.player[i] = malloc(sizeof(t_player))) == NULL)
+			break ;
+		env.player[i]->x = 0;
+		env.player[i]->y = 0;
+		env.player[i]->ammo = 0;
+		env.player[i]->reload = 0;
+		env.player[i]->frags = 0;
+		env.player[i]->connected = 0;
+		env.player[i]->life = 0;
+		env.player[i]->speed = 0;
 	}
 
 	// TODO: create list for timer opti.

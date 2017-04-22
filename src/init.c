@@ -90,9 +90,18 @@ void init_client(t_game *g)
 {
 	/* data clearing */
 	g->map = load_server_map();
-	g->player = malloc(g->info->playermax * sizeof(t_player *));
-	for (int i = 0; i < g->info->playermax; ++i) {
-		g->player[i] = malloc(sizeof(t_player));
+	g->player = malloc(MAX_PLAYER * sizeof(t_player *));
+	for (int i = 0; i < MAX_PLAYER; i++) {
+		if ((g->player[i] = malloc(sizeof(t_player))) == NULL)
+			break ;
+		g->player[i]->x = 0;
+		g->player[i]->y = 0;
+		g->player[i]->ammo = 0;
+		g->player[i]->reload = 0;
+		g->player[i]->frags = 0;
+		g->player[i]->connected = 0;
+		g->player[i]->life = 0;
+		g->player[i]->speed = 0;
 	}
 	g->redefine->i = 0;
 	g->redefine->buffer[0] = '\0';

@@ -16,7 +16,8 @@
 # define FD_SERVER 2
 # define MAX_FD 255
 # define BUFF_SIZE 3000
-# define MAX_PLAYER 4
+/* + 1 server VV */
+# define MAX_PLAYER 5
 # define MAX_TIMER 40
 # define MAP_SIZE 15
 

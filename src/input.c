@@ -12,7 +12,7 @@ int getInput(t_game *game)
 
 			/* Closing the Window will exit the program */
 			case SDL_QUIT:
-				game->info->status = GAME_END;
+				game->info->status = END_GAME;
 				return (1);
 
 			case SDL_KEYDOWN:

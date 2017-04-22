@@ -40,8 +40,10 @@ void draw_map_entity(t_game *game)
 
 void draw_player(t_game *g)
 {
-	for (int i = 0; i < g->info->playermax; ++i) {
-		drawImage(g, getSprite(PLAYER_ONE_DOWN),
-				  g->player[i]->x, g->player[i]->y);
+	for (int i = 0; i < MAX_PLAYER; ++i) {
+		if (g->player[i]->connected == 1) {
+			drawImage(g, getSprite(PLAYER_ONE_DOWN),
+					  g->player[i]->x, g->player[i]->y);
+		}
 	}
 }

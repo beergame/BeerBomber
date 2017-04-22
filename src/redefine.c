@@ -68,7 +68,7 @@ int do_redefine(t_game *game)
 
 	if (game->redefine->i == 5) {
 		game->redefine->i = 0;
-		game->info->status = IN_CONFIG;
+		game->info->status = IN_CONFIG_NEW_GAME;
 	}
 
 	return (0);

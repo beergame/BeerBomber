@@ -9,6 +9,8 @@ void cleanup(t_game *);
 
 void is_new_game(t_game *, int *);
 
+void choose_nb_player(t_game *, int *);
+
 int getInput(t_game *);
 
 void draw(t_game *);
