@@ -137,7 +137,7 @@ void client_beer_bomber(t_game *game)
 	init_client(game);
 
 	/* server fd */
-	SDL_Delay(200);
+	SDL_Delay(100);
 	int server = client_connect();
 	send_request(server, game);
 	SDL_Delay(200);

@@ -20,12 +20,12 @@
 # define MAX_TIMER 40
 # define MAP_SIZE 15
 
-# define PLAYER_SPEED 13
+# define PLAYER_SPEED 7
 # define PLAYER_MAX_LIFE 2
 # define PLAYER_MAX_AMMO 100
 # define PLAYER_RELOAD_TIME 9
 # define BOMB_LIFETIME 100000
-# define FIRE_LIFETIME 100000
+# define FIRE_LIFETIME 10000
 
 typedef struct	s_player
 {

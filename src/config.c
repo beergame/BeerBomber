@@ -1,19 +1,17 @@
 #include "config.h"
 
-int is_new_game(t_game *game, int *c)
+void is_new_game(t_game *game, int *c)
 {
-	if (game->input->left == 1) {
-		c--;
-	} else if (game->input->right == 1) {
-		c++;
-	} else if (game->input->fire == 1) {
-		return (*c);
+	if (game->input->left) {
+		*c = *c - 1;
+	} else if (game->input->right) {
+		*c = *c + 1;
+	} else if (game->input->fire) {
+		game->info->status = IN_GAME;
 	}
 	(*c < 2) ? *c = 2: 0;
 	(*c > 3) ? *c = 3: 0;
 	draw_config(game, *c);
-
-	return (0);
 }
 
 void draw_config(t_game *game, int c)

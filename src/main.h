@@ -7,7 +7,7 @@ void init_main(t_game *);
 
 void cleanup(t_game *);
 
-int is_new_game(t_game *, int *);
+void is_new_game(t_game *, int *);
 
 int getInput(t_game *);
 

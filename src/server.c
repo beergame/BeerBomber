@@ -132,7 +132,7 @@ void *server_beer_bomber(void *args)
 	env.info = (t_info *) args;
 
 	env.player = malloc(env.info->playermax * sizeof(t_player *));
-	for (int i = 0; i < env.info->playermax; i++) {
+	for (int i = 0; i < env.info->playermax + 1; i++) {
 		env.player[i] = NULL;
 	}
 
