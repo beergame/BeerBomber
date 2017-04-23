@@ -3,7 +3,7 @@
 
 # include "structs.h"
 
-void init_main(t_game *);
+int init_main(t_game *);
 
 void cleanup(t_game *);
 
@@ -11,11 +11,11 @@ void is_new_game(t_game *, int *);
 
 void choose_nb_player(t_game *, int *);
 
-int getInput(t_game *);
+int get_input(t_game *);
 
 void draw(t_game *);
 
-void loadAllSprites(t_game *);
+void load_all_sprites(t_game *);
 
 TTF_Font *loadFont(char *, int);
 

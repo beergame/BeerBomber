@@ -97,4 +97,7 @@ void			do_player_move(t_env *, t_request *, int);
 void			do_player_throw_bomb(t_env *, t_request *, int);
 void			do_timing_entity(t_env *);
 
+void			clean_server(t_env *);
+void			free_map(t_map **);
+
 #endif /* __SERVER_H__ */

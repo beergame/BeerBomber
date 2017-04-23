@@ -1,5 +1,10 @@
 #include "server.h"
 
+void clean_server(t_env *e)
+{
+	free_map(e->map);
+}
+
 void set_new_player(int fd, int type, t_player *p, int m)
 {
 	p->fd = fd;
@@ -168,7 +173,7 @@ void *server_beer_bomber(void *args)
 		usleep(500 * 1000);
 		while (my_server(&env));
 	}
-	cleanup_server(&env);
+	clean_server(&env);
 
 	pthread_exit(NULL);
 }

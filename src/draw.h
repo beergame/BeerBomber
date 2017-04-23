@@ -11,6 +11,8 @@ void draw_player(t_game *);
 
 void drawString(t_game *, char *, int, int, TTF_Font *, int, int);
 
+void draw_log_string(t_game *, char *, int, int, TTF_Font *);
+
 void draw_background(t_game *, int);
 
 #endif /* DRAW_H */

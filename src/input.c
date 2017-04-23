@@ -1,6 +1,6 @@
 #include "input.h"
 
-int getInput(t_game *game)
+int get_input(t_game *game)
 {
 	int key;
 	SDL_Event event;

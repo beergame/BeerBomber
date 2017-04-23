@@ -22,31 +22,6 @@ int client_connect()
 	return (s);
 }
 
-
-int send_serialize_request(t_request *req, int sock)
-{
-	char request[BUFF_SIZE] = "";
-	char buff[3];
-
-	sprintf(buff, "%i:", req->nb);
-	strcat(request, buff);
-	sprintf(buff, "%i:", req->dir);
-	strcat(request, buff);
-	sprintf(buff, "%i:", req->fire);
-	strcat(request, buff);
-	sprintf(buff, "%i", req->ckecksum);
-	strcat(request, buff);
-
-	request[strlen(request)] =  '\0';
-
-	printf("client: request: %s \n", request);
-	if (send(sock, request, strlen(request), 0) < 0) {
-		printf("Send failed\n");
-		return (1);
-	}
-	return (0);
-}
-
 int send_deco(int s)
 {
 	t_request req;
@@ -135,11 +110,11 @@ int get_response(int sock, t_game *g)
 
 void client_beer_bomber(t_game *game)
 {
-	unsigned int frameLimit = SDL_GetTicks() + 16;
+	unsigned int frame_limit = SDL_GetTicks() + 16;
 	int go = 0;
 	init_client(game);
 
-	/* server fd */
+	/* connect to server */
 	SDL_Delay(500);
 	int server = client_connect();
 	send_request(server, game);
@@ -151,13 +126,14 @@ void client_beer_bomber(t_game *game)
 			go = do_redefine(game);
 		} else if (game->info->status == IN_GAME ||
 				game->info->status == IN_CONFIG_NEW_GAME) {
-			go = getInput(game);
+			go = get_input(game);
 			send_request(server, game);
 			get_response(server, game);
 			draw(game);
 		}
-		delay(frameLimit);
-		frameLimit = SDL_GetTicks() + 16;
+		delay(frame_limit);
+		frame_limit = SDL_GetTicks() + 16;
 	}
 	send_deco(server);
+	clean_client(game);
 }

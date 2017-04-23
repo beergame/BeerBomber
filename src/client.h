@@ -3,15 +3,15 @@
 
 # include "structs.h"
 
-void init_main(t_game *);
+int init_main(t_game *);
 
-void cleanup(t_game *);
+void clean_client(t_game *);
 
-int getInput(t_game *);
+int get_input(t_game *);
 
 void draw(t_game *);
 
-void loadAllSprites(t_game *);
+void load_all_sprites(t_game *);
 
 TTF_Font *loadFont(char *, int);
 
@@ -24,5 +24,7 @@ char **my_str_to_wordtab(char *, char);
 t_map **load_map();
 
 void init_client(t_game *);
+
+int send_serialize_request(t_request *, int);
 
 #endif /* __CLIENT_H__ */

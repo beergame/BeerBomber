@@ -7,4 +7,6 @@ TTF_Font *loadFont(char *, int);
 
 t_map **load_map();
 
+void load_all_sprites(t_game *);
+
 #endif /* INIT_H */
