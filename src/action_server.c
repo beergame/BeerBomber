@@ -16,7 +16,8 @@ void do_player_move(t_env *e, t_request *req)
 		int x = e->player[req->nb]->x;
 		int y = e->player[req->nb]->y;
 		if (req->dir && e->player[req->nb]->speed <= 0) {
-			if (req->dir == 1 && y > 1 && (e->map[x][y - 1].data[0] != '1') &&
+			if (req->dir == 1 && y > 1 &&
+				(e->map[x][y - 1].data[1] == '0') &&
 				(e->map[x][y - 1].data[3] != '1'))
 				player_move(e, req, x, y - 1);
 			else if (req->dir == 2 && y < MAP_SIZE - 2 &&

@@ -21,7 +21,7 @@
 # define MAX_TIMER 40
 # define MAP_SIZE 15
 
-# define PLAYER_SPEED 7
+# define PLAYER_SPEED 4
 # define PLAYER_MAX_LIFE 2
 # define PLAYER_MAX_AMMO 100
 # define PLAYER_RELOAD_TIME 9

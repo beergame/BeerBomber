@@ -33,7 +33,6 @@ t_request *get_player_request(int fd)
 	r = read(fd, buffer, BUFF_SIZE);
 	if (r > 0) {
 		buffer[r] = '\0';
-		printf("server: requestclient: %s", buffer);
 		return (unserialize_request(buffer));
 	}
 
@@ -108,7 +107,6 @@ int my_server(t_env *e)
 	for (int i = 0; i < MAX_PLAYER; i++) {
 		if (e->player[i]->connected == 1 &&
 			FD_ISSET(e->player[i]->fd, &e->fd_read)) {
-			printf("tooooooo,%i -> %i\n", i, e->player[i]->fd);
 			if (e->player[i]->type == FD_SERVER) {
 				server_read(e, e->player[i]->fd);
 			}

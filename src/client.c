@@ -95,7 +95,6 @@ void unserialize_response(char *buffer, t_game *g)
 	g->info->playermax = atoi(buff[1]);
 	g->info->winner = atoi(buff[2]);
 
-	printf("PLOPP\n\n");
 	buff = my_str_to_wordtab(response[1], ';');
 	for (int i = 0; i < MAX_PLAYER; i++) {
 		if ((buff2 = my_str_to_wordtab(buff[i], ':'))) {
@@ -125,12 +124,10 @@ int get_response(int sock, t_game *g)
 {
 	char buffer[BUFF_SIZE];
 
-	printf("tete\n");
 	if (recv(sock, buffer, BUFF_SIZE, 0) < 0) {
 		puts("recv failed");
 		return (1);
 	}
-	printf("client: RESPONSE: %s", buffer);
 	unserialize_response(buffer, g);
 
 	return (0);
@@ -143,12 +140,10 @@ void client_beer_bomber(t_game *game)
 	init_client(game);
 
 	/* server fd */
-	SDL_Delay(100);
+	SDL_Delay(500);
 	int server = client_connect();
 	send_request(server, game);
-	SDL_Delay(200);
 	get_response(server, game);
-	printf("totoooo\n");
 
 	while (!go) {
 		if (game->info->status == IN_REDEFINE) {
@@ -158,9 +153,7 @@ void client_beer_bomber(t_game *game)
 				game->info->status == IN_CONFIG_NEW_GAME) {
 			go = getInput(game);
 			send_request(server, game);
-			SDL_Delay(50);
 			get_response(server, game);
-			printf("toto");
 			draw(game);
 		}
 		delay(frameLimit);

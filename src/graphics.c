@@ -99,6 +99,7 @@ void loadPlayerTexture(t_game *game, char *path, int index)
 					width / clipPerRow, height / clipPerColumn
 			);
 			SDL_SetTextureBlendMode(clip[i][j], SDL_BLENDMODE_BLEND);
+			SDL_SetTextureAlphaMod(clip[i][j], 255);
 			SDL_Rect rect = {
 					i * width / clipPerRow,
 					j * height / clipPerColumn,
