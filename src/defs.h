@@ -21,16 +21,6 @@
 # define BOARD_HEIGHT (SCREEN_HEIGHT / 2) - (MAP_SIZE * 32 / 2)
 # define MAX_PLAYER 4
 # define MAX_SPRITES 40
-# define PLAYER_SPEED 13
-# define PLAYER_MAX_LIFE 2
-# define PLAYER_MAX_AMMO 100
-# define PLAYER_RELOAD_TIME 9
-# define BOMB_LIFETIME 150
-# define FIRE_LIFETIME 20
-# define IN_REDEFINE 0
-# define IN_CONFIG 1
-# define IN_GAME 2
-# define GAME_END 3
 # define DEAD_ZONE 3200
 # define BUFF_SIZE 3000
 
@@ -69,10 +59,14 @@ enum sprite
 	BTN_JOINGAME_B,
 };
 
-enum map
+enum status
 {
-	TYPE_BLOCK,
-	TYPE_BUSH
+	IN_REDEFINE,
+	IN_CONFIG_NEW_GAME,
+	IN_CONFIG_NB_PLAYER,
+	IN_CONFIG_IP_SERVER,
+	IN_GAME,
+	END_GAME,
 };
 
 #endif /* __DEFS_H__ */

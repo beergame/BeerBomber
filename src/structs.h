@@ -3,112 +3,77 @@
 
 # include "defs.h"
 
-struct				MapCase;
-struct				Game;
-
-typedef struct		Entity
+typedef struct		s_map
 {
-	int				type;
-	int				speed;
-	int				x;
-	int				y;
-	int				life;
-	int				ammo;
-	int				reload;
-	SDL_Texture		*sprite;
+	char			*data;
+}					t_map;
 
-	void			(*action)(struct MapCase **, struct Entity *);
-
-	void			(*draw)(struct Game *, SDL_Texture *, int, int);
-} Entity;
-
-typedef struct		MapCase
-{
-	SDL_Texture		*sprite;
-	Entity			*player;
-	Entity			*bomb;
-	Entity			*block;
-	Entity			*fire;
-} MapCase;
-
-typedef struct		Control
+typedef struct		s_control
 {
 	int				up;
 	int				down;
+	int				fire;
 	int				left;
 	int				right;
-	int				fire;
-}					Control;
+}					t_control;
 
-typedef struct		Game
+typedef struct		s_player
 {
-	int				score;
+	int				x;
+	int				y;
+	int				fd;
+	int				type;
+	int				ammo;
+	int				life;
+	int				speed;
+	int				frags;
+	int				reload;
+	int				connected;
+}					t_player;
+
+typedef struct		s_info
+{
 	int				status;
-	int				btn;
-	MapCase			**map;
-	Control			*customControl;
-	Control			*input;
+	int				winner;
+	int				playermax;
+}					t_info;
+
+typedef struct		s_redefine
+{
+	int				i;
+	char			buffer[255];
+}					t_redefine;
+
+typedef struct		s_sprite
+{
+	SDL_Texture		*image;
+}					t_sprite;
+
+typedef struct		s_sound
+{
+	Mix_Chunk		*effect;
+}					t_sound;
+
+typedef struct		s_game
+{
+	t_map			**map;
+	t_info			*info;
+	t_player		**player;
+	t_control		*input;
+	t_control		*control;
+	t_redefine		*redefine;
 	SDL_Window		*screen;
 	SDL_Renderer	*renderer;
 	TTF_Font		*font;
 	SDL_Joystick	*joystick;
-}					Game;
-
-typedef struct		Sprite
-{
-	SDL_Texture		*image;
-}					Sprite;
-
-typedef struct		Sound
-{
-	Mix_Chunk		*effect;
-}					Sound;
-
-typedef struct		Redefine
-{
-	int				redefineIndex;
-	char			redefineString[255];
-}					Redefine;
+}					t_game;
 
 typedef struct		s_request
 {
-	int				player_nb;
+	int				nb;
 	int				dir;
 	int				fire;
 	int				ckecksum;
 }					t_request;
-
-typedef struct	s_player
-{
-	int			fd;
-	int			type;
-	int			connected;
-	int			speed;
-	int			x;
-	int			y;
-	int			life;
-	int			ammo;
-	int			reload;
-	int			frags;
-}				t_player;
-
-typedef struct	s_map
-{
-	char		*data;
-}				t_map;
-
-typedef struct	s_info
-{
-	int			game_status;
-	int			nb_players;
-	int			winner_player;
-}				t_info;
-
-typedef struct s_response
-{
-	t_player	**players;
-	t_map		**map;
-	t_info		infos;
-}				t_response;
 
 #endif /* STRUCTS_H */

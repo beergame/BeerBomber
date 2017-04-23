@@ -1,41 +1,30 @@
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef __MAIN_H__
+# define __MAIN_H__
 
 # include "structs.h"
 
-Sprite sprite[MAX_SPRITES];
-Redefine redefine;
+int init_main(t_game *);
 
-void initBeerBomber(Game *);
+void cleanup(t_game *);
 
-void cleanup(Game *);
+void is_new_game(t_game *, int *);
 
-int is_new_game(Game *);
+void choose_nb_player(t_game *, int *);
 
-int getInput(Game *);
+int get_input(t_game *);
 
-void draw(Game *);
+void draw(t_game *);
 
-Entity *initPlayer(MapCase **, int, int);
-
-void playerMove(Game *, MapCase **, Entity *);
-
-void playerThrowBomb(Game *, MapCase **, Entity *);
-
-void entitiesActions(MapCase **);
-
-void loadAllSprites(Game *);
+void load_all_sprites(t_game *);
 
 TTF_Font *loadFont(char *, int);
 
 void delay(unsigned int);
 
-int doRedefine(Game *);
+int do_redefine(t_game *);
 
-MapCase **loadMap();
+void client_beer_bomber(t_game *);
 
-void client_beer_bomber(Game *);
+void *server_beer_bomber(void *);
 
-void *server_beer_bomber();
-
-#endif /* MAIN_H */
+#endif /* __MAIN_H__ */

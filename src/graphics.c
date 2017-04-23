@@ -1,60 +1,39 @@
 #include "graphics.h"
 
-SDL_Texture *loadImage(Game *game, char *path)
+SDL_Texture *loadImage(t_game *game, char *path)
 {
 	/* Load the image using SDL Image */
-
 	SDL_Texture *texture = IMG_LoadTexture(game->renderer, path);
-
 	if (texture == NULL) {
 		printf("Failed to load image %s\n", path);
 		return NULL;
 	}
-
 	/* Return the processed texture */
-
 	return texture;
 }
 
-void drawImage(Game *game, SDL_Texture *image, int x, int y)
+void drawImage(t_game *game, SDL_Texture *image, int x, int y)
 {
 	int w;
 	int h;
 
 	SDL_QueryTexture(image, NULL, NULL, &w, &h);
 	SDL_Rect dest;
-
 	/* Set x and y in right position on the screen */
-
 	x = (x * 2 * 16) + BOARD_WIDTH;
 	y = (y * 2 * 16) + BOARD_HEIGHT;
-
 	/* Set the blitting rectangle to the size of the src image */
-
 	dest.x = x;
 	dest.y = y;
 	dest.h = h * 2;
 	dest.w = w * 2;
-
 	/* Copy the entire image onto the renderer at coordinates x and y */
-
 	SDL_RenderCopy(game->renderer, image, NULL, &dest);
 }
 
-void loadSprite(Game *game, int index, char *path)
+void loadSprite(t_game *game, int index, char *path)
 {
-	/* Load the image into the next slot in the sprite bank */
-
-	if (index >= MAX_SPRITES || index < 0)
-	{
-		printf("Invalid index for sprite! Index: %d Maximum: %d\n", index, MAX_SPRITES);
-		exit(1);
-	}
-
 	sprite[index].image = loadImage(game, path);
-
-	if (sprite[index].image == NULL)
-		exit(1);
 }
 
 SDL_Texture *getSprite(int index)
@@ -67,12 +46,11 @@ SDL_Texture *getSprite(int index)
 	return sprite[index].image;
 }
 
-void freeSprites()
+void free_sprites()
 {
 	int i;
 
 	/* Loop through the sprite bank and clear the images */
-
 	for (i = 0; i < MAX_SPRITES; i++) {
 		if (sprite[i].image != NULL) {
 			SDL_DestroyTexture(sprite[i].image);
@@ -80,7 +58,7 @@ void freeSprites()
 	}
 }
 
-void loadPlayerTexture(Game *game, char *path, int index)
+void loadPlayerTexture(t_game *game, char *path, int index)
 {
 	SDL_Texture *clip[4][7];
 	SDL_Surface *surf = IMG_Load(path);
@@ -99,6 +77,7 @@ void loadPlayerTexture(Game *game, char *path, int index)
 					width / clipPerRow, height / clipPerColumn
 			);
 			SDL_SetTextureBlendMode(clip[i][j], SDL_BLENDMODE_BLEND);
+			SDL_SetTextureAlphaMod(clip[i][j], 255);
 			SDL_Rect rect = {
 					i * width / clipPerRow,
 					j * height / clipPerColumn,
@@ -117,31 +96,27 @@ void loadPlayerTexture(Game *game, char *path, int index)
 	SDL_DestroyTexture(texture);
 }
 
-void loadAllSprites(Game *game)
+void load_all_sprites(t_game *game)
 {
 	loadPlayerTexture(game, "gfx/players/one.png", PLAYER_ONE_UP);
 	loadPlayerTexture(game, "gfx/players/two.png", PLAYER_TWO_UP);
 	loadPlayerTexture(game, "gfx/players/three.png", PLAYER_THREE_UP);
 	loadPlayerTexture(game, "gfx/players/four.png", PLAYER_FOUR_UP);
-
 	loadSprite(game, BOMB_SPRITE, "gfx/bomb/bomb_stand_1.png");
 	loadSprite(game, BOMB_SPRITE2, "gfx/bomb/bomb_stand_2.png");
 	loadSprite(game, BOMB_SPRITE3, "gfx/bomb/bomb_stand_3.png");
-
 	loadSprite(game, MAP_SPRITE_BASE, "gfx/map/base_map_1x1.png");
 	loadSprite(game, MAP_SPRITE_BLOCK, "gfx/map/block_1x1.png");
 	loadSprite(game, MAP_SPRITE_BUSH, "gfx/map/bush_1x1.png");
 	loadSprite(game, MAP_SPRITE_FIRE, "gfx/map/fire_1.png");
-
 	loadSprite(game, MAP_BACK_ONE, "gfx/background/1.png");
-
 	loadSprite(game, BTN_NEWGAME, "gfx/btn/newgame.png");
 	loadSprite(game, BTN_NEWGAME_B, "gfx/btn/newgame_b.png");
 	loadSprite(game, BTN_JOINGAME, "gfx/btn/joingame.png");
 	loadSprite(game, BTN_JOINGAME_B, "gfx/btn/joingame_b.png");
 }
 
-void drawBackground(Game *game, int index)
+void draw_background(t_game *game, int index)
 {
 	SDL_Rect pos;
 	pos.x = 0;
@@ -151,12 +126,11 @@ void drawBackground(Game *game, int index)
 	SDL_RenderCopy(game->renderer, getSprite(index), NULL, &pos);
 }
 
-void drawBtn(Game *game, int x, int y, int index)
+void drawBtn(t_game *game, int x, int y, int index)
 {
 	SDL_Rect pos;
 	int w;
 	int h;
-
 	SDL_QueryTexture(getSprite(index), NULL, NULL, &w, &h);
 	pos.x = x;
 	pos.y = y;

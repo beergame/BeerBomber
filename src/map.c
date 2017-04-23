@@ -1,55 +1,59 @@
 #include "map.h"
 
-MapCase **loadMap()
+void draw_map_base(t_game *game)
 {
-	MapCase **tmp;
-
-	Entity *block = malloc(sizeof(Entity));
-	block->sprite = getSprite(MAP_SPRITE_BLOCK);
-	block->draw = &drawImage;
-	block->type = TYPE_BLOCK;
-	block->life = 1;
-	Entity *bush = addBush();
-
-	if (!(tmp = malloc(MAP_SIZE * sizeof(MapCase *))))
-		return (NULL);
 	for (int i = 0; i < MAP_SIZE; i++) {
-		if (!(tmp[i] = malloc(MAP_SIZE * sizeof(MapCase))))
-			return (NULL);
 		for (int j = 0; j < MAP_SIZE; j++) {
-			tmp[i][j].sprite = getSprite(MAP_SPRITE_BASE);
-			tmp[i][j].player = NULL;
-			tmp[i][j].bomb = NULL;
-			tmp[i][j].block = NULL;
-			tmp[i][j].fire = NULL;
+			drawImage(game, getSprite(MAP_SPRITE_BASE), i, j);
+		}
+	}
+}
 
-			if (i == 0 || j == 0 || i == MAP_SIZE - 1 ||
-					j == MAP_SIZE - 1 || (!(i % 2) && !(j % 2))) {
-				tmp[i][j].block = block;
-			} else if (i != 1) {
-				tmp[i][j].block = bush;
+void draw_player(t_game *g)
+{
+	for (int i = 0; i < MAX_PLAYER; ++i) {
+		if (g->player[i]->connected == 1) {
+			switch (i) {
+				case 0:
+					drawImage(g, getSprite(PLAYER_ONE_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
+				case 1:
+					drawImage(g, getSprite(PLAYER_TWO_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
+				case 2:
+					drawImage(g, getSprite(PLAYER_THREE_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
+				case 3:
+					drawImage(g, getSprite(PLAYER_FOUR_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
+				default:
+					drawImage(g, getSprite(PLAYER_TWO_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
 			}
 		}
 	}
-
-	return tmp;
 }
 
-void freeMap(MapCase **map)
+void draw_map_entity(t_game *game)
 {
-	for (int i = 0; i < MAP_SIZE; i++) {
-		free(map[i]);
-		map[i] = NULL;
-	}
-	free(map);
-	map = NULL;
-}
-
-void drawMap(Game *game, MapCase **map)
-{
-	for (int i = 0; i < MAP_SIZE; i++) {
-		for (int j = 0; j < MAP_SIZE; j++) {
-			drawImage(game, map[i][j].sprite, i, j);
+	for (int i = 0; i < MAP_SIZE; ++i) {
+		for (int j = 0; j < MAP_SIZE; ++j) {
+			if (game->map[i][j].data[0] == '0' &&
+				 game->map[i][j].data[1] == '1') {
+				drawImage(game, getSprite(MAP_SPRITE_BUSH), i, j);
+			} else if (game->map[i][j].data[0] == '1') {
+				drawImage(game, getSprite(MAP_SPRITE_BLOCK), i, j);
+			}
+			if (game->map[i][j].data[3] == '1') {
+				drawImage(game, getSprite(BOMB_SPRITE), i, j);
+			} else if (game->map[i][j].data[4] == '1') {
+				drawImage(game, getSprite(MAP_SPRITE_FIRE), i, j);
+			}
 		}
 	}
 }

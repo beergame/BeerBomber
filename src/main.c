@@ -4,56 +4,48 @@ int main(void)
 {
 	pthread_t server;
 
-	unsigned int frameLimit = SDL_GetTicks() + 16;
-	int config = 0;
+	unsigned int frame_limit = SDL_GetTicks() + 16;
 	int go = 0;
-	Game *game = malloc(sizeof(Game));
+	int choice = 3;
+	int nb_player = 2;
+	t_game *game = malloc(sizeof(t_game));
 
-	initBeerBomber(game);
-	loadAllSprites(game);
-
-	redefine.redefineIndex = 0;
-	redefine.redefineString[0] = '\0';
-
-	game->input = malloc(sizeof(Control));
-	game->customControl = malloc(sizeof(Control));
-	game->input->down = 0;
-	game->input->up = 0;
-	game->input->right = 0;
-	game->input->left = 0;
-	game->input->fire = 0;
+	go = init_main(game);
 
 	while (!go) {
-		if (game->status == IN_REDEFINE) {
+		if (game->info->status == IN_REDEFINE) {
 			/* Handle the key redefining */
-			go = doRedefine(game);
-		} else if (game->status == IN_CONFIG) {
-			go = getInput(game);
-			config = is_new_game(game);
-		}
-		if (config) {
+			go = do_redefine(game);
+		} else if (game->info->status == IN_CONFIG_NEW_GAME) {
+			go = get_input(game);
+			is_new_game(game, &choice);
+		} else if (game->info->status == IN_CONFIG_NB_PLAYER) {
+			game->input->fire = 0;
+			go = get_input(game);
+			choose_nb_player(game, &nb_player);
+		} else if (game->info->status == IN_GAME ||
+				game->info->status == IN_CONFIG_IP_SERVER){
 			go = 1;
 		}
-		delay(frameLimit);
-		frameLimit = SDL_GetTicks() + 16;
+		delay(frame_limit);
+		frame_limit = SDL_GetTicks() + 16;
 	}
 
 	/* new game: start server thread */
-	if (config == 2) {
-		if (pthread_create(&server, NULL, server_beer_bomber, NULL)) {
+	if (choice == 2) {
+		game->info->playermax = nb_player;
+		if (pthread_create(&server, NULL, server_beer_bomber, game->info)) {
 			perror("pthread_create server");
 			return (EXIT_FAILURE);
 		}
 	}
-	game->status = IN_GAME;
-	SDL_Delay(1000);
 	client_beer_bomber(game);
-	if (config == 2) {
+	if (choice == 2) {
 		if (pthread_join(server, NULL)) {
 			perror("pthread_join server");
 			return (EXIT_FAILURE);
 		}
 	}
-	cleanup(game);
+
 	return (0);
 }

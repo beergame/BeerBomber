@@ -3,17 +3,14 @@
 
 # include "structs.h"
 
-Control customControl;
-Redefine redefine;
+void flush_inputs(void);
 
-void flushInputs(void);
+int get_single_input(void);
 
-int getSingleInput(void);
+void drawString(t_game*, char *, int, int, TTF_Font *, int, int);
 
-void drawString(Game*, char *, int, int, TTF_Font *, int, int);
+void draw_redefine(t_game *);
 
-void drawRedefine(Game *);
-
-void drawBackground(Game *, int);
+void draw_background(t_game *, int);
 
 #endif /* REDEFINE_H */

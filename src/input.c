@@ -1,6 +1,6 @@
 #include "input.h"
 
-int getInput(Game *game)
+int get_input(t_game *game)
 {
 	int key;
 	SDL_Event event;
@@ -12,64 +12,64 @@ int getInput(Game *game)
 
 			/* Closing the Window will exit the program */
 			case SDL_QUIT:
-				game->status = GAME_END;
+				game->info->status = END_GAME;
 				return (1);
 
 			case SDL_KEYDOWN:
 				key = event.key.keysym.sym;
-				if (key == game->customControl->left)
+				if (key == game->control->left)
 					game->input->left = 1;
-				else if (key == game->customControl->right)
+				else if (key == game->control->right)
 					game->input->right = 1;
-				else if (key == game->customControl->up)
+				else if (key == game->control->up)
 					game->input->up = 1;
-				else if (key == game->customControl->down)
+				else if (key == game->control->down)
 					game->input->down = 1;
-				else if (key == game->customControl->fire)
+				else if (key == game->control->fire)
 					game->input->fire = 1;
 				else if (key == SDLK_ESCAPE)
-					game->status = IN_REDEFINE;
+					game->info->status = IN_REDEFINE;
 				break;
 
 			case SDL_KEYUP:
 				key = event.key.keysym.sym;
-				if (key == game->customControl->left)
+				if (key == game->control->left)
 					game->input->left = 0;
-				else if (key == game->customControl->right)
+				else if (key == game->control->right)
 					game->input->right = 0;
-				else if (key == game->customControl->up)
+				else if (key == game->control->up)
 					game->input->up = 0;
-				else if (key == game->customControl->down)
+				else if (key == game->control->down)
 					game->input->down = 0;
-				else if (key == game->customControl->fire)
+				else if (key == game->control->fire)
 					game->input->fire = 0;
 				break;
 
 			case SDL_JOYBUTTONDOWN:
 				key = event.jbutton.button;
-				if (key == game->customControl->left)
+				if (key == game->control->left)
 					game->input->left = 1;
-				else if (key == game->customControl->right)
+				else if (key == game->control->right)
 					game->input->right = 1;
-				else if (key == game->customControl->up)
+				else if (key == game->control->up)
 					game->input->up = 1;
-				else if (key == game->customControl->down)
+				else if (key == game->control->down)
 					game->input->down = 1;
-				else if (key == game->customControl->fire)
+				else if (key == game->control->fire)
 					game->input->fire = 1;
 				break;
 
 			case SDL_JOYBUTTONUP:
 				key = event.jbutton.button;
-				if (key == game->customControl->left)
+				if (key == game->control->left)
 					game->input->left = 0;
-				else if (key == game->customControl->right)
+				else if (key == game->control->right)
 					game->input->right = 0;
-				else if (key == game->customControl->up)
+				else if (key == game->control->up)
 					game->input->up = 0;
-				else if (key == game->customControl->down)
+				else if (key == game->control->down)
 					game->input->down = 0;
-				else if (key == game->customControl->fire)
+				else if (key == game->control->fire)
 					game->input->fire = 0;
 				break;
 
@@ -104,13 +104,13 @@ int getInput(Game *game)
 	return (0);
 }
 
-void flushInputs()
+void flush_inputs()
 {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {}
 }
 
-int getSingleInput()
+int get_single_input()
 {
 	int key;
 	SDL_Event event;

@@ -5,31 +5,33 @@ int serialize_response(t_response *res, int sock)
 	char response[BUFF_SIZE] = "";
 	char buff[10];
 
-	sprintf(buff, "%i:", res->infos.game_status);
+	sprintf(buff, "%i:", res->info->status);
 	strcat(response, buff);
-	sprintf(buff, "%i:", res->infos.nb_players);
+	sprintf(buff, "%i:", res->info->playermax);
 	strcat(response, buff);
-	sprintf(buff, "%i ", res->infos.winner_player);
+	sprintf(buff, "%i ", res->info->winner);
 	strcat(response, buff);
 
 	/* player 0 is server fd -> start at 1 */
-	for (int i = 1; i < 2; i++) {
-		sprintf(buff, "%i:", res->players[i]->x);
-		strcat(response, buff);
-		sprintf(buff, "%i:", res->players[i]->y);
-		strcat(response, buff);
-		sprintf(buff, "%i:", res->players[i]->ammo);
-		strcat(response, buff);
-		sprintf(buff, "%i:", res->players[i]->reload);
-		strcat(response, buff);
-		sprintf(buff, "%i:", res->players[i]->frags);
-		strcat(response, buff);
-		sprintf(buff, "%i:", res->players[i]->connected);
-		strcat(response, buff);
-		sprintf(buff, "%i:", res->players[i]->life);
-		strcat(response, buff);
-		sprintf(buff, "%i;", res->players[i]->speed);
-		strcat(response, buff);
+	for (int i = 1; i < MAX_PLAYER; i++) {
+		if (res->player[i] != NULL) {
+			sprintf(buff, "%i:", res->player[i]->x);
+			strcat(response, buff);
+			sprintf(buff, "%i:", res->player[i]->y);
+			strcat(response, buff);
+			sprintf(buff, "%i:", res->player[i]->ammo);
+			strcat(response, buff);
+			sprintf(buff, "%i:", res->player[i]->reload);
+			strcat(response, buff);
+			sprintf(buff, "%i:", res->player[i]->frags);
+			strcat(response, buff);
+			sprintf(buff, "%i:", res->player[i]->connected);
+			strcat(response, buff);
+			sprintf(buff, "%i:", res->player[i]->life);
+			strcat(response, buff);
+			sprintf(buff, "%i;", res->player[i]->speed);
+			strcat(response, buff);
+		}
 	}
 	sprintf(buff, " ");
 	strcat(response, buff);
@@ -44,7 +46,7 @@ int serialize_response(t_response *res, int sock)
 	}
 
 	response[strlen(response)] =  '\0';
-	printf("server: response: %s\n", response);
+	printf("response: %s\n", response);
 	if (send(sock, response, strlen(response), 0) < 0) {
 		puts("Send failed");
 		return (0);
@@ -57,9 +59,9 @@ int send_response(t_env *e, t_player *player)
 {
 	t_response res;
 
-	res.players = e->players;
+	res.player = e->player;
 	res.map = e->map;
-	res.infos = e->infos;
+	res.info = e->info;
 
 	return (serialize_response(&res, player->fd));
 }

@@ -1,27 +1,32 @@
 #include "server.h"
 
-void allocate_fd(int fd, int type, t_player **players)
+void clean_server(t_env *e)
 {
-	t_player *player;
+	free_map(e->map);
+}
 
-	if ((player = malloc(sizeof(t_player))) == NULL)
-		return;
-	player->fd = fd;
-	player->type = type;
-	player->connected = 1;
-	player->speed = PLAYER_SPEED;
-	player->ammo = PLAYER_MAX_AMMO;
-	player->life = PLAYER_MAX_LIFE;
-	player->reload = PLAYER_RELOAD_TIME;
-	player->frags = 0;
-	player->x = 1;
-	player->y = 1;
-
-	for (int i = 0; i < MAX_PLAYER; i++) {
-		if (players[i] == NULL) {
-			players[i] = player;
-			return ;
-		}
+void set_new_player(int fd, int type, t_player *p, int m)
+{
+	p->fd = fd;
+	p->type = type;
+	p->connected = 1;
+	p->speed = PLAYER_SPEED;
+	p->ammo = PLAYER_MAX_AMMO;
+	p->life = PLAYER_MAX_LIFE;
+	p->reload = PLAYER_RELOAD_TIME;
+	p->frags = 0;
+	if (m == 1) {
+		p->x = 1;
+		p->y = 1;
+	} else if (m == 2) {
+		p->x = MAP_SIZE - 2;
+		p->y = MAP_SIZE - 2;
+	} else if (m == 3) {
+		p->x = 1;
+		p->y = MAP_SIZE - 2;
+	} else if (m == 4) {
+		p->x = MAP_SIZE - 2;
+		p->y = 1;
 	}
 }
 
@@ -33,7 +38,6 @@ t_request *get_player_request(int fd)
 	r = read(fd, buffer, BUFF_SIZE);
 	if (r > 0) {
 		buffer[r] = '\0';
-		printf("server: CLIENT: %s\n", buffer);
 		return (unserialize_request(buffer));
 	}
 
@@ -49,94 +53,127 @@ void server_read(t_env *e, int s)
 	cs = accept(s, (struct sockaddr *) &client_sin,
 				(socklen_t * ) & client_sin_len);
 	if (cs == -1)
-		return;
-	allocate_fd(cs, FD_CLIENT, e->players);
+		return ;
+	for (int i = 0; i < MAX_PLAYER; i++) {
+		if (e->player[i]->connected == 0) {
+			set_new_player(cs, FD_CLIENT, e->player[i], i);
+			return ;
+		}
+	}
 }
 
-void add_server(t_env *e)
+int add_server(t_env *e)
 {
-  int s;
-  struct sockaddr_in sin;
+	int s;
+	struct sockaddr_in sin;
 
-  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
-    return ;
-  sin.sin_family = AF_INET;
-  sin.sin_port = htons(e->port);
-  sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(s, (struct sockaddr *) &sin, sizeof(sin)) == -1)
-    return ;
-  if (listen(s, MAX_PLAYER) == -1)
-    return ;
-  allocate_fd(s, FD_SERVER, e->players);
+	if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
+		printf("error socket server\n");
+		return (0);
+	}
+	if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR,
+				   &(int){ 1 }, sizeof(int)) < 0) {
+		printf("setsockopt(SO_REUSEADDR) failed\n");
+		return (0);
+	}
+	sin.sin_family = AF_INET;
+	sin.sin_port = htons(e->port);
+	sin.sin_addr.s_addr = INADDR_ANY;
+	if (bind(s, (struct sockaddr *) &sin, sizeof(sin)) == -1) {
+		printf("error bind server\n");
+		return (0);
+	}
+	if (listen(s, 10) == -1) {
+		printf("error listen server\n");
+		return (0);
+	}
+	set_new_player(s, FD_SERVER, e->player[0], 0);
+	return (1);
 }
 
 int my_server(t_env *e)
 {
-	t_request *tmp_req = NULL;
+	t_request *client_req = NULL;
 	FD_ZERO(&e->fd_read);
 	FD_ZERO(&e->fd_write);
 	e->fd_max = 0;
 	for (int i = 0; i < MAX_PLAYER; i++) {
-		if (e->players[i] != NULL &&
-			e->players[i]->type != FD_FREE) {
-			FD_SET(e->players[i]->fd, &e->fd_read);
-			FD_SET(e->players[i]->fd, &e->fd_write);
-			e->fd_max = e->players[i]->fd;
+		if (e->player[i]->connected == 1 &&
+			e->player[i]->type != FD_FREE) {
+			FD_SET(e->player[i]->fd, &e->fd_read);
+			FD_SET(e->player[i]->fd, &e->fd_write);
+			e->fd_max = e->player[i]->fd;
 		}
 	}
 	if (select(e->fd_max + 1,
-			   &e->fd_read, &e->fd_write, NULL, NULL) == -1)
+			   &e->fd_read, &e->fd_write, NULL, NULL) == -1) {
 		return (0);
+	}
 	for (int i = 0; i < MAX_PLAYER; i++) {
-		if (e->players[i] != NULL &&
-			FD_ISSET(e->players[i]->fd, &e->fd_read)) {
-			if (e->players[i]->type == FD_SERVER) {
-				server_read(e, e->players[i]->fd);
+		if (e->player[i]->connected == 1 &&
+			FD_ISSET(e->player[i]->fd, &e->fd_read)) {
+			if (e->player[i]->type == FD_SERVER) {
+				server_read(e, e->player[i]->fd);
 			}
-			if (e->players[i]->type == FD_CLIENT) {
-				tmp_req = get_player_request(e->players[i]->fd);
+			if (e->player[i]->type == FD_CLIENT) {
+				client_req = get_player_request(e->player[i]->fd);
+				if (client_req != NULL) {
+					/* check if player can move or throw bomb */
+					do_player_move(e, client_req, i);
+					do_player_throw_bomb(e, client_req, i);
+
+					if (client_req->ckecksum == 1) {
+						return (0);
+					}
+					/* send response to player with all env data */
+					send_response(e, e->player[i]);
+				}
 			}
 		}
 	}
+	do_timing_entity(e);
 
-	if (tmp_req != NULL) {
-		/* check if player can move or throw bomb */
-		do_player_move(e, tmp_req);
-		do_player_throw_bomb(e, tmp_req);
-		printf("test server 1\n");
-		do_timing_entity(e);
 
-		if (tmp_req->ckecksum == 1) {
-			return (0);
-		}
-		/* send response to player with all env data */
-		return (send_response(e, e->players[tmp_req->player_nb]));
-	}
-
-	usleep(50);
+	usleep(50000);
 	return (1);
 }
 
-void *server_beer_bomber()
+void *server_beer_bomber(void *args)
 {
 	printf("server: in thread\n");
 
 	t_env env;
-	env.players = malloc(MAX_PLAYER * sizeof(t_player *));
-	env.timers = malloc(MAX_TIMER * sizeof(t_timer *));
-	env.map = load_server_map();
-	env.infos.game_status = 0;
-	env.infos.nb_players = 1;
-	env.infos.winner_player = 0;
+	env.info = malloc(sizeof(t_info));
+	env.info = (t_info *) args;
+
+	env.player = malloc(MAX_PLAYER * sizeof(t_player *));
 	for (int i = 0; i < MAX_PLAYER; i++) {
-		env.players[i] = NULL;
+		if ((env.player[i] = malloc(sizeof(t_player))) == NULL)
+			break ;
+		env.player[i]->x = 0;
+		env.player[i]->y = 0;
+		env.player[i]->ammo = 0;
+		env.player[i]->reload = 0;
+		env.player[i]->frags = 0;
+		env.player[i]->connected = 0;
+		env.player[i]->life = 0;
+		env.player[i]->speed = 0;
 	}
+
+	// TODO: create list for timer opti.
+	env.timer = malloc(MAX_TIMER * sizeof(t_timer *));
 	for (int i = 0; i < MAX_TIMER; ++i) {
-		env.timers[i] = NULL;
+		env.timer[i] = NULL;
 	}
+
+	env.map = load_map();
 	env.port = 5000;
-	add_server(&env);
-	while (my_server(&env));
+	if (add_server(&env))
+	{
+		usleep(500 * 1000);
+		while (my_server(&env));
+	}
+	clean_server(&env);
 
 	pthread_exit(NULL);
 }
