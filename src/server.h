@@ -14,7 +14,6 @@
 # define FD_FREE 0
 # define FD_CLIENT 1
 # define FD_SERVER 2
-# define MAX_FD 255
 # define BUFF_SIZE 3000
 /* + 1 server VV */
 # define MAX_PLAYER 5
@@ -90,7 +89,7 @@ typedef struct	s_response
 	t_player	**player;
 }				t_response;
 
-t_map			**load_server_map();
+t_map			**load_map();
 t_request		*unserialize_request(char *buffer);
 int				send_response(t_env *, t_player *);
 

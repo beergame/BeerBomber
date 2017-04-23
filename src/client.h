@@ -21,7 +21,7 @@ int do_redefine(t_game *);
 
 char **my_str_to_wordtab(char *, char);
 
-t_map **load_server_map();
+t_map **load_map();
 
 void init_client(t_game *);
 

@@ -1,6 +1,6 @@
 #include "map_server.h"
 
-t_map **load_server_map()
+t_map **load_map()
 {
 	t_map **tmp;
 
@@ -26,4 +26,14 @@ t_map **load_server_map()
 	}
 
 	return tmp;
+}
+
+void free_map(t_map **map)
+{
+	for (int i = 0; i < MAP_SIZE; i++) {
+		free(map[i]);
+		map[i] = NULL;
+	}
+	free(map);
+	map = NULL;
 }

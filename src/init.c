@@ -89,7 +89,7 @@ void init_main(t_game *game)
 void init_client(t_game *g)
 {
 	/* data clearing */
-	g->map = load_server_map();
+	g->map = load_map();
 	g->player = malloc(MAX_PLAYER * sizeof(t_player *));
 	for (int i = 0; i < MAX_PLAYER; i++) {
 		if ((g->player[i] = malloc(sizeof(t_player))) == NULL)
@@ -110,32 +110,4 @@ void init_client(t_game *g)
 	g->input->right = 0;
 	g->input->left = 0;
 	g->input->fire = 0;
-}
-
-void cleanup(t_game *game)
-{
-	/* Free the sprites and map */
-
-	freeSprites();
-	free_map(game->map);
-
-	/* Close the font */
-
-	closeFont(game->font);
-
-	/* Close the joystick */
-
-	if (game->joystick != NULL)
-		SDL_JoystickClose(game->joystick);
-
-	/* Close SDL_TTF */
-
-	TTF_Quit();
-
-	SDL_DestroyRenderer(game->renderer);
-	SDL_DestroyWindow(game->screen);
-
-	/* Shut down SDL */
-
-	SDL_Quit();
 }

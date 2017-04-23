@@ -1,15 +1,5 @@
 #include "map.h"
 
-void free_map(t_map **map)
-{
-	for (int i = 0; i < MAP_SIZE; i++) {
-		free(map[i]);
-		map[i] = NULL;
-	}
-	free(map);
-	map = NULL;
-}
-
 void draw_map_base(t_game *game)
 {
 	for (int i = 0; i < MAP_SIZE; i++) {

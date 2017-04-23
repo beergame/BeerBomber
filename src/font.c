@@ -15,7 +15,7 @@ TTF_Font *loadFont(char *name, int size)
 	return font;
 }
 
-void closeFont(TTF_Font *font)
+void close_font(TTF_Font *font)
 {
 	/* Close the font once we're done with it */
 

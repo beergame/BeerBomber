@@ -67,7 +67,7 @@ SDL_Texture *getSprite(int index)
 	return sprite[index].image;
 }
 
-void freeSprites()
+void free_sprites()
 {
 	int i;
 

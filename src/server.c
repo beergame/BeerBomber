@@ -161,13 +161,14 @@ void *server_beer_bomber(void *args)
 		env.timer[i] = NULL;
 	}
 
-	env.map = load_server_map();
+	env.map = load_map();
 	env.port = 5000;
 	if (add_server(&env))
 	{
 		usleep(500 * 1000);
 		while (my_server(&env));
 	}
+	cleanup_server(&env);
 
 	pthread_exit(NULL);
 }

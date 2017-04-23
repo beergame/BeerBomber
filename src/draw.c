@@ -22,13 +22,14 @@ void draw(t_game *game)
 
 	draw_map_base(game);
 
+	/* Draw players */
+
+	draw_player(game);
+
 	/* Draw the entities */
 
 	draw_map_entity(game);
 
-	/* Draw players */
-
-	draw_player(game);
 
 	/* Update the buffer */
 
