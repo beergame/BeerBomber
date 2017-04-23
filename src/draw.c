@@ -21,9 +21,9 @@ void draw(t_game *g)
 		draw_log_string(g, text, 50, 100 + (i * 150), g->font);
 	}
 	/* Draw map players entities */
-	draw_map_entity(g);
-	draw_player(g);
 	draw_map_base(g);
+	draw_player(g);
+	draw_map_entity(g);
 	/* Update the buffer */
 	SDL_RenderPresent(g->renderer);
 	/* Sleep briefly for better perf */
