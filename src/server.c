@@ -14,13 +14,13 @@ void set_new_player(int fd, int type, t_player *p, int m)
 		p->x = 1;
 		p->y = 1;
 	} else if (m == 2) {
-		p->x = MAP_SIZE - 1;
-		p->y = MAP_SIZE - 1;
+		p->x = MAP_SIZE - 2;
+		p->y = MAP_SIZE - 2;
 	} else if (m == 3) {
 		p->x = 1;
-		p->y = MAP_SIZE - 1;
+		p->y = MAP_SIZE - 2;
 	} else if (m == 4) {
-		p->x = MAP_SIZE - 1;
+		p->x = MAP_SIZE - 2;
 		p->y = 1;
 	}
 }
@@ -112,22 +112,22 @@ int my_server(t_env *e)
 			}
 			if (e->player[i]->type == FD_CLIENT) {
 				client_req = get_player_request(e->player[i]->fd);
+				if (client_req != NULL) {
+					/* check if player can move or throw bomb */
+					do_player_move(e, client_req, i);
+					do_player_throw_bomb(e, client_req, i);
+
+					if (client_req->ckecksum == 1) {
+						return (0);
+					}
+					/* send response to player with all env data */
+					send_response(e, e->player[i]);
+				}
 			}
 		}
 	}
+	do_timing_entity(e);
 
-	if (client_req != NULL) {
-		/* check if player can move or throw bomb */
-		do_player_move(e, client_req);
-		do_player_throw_bomb(e, client_req);
-		do_timing_entity(e);
-
-		if (client_req->ckecksum == 1) {
-			return (0);
-		}
-		/* send response to player with all env data */
-		return (send_response(e, e->player[client_req->nb]));
-	}
 
 	usleep(50000);
 	return (1);

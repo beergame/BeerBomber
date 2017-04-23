@@ -1,38 +1,38 @@
 #include "action_server.h"
 
-void player_move(t_env *e, t_request *req, int x, int y)
+void player_move(t_env *e, int i, int x, int y)
 {
-	e->player[req->nb]->x = x;
-	e->player[req->nb]->y = y;
+	e->player[i]->x = x;
+	e->player[i]->y = y;
 }
 
-void do_player_move(t_env *e, t_request *req)
+void do_player_move(t_env *e, t_request *req, int i)
 {
-	if (e->player[req->nb] != NULL) {
-		e->player[req->nb]->speed--;
-		if (e->player[req->nb]->speed < 0) {
-			e->player[req->nb]->speed = 0;
+	if (e->player[i] != NULL) {
+		e->player[i]->speed--;
+		if (e->player[i]->speed < 0) {
+			e->player[i]->speed = 0;
 		}
-		int x = e->player[req->nb]->x;
-		int y = e->player[req->nb]->y;
-		if (req->dir && e->player[req->nb]->speed <= 0) {
+		int x = e->player[i]->x;
+		int y = e->player[i]->y;
+		if (req->dir && e->player[i]->speed <= 0) {
 			if (req->dir == 1 && y > 1 &&
 				(e->map[x][y - 1].data[1] == '0') &&
 				(e->map[x][y - 1].data[3] != '1'))
-				player_move(e, req, x, y - 1);
+				player_move(e, i, x, y - 1);
 			else if (req->dir == 2 && y < MAP_SIZE - 2 &&
 					 (e->map[x][y + 1].data[1] == '0') &&
 					 (e->map[x][y + 1].data[3] != '1'))
-				player_move(e, req, x, y + 1);
+				player_move(e, i, x, y + 1);
 			else if (req->dir == 3 && x > 1 &&
 					 (e->map[x - 1][y].data[1] == '0') &&
 					 (e->map[x - 1][y].data[3] != '1'))
-				player_move(e, req, x - 1, y);
+				player_move(e, i, x - 1, y);
 			else if (req->dir == 4 && x < MAP_SIZE - 2 &&
 					 (e->map[x + 1][y].data[1] == '0') &&
 					 (e->map[x + 1][y].data[3] != '1'))
-				player_move(e, req, x + 1, y);
-			e->player[req->nb]->speed = PLAYER_SPEED;
+				player_move(e, i, x + 1, y);
+			e->player[i]->speed = PLAYER_SPEED;
 		}
 	}
 }
@@ -54,9 +54,9 @@ void throw_bomb(t_env *e, t_player *p)
 	e->timer[i] = t;
 }
 
-void do_player_throw_bomb(t_env *e, t_request *r)
+void do_player_throw_bomb(t_env *e, t_request *r, int i)
 {
-	t_player *p = e->player[r->nb];
+	t_player *p = e->player[i];
 	p->reload--;
 	if (p->reload < 0) {
 		p->reload = 0;

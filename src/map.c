@@ -42,8 +42,28 @@ void draw_player(t_game *g)
 {
 	for (int i = 0; i < MAX_PLAYER; ++i) {
 		if (g->player[i]->connected == 1) {
-			drawImage(g, getSprite(PLAYER_ONE_DOWN),
-					  g->player[i]->x, g->player[i]->y);
+			switch (i) {
+				case 0:
+					drawImage(g, getSprite(PLAYER_ONE_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
+				case 1:
+					drawImage(g, getSprite(PLAYER_TWO_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
+				case 2:
+					drawImage(g, getSprite(PLAYER_THREE_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
+				case 3:
+					drawImage(g, getSprite(PLAYER_FOUR_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
+				default:
+					drawImage(g, getSprite(PLAYER_TWO_DOWN),
+							  g->player[i]->x, g->player[i]->y);
+					break;
+			}
 		}
 	}
 }

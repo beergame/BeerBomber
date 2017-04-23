@@ -94,8 +94,8 @@ t_map			**load_server_map();
 t_request		*unserialize_request(char *buffer);
 int				send_response(t_env *, t_player *);
 
-void			do_player_move(t_env *, t_request *);
-void			do_player_throw_bomb(t_env *, t_request *);
+void			do_player_move(t_env *, t_request *, int);
+void			do_player_throw_bomb(t_env *, t_request *, int);
 void			do_timing_entity(t_env *);
 
 #endif /* __SERVER_H__ */

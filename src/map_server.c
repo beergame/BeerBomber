@@ -15,7 +15,8 @@ t_map **load_server_map()
 				j == MAP_SIZE - 1 || (!(i % 2) && !(j % 2))) {
 				/* 11000000 terrain indestructible */
 				tmp[i][j].data = strdup("11000000");
-			} else if (i != 1) {
+			} else if ((i > 2 || j > 2) && (i < 12 || j < 12) &&
+					(i > 2 || j < 12) && (i < 12 || j > 2)) {
 				/* 01000000 terrain destructible */
 				tmp[i][j].data = strdup("01000000");
 			} else {

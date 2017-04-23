@@ -24,7 +24,7 @@ int main(void)
 			game->input->fire = 0;
 			go = getInput(game);
 			choose_nb_player(game, &nb_player);
-		} else if (game->info->status == IN_GAME){
+		} else if (game->info->status == IN_GAME || game->info->status == IN_CONFIG_IP_SERVER){
 			go = 1;
 		}
 		delay(frameLimit);
