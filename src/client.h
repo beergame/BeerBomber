@@ -3,35 +3,28 @@
 
 # include "structs.h"
 
-//Sprite sprite[MAX_SPRITES];
-Redefine redefine;
+int init_main(t_game *);
 
-void initBeerBomber(Game *);
+void clean_client(t_game *);
 
-void cleanup(Game *);
+int get_input(t_game *);
 
-int doConfig(Game *);
+void draw(t_game *);
 
-int getInput(Game *);
-
-void draw(Game *);
-
-Entity *initPlayer(MapCase **, int, int);
-
-void playerMove(Game *, MapCase **, Entity *);
-
-void playerThrowBomb(Game *, MapCase **, Entity *);
-
-void entitiesActions(MapCase **);
-
-void loadAllSprites(Game *);
+void load_all_sprites(t_game *);
 
 TTF_Font *loadFont(char *, int);
 
 void delay(unsigned int);
 
-int doRedefine(Game *);
+int do_redefine(t_game *);
 
-MapCase **loadMap();
+char **my_str_to_wordtab(char *, char);
+
+t_map **load_map();
+
+void init_client(t_game *);
+
+int send_serialize_request(t_request *, int);
 
 #endif /* __CLIENT_H__ */

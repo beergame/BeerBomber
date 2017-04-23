@@ -1,12 +1,6 @@
-#ifndef BOMB_H
-# define BOMB_H
+#ifndef __BOMB_H__
+# define __BOMB_H__
 
-# include "structs.h"
+# include "server.h"
 
-void drawImage(Game *, SDL_Texture *, int, int);
-
-SDL_Texture *getSprite(int);
-
-Entity *addFire(MapCase **, int, int);
-
-#endif /* BOMB_H */
+#endif /* __BOMB_H__ */

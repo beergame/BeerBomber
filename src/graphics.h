@@ -3,6 +3,6 @@
 
 # include "structs.h"
 
-Sprite sprite[MAX_SPRITES];
+t_sprite sprite[MAX_SPRITES];
 
 #endif /* GRAPHICS_H */

@@ -1,89 +1,89 @@
 #include "redefine.h"
 
-int doRedefine(Game *game)
+int do_redefine(t_game *game)
 {
 	int key = -1;
 
-	if (strlen(redefine.redefineString) == 0) {
-		switch (redefine.redefineIndex) {
+	if (strlen(game->redefine->buffer) == 0) {
+		switch (game->redefine->i) {
 			case 0:
-				strcpy(redefine.redefineString, "Press key for Left");
+				strcpy(game->redefine->buffer, "Press key for Left");
 				break;
 
 			case 1:
-				strcpy(redefine.redefineString, "Press key for Right");
+				strcpy(game->redefine->buffer, "Press key for Right");
 				break;
 
 			case 2:
-				strcpy(redefine.redefineString, "Press key for Up");
+				strcpy(game->redefine->buffer, "Press key for Up");
 				break;
 
 			case 3:
-				strcpy(redefine.redefineString, "Press key for Down");
+				strcpy(game->redefine->buffer, "Press key for Down");
 				break;
 
 			default:
-				strcpy(redefine.redefineString, "Press key for Fire");
+				strcpy(game->redefine->buffer, "Press key for Fire");
 				break;
 		}
 	}
 
-	flushInputs();
+	flush_inputs();
 
 	key = -2;
 
 	while (key == -2) {
-		key = getSingleInput();
+		key = get_single_input();
 		if (key == 1)
 			return (1);
 
-		drawRedefine(game);
+		draw_redefine(game);
 	}
 
-	switch (redefine.redefineIndex) {
+	switch (game->redefine->i) {
 		case 0:
-			game->customControl->left = key;
+			game->control->left = key;
 			break;
 
 		case 1:
-			game->customControl->right = key;
+			game->control->right = key;
 			break;
 
 		case 2:
-			game->customControl->up = key;
+			game->control->up = key;
 			break;
 
 		case 3:
-			game->customControl->down = key;
+			game->control->down = key;
 			break;
 
 		default:
-			game->customControl->fire = key;
+			game->control->fire = key;
 			break;
 	}
 
-	redefine.redefineIndex++;
+	game->redefine->i++;
 
-	redefine.redefineString[0] = '\0';
+	game->redefine->buffer[0] = '\0';
 
-	if (redefine.redefineIndex == 5) {
-		redefine.redefineIndex = 0;
-		game->status = IN_CONFIG;
+	if (game->redefine->i == 5) {
+		game->redefine->i = 0;
+		game->info->status = IN_CONFIG_NEW_GAME;
 	}
 
 	return (0);
 }
 
-void drawRedefine(Game *game)
+void draw_redefine(t_game *game)
 {
 	/* Blank the screen */
 	SDL_RenderClear(game->renderer);
 
 	/* Draw background */
-	drawBackground(game, MAP_BACK_ONE);
+	draw_background(game, MAP_BACK_ONE);
 
 	/* Draw the redefine string */
-	drawString(game, redefine.redefineString, 0, 0, game->font, 1, 1);
+	drawString(game, game->redefine->buffer, 0, 0, game->font, 1, 1);
 
 	/* Update the buffer */
 	SDL_RenderPresent(game->renderer);
