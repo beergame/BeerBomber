@@ -11,6 +11,10 @@ int get_input(t_game *);
 
 void draw(t_game *);
 
+void draw_wait_for_player(t_game *);
+
+void draw_winner(t_game *);
+
 void load_all_sprites(t_game *);
 
 TTF_Font *loadFont(char *, int);

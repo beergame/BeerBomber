@@ -12,7 +12,7 @@ void is_new_game(t_game *game, int *c)
 		if (*c == 2) {
 			game->info->status = IN_CONFIG_NB_PLAYER;
 		} else {
-			game->info->status = IN_CONFIG_IP_SERVER;
+			game->info->status = WAIT_FOR_PLAYER;
 		}
 	}
 	(*c < 2) ? *c = 2: 0;
@@ -29,7 +29,7 @@ void choose_nb_player(t_game *game, int *nb)
 	} else if (game->input->right) {
 		*nb = 4;
 	} else if (game->input->fire) {
-		game->info->status = IN_GAME;
+		game->info->status = WAIT_FOR_PLAYER;
 	}
 	draw_nb_player(game, *nb);
 }
@@ -44,19 +44,19 @@ void draw_nb_player(t_game *game, int c)
 
 	switch (c) {
 		case 2:
-			drawBtn(game, 250, 380, BTN_NEWGAME);
-			drawBtn(game, 550, 380, BTN_NEWGAME_B);
-			drawBtn(game, 850, 380, BTN_JOINGAME_B);
+			drawBtn(game, 250, 380, BTN_2_PLAYER);
+			drawBtn(game, 550, 380, BTN_3_PLAYER_B);
+			drawBtn(game, 850, 380, BTN_4_PLAYER_B);
 			break;
 		case 3:
-			drawBtn(game, 250, 380, BTN_NEWGAME_B);
-			drawBtn(game, 550, 380, BTN_NEWGAME);
-			drawBtn(game, 850, 380, BTN_JOINGAME_B);
+			drawBtn(game, 250, 380, BTN_2_PLAYER_B);
+			drawBtn(game, 550, 380, BTN_3_PLAYER);
+			drawBtn(game, 850, 380, BTN_4_PLAYER_B);
 			break;
 		case 4:
-			drawBtn(game, 250, 380, BTN_NEWGAME_B);
-			drawBtn(game, 550, 380, BTN_NEWGAME_B);
-			drawBtn(game, 850, 380, BTN_JOINGAME);
+			drawBtn(game, 250, 380, BTN_2_PLAYER_B);
+			drawBtn(game, 550, 380, BTN_3_PLAYER_B);
+			drawBtn(game, 850, 380, BTN_4_PLAYER);
 			break;
 		default:
 			break;

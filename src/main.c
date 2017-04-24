@@ -24,7 +24,8 @@ int main(void)
 			go = get_input(game);
 			choose_nb_player(game, &nb_player);
 		} else if (game->info->status == IN_GAME ||
-				game->info->status == IN_CONFIG_IP_SERVER){
+				game->info->status == IN_CONFIG_IP_SERVER ||
+				game->info->status == WAIT_FOR_PLAYER){
 			go = 1;
 		}
 		delay(frame_limit);
