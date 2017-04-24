@@ -114,6 +114,12 @@ void load_all_sprites(t_game *game)
 	loadSprite(game, BTN_NEWGAME_B, "gfx/btn/newgame_b.png");
 	loadSprite(game, BTN_JOINGAME, "gfx/btn/joingame.png");
 	loadSprite(game, BTN_JOINGAME_B, "gfx/btn/joingame_b.png");
+	loadSprite(game, BTN_2_PLAYER, "gfx/btn/2_player.png");
+	loadSprite(game, BTN_3_PLAYER, "gfx/btn/3_player.png");
+	loadSprite(game, BTN_4_PLAYER, "gfx/btn/4_player.png");
+	loadSprite(game, BTN_2_PLAYER_B, "gfx/btn/2_player_b.png");
+	loadSprite(game, BTN_3_PLAYER_B, "gfx/btn/3_player_b.png");
+	loadSprite(game, BTN_4_PLAYER_B, "gfx/btn/4_player_b.png");
 }
 
 void draw_background(t_game *game, int index)

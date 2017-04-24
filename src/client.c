@@ -108,6 +108,37 @@ int get_response(int sock, t_game *g)
 	return (0);
 }
 
+void all_players_connected(t_game *g)
+{
+	int a = 0;
+
+	for (int i = 0; i < MAX_PLAYER; ++i) {
+		if (g->player[i]->connected == 1) {
+			a++;
+		}
+	}
+	if (g->info->playermax == a) {
+		g->info->status = IN_CONFIG_NEW_GAME;
+	}
+}
+
+int one_left(t_game *g)
+{
+	int a = 0;
+
+	for (int i = 0; i < MAX_PLAYER; ++i) {
+		if (g->player[i]->connected == 1 &&
+				g->player[i]->life > 0) {
+			a++;
+		}
+	}
+	if (a == 1) {
+		return (1);
+	}
+
+	return (0);
+}
+
 void client_beer_bomber(t_game *game)
 {
 	unsigned int frame_limit = SDL_GetTicks() + 16;
@@ -130,10 +161,20 @@ void client_beer_bomber(t_game *game)
 			send_request(server, game);
 			get_response(server, game);
 			draw(game);
+			if (one_left(game)) {
+				go = 1;
+			}
+		} else if (game->info->status == WAIT_FOR_PLAYER) {
+			go = get_input(game);
+			send_request(server, game);
+			get_response(server, game);
+			all_players_connected(game);
+			draw_wait_for_player(game);
 		}
 		delay(frame_limit);
 		frame_limit = SDL_GetTicks() + 16;
 	}
+	draw_winner(game);
 	send_deco(server);
 	clean_client(game);
 }
