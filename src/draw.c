@@ -7,7 +7,7 @@ void draw(t_game *g)
 	/* Blank the screen and draw background */
 	SDL_RenderClear(g->renderer);
 	draw_background(g, MAP_BACK_ONE);
-	/* Draw the score */
+	/* Draw stats */
 	for (int i = 0; i < MAX_PLAYER; ++i) {
 		sprintf(text, "PLAYER %d", i + 1);
 		draw_log_string(g, text, 50, 20 + (i * 150), g->font);
@@ -40,4 +40,51 @@ void delay(unsigned int frame_limit)
 		SDL_Delay(16);
 	else
 		SDL_Delay(frame_limit - ticks);
+}
+
+void draw_wait_for_player(t_game *g)
+{
+	char text[20];
+
+	/* Blank the screen and draw background */
+	SDL_RenderClear(g->renderer);
+	draw_background(g, MAP_BACK_ONE);
+	/* Draw co info */
+	sprintf(text, "WAIT FOR PLAYER ...");
+	drawString(g, text, 50, 100, g->font, 1, 0);
+	for (int i = 0; i < MAX_PLAYER; ++i) {
+		if (g->player[i]->connected == 1) {
+			sprintf(text, "PLAYER %d CO !", i + 1);
+			drawString(g, text, 50, 150 + (i * 150), g->font, 1, 0);
+		}
+	}
+	/* Update the buffer */
+	SDL_RenderPresent(g->renderer);
+	/* Sleep briefly for better perf */
+	SDL_Delay(1);
+}
+
+void draw_winner(t_game *g)
+{
+	char text[50];
+
+	/* Blank the screen and draw background */
+	SDL_RenderClear(g->renderer);
+	draw_background(g, MAP_BACK_ONE);
+	/* Draw winner info */
+	sprintf(text, "AND THE WINNER IS ...");
+	drawString(g, text, 50, 100, g->font, 1, 0);
+	for (int i = 0; i < MAX_PLAYER; ++i) {
+		if (g->player[i]->connected == 1 &&
+				g->player[i]->life > 0) {
+			sprintf(text, "PLAYER %d !!!", i + 1);
+			drawString(g, text, 50, 150, g->font, 1, 0);
+		}
+	}
+	sprintf(text, "DISCONNECT FROM SERVER IN 3 SEC ...");
+	drawString(g, text, 50, 300, g->font, 1, 0);
+	/* Update the buffer */
+	SDL_RenderPresent(g->renderer);
+	/* Sleep briefly for better perf */
+	SDL_Delay(5000);
 }
