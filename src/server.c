@@ -105,8 +105,10 @@ int my_server(t_env *e)
 			e->fd_max = e->player[i]->fd;
 		}
 	}
+	/** set 1 min timeout */
+	struct timeval tv = {60, 0};
 	if (select(e->fd_max + 1,
-			   &e->fd_read, &e->fd_write, NULL, NULL) == -1) {
+			   &e->fd_read, &e->fd_write, NULL, &tv) == -1) {
 		return (0);
 	}
 	for (int i = 0; i < MAX_PLAYER; i++) {

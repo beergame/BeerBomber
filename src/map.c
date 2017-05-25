@@ -9,30 +9,45 @@ void draw_map_base(t_game *game)
 	}
 }
 
+void draw_one_player(t_game *g, int sprite, int i)
+{
+	if (g->input->up) {
+		drawImage(g, getSprite(sprite),
+				  g->player[i]->x, g->player[i]->y);
+	} else if (g->input->down) {
+		drawImage(g, getSprite(sprite + 1),
+				  g->player[i]->x, g->player[i]->y);
+	} else if (g->input->left) {
+		drawImage(g, getSprite(sprite + 2),
+				  g->player[i]->x, g->player[i]->y);
+	} else if (g->input->right) {
+		drawImage(g, getSprite(sprite + 3),
+				  g->player[i]->x, g->player[i]->y);
+	} else {
+		drawImage(g, getSprite(sprite + 1),
+				  g->player[i]->x, g->player[i]->y);
+	}
+}
+
 void draw_player(t_game *g)
 {
 	for (int i = 0; i < MAX_PLAYER; ++i) {
 		if (g->player[i]->connected == 1) {
 			switch (i) {
 				case 0:
-					drawImage(g, getSprite(PLAYER_ONE_DOWN),
-							  g->player[i]->x, g->player[i]->y);
+					draw_one_player(g, PLAYER_ONE_UP, i);
 					break;
 				case 1:
-					drawImage(g, getSprite(PLAYER_TWO_DOWN),
-							  g->player[i]->x, g->player[i]->y);
+					draw_one_player(g, PLAYER_TWO_UP, i);
 					break;
 				case 2:
-					drawImage(g, getSprite(PLAYER_THREE_DOWN),
-							  g->player[i]->x, g->player[i]->y);
+					draw_one_player(g, PLAYER_THREE_UP, i);
 					break;
 				case 3:
-					drawImage(g, getSprite(PLAYER_FOUR_DOWN),
-							  g->player[i]->x, g->player[i]->y);
+					draw_one_player(g, PLAYER_FOUR_UP, i);
 					break;
 				default:
-					drawImage(g, getSprite(PLAYER_TWO_DOWN),
-							  g->player[i]->x, g->player[i]->y);
+					draw_one_player(g, PLAYER_TWO_UP, i);
 					break;
 			}
 		}

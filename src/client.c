@@ -128,7 +128,7 @@ int one_left(t_game *g)
 
 	for (int i = 0; i < MAX_PLAYER; ++i) {
 		if (g->player[i]->connected == 1 &&
-				g->player[i]->life > 0) {
+			g->player[i]->life > 0) {
 			a++;
 		}
 	}
@@ -156,7 +156,7 @@ void client_beer_bomber(t_game *game)
 			/* Handle the key redefining */
 			go = do_redefine(game);
 		} else if (game->info->status == IN_GAME ||
-				game->info->status == IN_CONFIG_NEW_GAME) {
+				   game->info->status == IN_CONFIG_NEW_GAME) {
 			go = get_input(game);
 			send_request(server, game);
 			get_response(server, game);
