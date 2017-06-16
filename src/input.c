@@ -13,7 +13,7 @@ int get_input(t_game *game)
 			/* Closing the Window will exit the program */
 			case SDL_QUIT:
 				game->info->status = END_GAME;
-				return (1);
+				return (2);
 
 			case SDL_KEYDOWN:
 				key = event.key.keysym.sym;

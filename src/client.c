@@ -175,7 +175,10 @@ void client_beer_bomber(t_game *game)
 		delay(frame_limit);
 		frame_limit = SDL_GetTicks() + 16;
 	}
-	draw_winner(game);
+	if (go == 1) {
+		draw_winner(game);
+	}
+
 	send_deco(server);
 	clean_client(game);
 }
