@@ -19,6 +19,8 @@ int serialize_response(t_response *res, int sock)
 			strcat(response, buff);
 			sprintf(buff, "%i:", res->player[i]->y);
 			strcat(response, buff);
+			sprintf(buff, "%i:", res->player[i]->dir);
+			strcat(response, buff);
 			sprintf(buff, "%i:", res->player[i]->ammo);
 			strcat(response, buff);
 			sprintf(buff, "%i:", res->player[i]->reload);

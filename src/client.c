@@ -76,12 +76,13 @@ void unserialize_response(char *buffer, t_game *g)
 			if (g->player[i] != NULL) {
 				g->player[i]->x = atoi(buff2[0]);
 				g->player[i]->y = atoi(buff2[1]);
-				g->player[i]->ammo = atoi(buff2[2]);
-				g->player[i]->reload = atoi(buff2[3]);
-				g->player[i]->frags = atoi(buff2[4]);
-				g->player[i]->connected = atoi(buff2[5]);
-				g->player[i]->life = atoi(buff2[6]);
-				g->player[i]->speed = atoi(buff2[7]);
+				g->player[i]->dir = atoi(buff2[2]);
+				g->player[i]->ammo = atoi(buff2[3]);
+				g->player[i]->reload = atoi(buff2[4]);
+				g->player[i]->frags = atoi(buff2[5]);
+				g->player[i]->connected = atoi(buff2[6]);
+				g->player[i]->life = atoi(buff2[7]);
+				g->player[i]->speed = atoi(buff2[8]);
 			}
 		}
 	}

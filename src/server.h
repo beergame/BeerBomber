@@ -32,6 +32,7 @@ typedef struct	s_player
 	int			x;
 	int			y;
 	int			fd;
+	int			dir;
 	int			type;
 	int			life;
 	int			ammo;

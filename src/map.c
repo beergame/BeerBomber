@@ -4,27 +4,27 @@ void draw_map_base(t_game *game)
 {
 	for (int i = 0; i < MAP_SIZE; i++) {
 		for (int j = 0; j < MAP_SIZE; j++) {
-			drawImage(game, getSprite(MAP_SPRITE_BASE), i, j);
+			drawImage(game, get_sprite(MAP_SPRITE_BASE), i, j);
 		}
 	}
 }
 
 void draw_one_player(t_game *g, int sprite, int i)
 {
-	if (g->input->up) {
-		drawImage(g, getSprite(sprite),
+	if (g->player[i]->dir == 1) {
+		drawImage(g, get_sprite(sprite),
 				  g->player[i]->x, g->player[i]->y);
-	} else if (g->input->down) {
-		drawImage(g, getSprite(sprite + 1),
+	} else if (g->player[i]->dir == 2) {
+		drawImage(g, get_sprite(sprite + 1),
 				  g->player[i]->x, g->player[i]->y);
-	} else if (g->input->left) {
-		drawImage(g, getSprite(sprite + 2),
+	} else if (g->player[i]->dir == 3) {
+		drawImage(g, get_sprite(sprite + 2),
 				  g->player[i]->x, g->player[i]->y);
-	} else if (g->input->right) {
-		drawImage(g, getSprite(sprite + 3),
+	} else if (g->player[i]->dir == 4) {
+		drawImage(g, get_sprite(sprite + 3),
 				  g->player[i]->x, g->player[i]->y);
 	} else {
-		drawImage(g, getSprite(sprite + 1),
+		drawImage(g, get_sprite(sprite + 1),
 				  g->player[i]->x, g->player[i]->y);
 	}
 }
@@ -60,14 +60,14 @@ void draw_map_entity(t_game *game)
 		for (int j = 0; j < MAP_SIZE; ++j) {
 			if (game->map[i][j].data[0] == '0' &&
 				 game->map[i][j].data[1] == '1') {
-				drawImage(game, getSprite(MAP_SPRITE_BUSH), i, j);
+				drawImage(game, get_sprite(MAP_SPRITE_BUSH), i, j);
 			} else if (game->map[i][j].data[0] == '1') {
-				drawImage(game, getSprite(MAP_SPRITE_BLOCK), i, j);
+				drawImage(game, get_sprite(MAP_SPRITE_BLOCK), i, j);
 			}
 			if (game->map[i][j].data[3] == '1') {
-				drawImage(game, getSprite(BOMB_SPRITE), i, j);
+				drawImage(game, get_sprite(BOMB_SPRITE), i, j);
 			} else if (game->map[i][j].data[4] == '1') {
-				drawImage(game, getSprite(MAP_SPRITE_FIRE), i, j);
+				drawImage(game, get_sprite(MAP_SPRITE_FIRE), i, j);
 			}
 		}
 	}

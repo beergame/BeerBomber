@@ -120,14 +120,18 @@ int my_server(t_env *e)
 			if (e->player[i]->type == FD_CLIENT) {
 				client_req = get_player_request(e->player[i]->fd);
 				if (client_req != NULL) {
-					/* check if player can move or throw bomb */
+					/** set new dir */
+					e->player[i]->dir = client_req->dir;
+					/** check if player can move or throw bomb */
 					do_player_move(e, client_req, i);
 					do_player_throw_bomb(e, client_req, i);
 
+					/** check if player quit */
 					if (client_req->ckecksum == 1) {
 						return (0);
 					}
-					/* send response to player with all env data */
+
+					/** send response to player with all env data */
 					send_response(e, e->player[i]);
 				}
 			}
@@ -154,6 +158,7 @@ void *server_beer_bomber(void *args)
 			break ;
 		env.player[i]->x = 0;
 		env.player[i]->y = 0;
+		env.player[i]->dir = 1;
 		env.player[i]->ammo = 0;
 		env.player[i]->reload = 0;
 		env.player[i]->frags = 0;
@@ -162,7 +167,7 @@ void *server_beer_bomber(void *args)
 		env.player[i]->speed = 0;
 	}
 
-	// TODO: create list for timer opti.
+	// TODO: create list for timer optimisation.
 	env.timer = malloc(MAX_TIMER * sizeof(t_timer *));
 	for (int i = 0; i < MAX_TIMER; ++i) {
 		env.timer[i] = NULL;

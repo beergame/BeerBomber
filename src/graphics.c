@@ -36,7 +36,7 @@ void loadSprite(t_game *game, int index, char *path)
 	sprite[index].image = loadImage(game, path);
 }
 
-SDL_Texture *getSprite(int index)
+SDL_Texture *get_sprite(int index)
 {
 	if (index >= MAX_SPRITES || index < 0) {
 		printf("Invalid index for sprite! Index: %d Maximum: %d\n", index, MAX_SPRITES);
@@ -99,6 +99,7 @@ void loadPlayerTexture(t_game *game, char *path, int index)
 void load_all_sprites(t_game *game)
 {
 	loadPlayerTexture(game, "gfx/players/one.png", PLAYER_ONE_UP);
+	loadPlayerTexture(game, "gfx/players/one.png", PLAYER_ONE_UP);
 	loadPlayerTexture(game, "gfx/players/two.png", PLAYER_TWO_UP);
 	loadPlayerTexture(game, "gfx/players/three.png", PLAYER_THREE_UP);
 	loadPlayerTexture(game, "gfx/players/four.png", PLAYER_FOUR_UP);
@@ -129,7 +130,7 @@ void draw_background(t_game *game, int index)
 	pos.y = 0;
 	pos.h = SCREEN_HEIGHT;
 	pos.w = SCREEN_WIDTH;
-	SDL_RenderCopy(game->renderer, getSprite(index), NULL, &pos);
+	SDL_RenderCopy(game->renderer, get_sprite(index), NULL, &pos);
 }
 
 void drawBtn(t_game *game, int x, int y, int index)
@@ -137,10 +138,10 @@ void drawBtn(t_game *game, int x, int y, int index)
 	SDL_Rect pos;
 	int w;
 	int h;
-	SDL_QueryTexture(getSprite(index), NULL, NULL, &w, &h);
+	SDL_QueryTexture(get_sprite(index), NULL, NULL, &w, &h);
 	pos.x = x;
 	pos.y = y;
 	pos.h = h;
 	pos.w = w;
-	SDL_RenderCopy(game->renderer, getSprite(index), NULL, &pos);
+	SDL_RenderCopy(game->renderer, get_sprite(index), NULL, &pos);
 }
