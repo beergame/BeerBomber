@@ -5,6 +5,6 @@
 
 void drawImage(t_game *, SDL_Texture *, int, int);
 
-SDL_Texture *getSprite(int);
+SDL_Texture *get_sprite(int);
 
 #endif /* MAP_H */

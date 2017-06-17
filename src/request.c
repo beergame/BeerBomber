@@ -30,7 +30,7 @@ int send_serialize_request(t_request *req, int sock)
 
 	request[strlen(request)] =  '\0';
 
-	printf("client: request: %s \n", request);
+//	printf("client: request: %s \n", request);
 	if (send(sock, request, strlen(request), 0) < 0) {
 		printf("Send failed\n");
 		return (1);

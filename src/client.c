@@ -1,6 +1,6 @@
 #include "client.h"
 
-int client_connect()
+int client_connect(char *ip)
 {
 	struct protoent *pe;
 	struct sockaddr_in sin;
@@ -12,7 +12,7 @@ int client_connect()
 		return (-1);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(5000);
-	sin.sin_addr.s_addr = inet_addr("127.0.0.1");
+	sin.sin_addr.s_addr = inet_addr(ip);
 	if (connect(s, (const struct sockaddr *) &sin, sizeof(sin)) == -1) {
 		printf("Error connect()\n");
 		return (-1);
@@ -76,12 +76,13 @@ void unserialize_response(char *buffer, t_game *g)
 			if (g->player[i] != NULL) {
 				g->player[i]->x = atoi(buff2[0]);
 				g->player[i]->y = atoi(buff2[1]);
-				g->player[i]->ammo = atoi(buff2[2]);
-				g->player[i]->reload = atoi(buff2[3]);
-				g->player[i]->frags = atoi(buff2[4]);
-				g->player[i]->connected = atoi(buff2[5]);
-				g->player[i]->life = atoi(buff2[6]);
-				g->player[i]->speed = atoi(buff2[7]);
+				g->player[i]->dir = atoi(buff2[2]);
+				g->player[i]->ammo = atoi(buff2[3]);
+				g->player[i]->reload = atoi(buff2[4]);
+				g->player[i]->frags = atoi(buff2[5]);
+				g->player[i]->connected = atoi(buff2[6]);
+				g->player[i]->life = atoi(buff2[7]);
+				g->player[i]->speed = atoi(buff2[8]);
 			}
 		}
 	}
@@ -100,7 +101,8 @@ int get_response(int sock, t_game *g)
 	char buffer[BUFF_SIZE];
 
 	if (recv(sock, buffer, BUFF_SIZE, 0) < 0) {
-		puts("recv failed");
+		puts("connection server failed");
+		puts("trying to get response ...");
 		return (1);
 	}
 	unserialize_response(buffer, g);
@@ -128,7 +130,7 @@ int one_left(t_game *g)
 
 	for (int i = 0; i < MAX_PLAYER; ++i) {
 		if (g->player[i]->connected == 1 &&
-				g->player[i]->life > 0) {
+			g->player[i]->life > 0) {
 			a++;
 		}
 	}
@@ -143,12 +145,17 @@ void client_beer_bomber(t_game *game)
 {
 	unsigned int frame_limit = SDL_GetTicks() + 16;
 	int go = 0;
+	char ip[15] = "";
+
 	init_client(game);
 
 	/* connect to server */
-	SDL_Delay(500);
-	int server = client_connect();
+	SDL_Delay(400);
+	printf("Server beerbomber IP: ");
+	fgets(ip, sizeof(ip), stdin);
+	int server = client_connect(ip);
 	send_request(server, game);
+	SDL_Delay(100);
 	get_response(server, game);
 
 	while (!go) {
@@ -156,7 +163,7 @@ void client_beer_bomber(t_game *game)
 			/* Handle the key redefining */
 			go = do_redefine(game);
 		} else if (game->info->status == IN_GAME ||
-				game->info->status == IN_CONFIG_NEW_GAME) {
+				   game->info->status == IN_CONFIG_NEW_GAME) {
 			go = get_input(game);
 			send_request(server, game);
 			get_response(server, game);
@@ -174,7 +181,10 @@ void client_beer_bomber(t_game *game)
 		delay(frame_limit);
 		frame_limit = SDL_GetTicks() + 16;
 	}
-	draw_winner(game);
+	if (go == 1) {
+		draw_winner(game);
+	}
+
 	send_deco(server);
 	clean_client(game);
 }

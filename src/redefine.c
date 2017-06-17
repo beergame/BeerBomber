@@ -35,7 +35,7 @@ int do_redefine(t_game *game)
 	while (key == -2) {
 		key = get_single_input();
 		if (key == 1)
-			return (1);
+			return (2);
 
 		draw_redefine(game);
 	}

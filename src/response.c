@@ -19,6 +19,8 @@ int serialize_response(t_response *res, int sock)
 			strcat(response, buff);
 			sprintf(buff, "%i:", res->player[i]->y);
 			strcat(response, buff);
+			sprintf(buff, "%i:", res->player[i]->dir);
+			strcat(response, buff);
 			sprintf(buff, "%i:", res->player[i]->ammo);
 			strcat(response, buff);
 			sprintf(buff, "%i:", res->player[i]->reload);
@@ -46,7 +48,7 @@ int serialize_response(t_response *res, int sock)
 	}
 
 	response[strlen(response)] =  '\0';
-	printf("response: %s\n", response);
+//	printf("response: %s\n", response);
 	if (send(sock, response, strlen(response), 0) < 0) {
 		puts("Send failed");
 		return (0);

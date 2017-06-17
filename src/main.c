@@ -33,18 +33,20 @@ int main(void)
 	}
 
 	/* new game: start server thread */
-	if (choice == 2) {
-		game->info->playermax = nb_player;
-		if (pthread_create(&server, NULL, server_beer_bomber, game->info)) {
-			perror("pthread_create server");
-			return (EXIT_FAILURE);
+	if (go == 1) {
+		if (choice == 2) {
+			game->info->playermax = nb_player;
+			if (pthread_create(&server, NULL, server_beer_bomber, game->info)) {
+				perror("pthread_create server");
+				return (EXIT_FAILURE);
+			}
 		}
-	}
-	client_beer_bomber(game);
-	if (choice == 2) {
-		if (pthread_join(server, NULL)) {
-			perror("pthread_join server");
-			return (EXIT_FAILURE);
+		client_beer_bomber(game);
+		if (choice == 2) {
+			if (pthread_join(server, NULL)) {
+				perror("pthread_join server");
+				return (EXIT_FAILURE);
+			}
 		}
 	}
 

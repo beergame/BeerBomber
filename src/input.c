@@ -13,7 +13,7 @@ int get_input(t_game *game)
 			/* Closing the Window will exit the program */
 			case SDL_QUIT:
 				game->info->status = END_GAME;
-				return (1);
+				return (2);
 
 			case SDL_KEYDOWN:
 				key = event.key.keysym.sym;
@@ -73,31 +73,31 @@ int get_input(t_game *game)
 					game->input->fire = 0;
 				break;
 
-			case SDL_JOYAXISMOTION:
-				/* Horizontal movement */
-				if (event.jaxis.axis == 0) {
-					if (event.jaxis.value < -DEAD_ZONE)
-						game->input->left = 1;
-					else if (event.jaxis.value > DEAD_ZONE)
-						game->input->right = 1;
-					else {
-						game->input->left = 0;
-						game->input->right = 0;
-					}
-				}
-
-				/* Vertical movement */
-				if (event.jaxis.axis == 1) {
-					if (event.jaxis.value < -DEAD_ZONE) {
-						game->input->up = 1;
-					} else if (event.jaxis.value > DEAD_ZONE) {
-						game->input->down = 1;
-					} else {
-						game->input->up = 0;
-						game->input->down = 0;
-					}
-				}
-				break;
+//			case SDL_JOYAXISMOTION:
+//				/* Horizontal movement */
+//				if (event.jaxis.axis == 0) {
+//					if (event.jaxis.value < -DEAD_ZONE)
+//						game->input->left = 1;
+//					else if (event.jaxis.value > DEAD_ZONE)
+//						game->input->right = 1;
+//					else {
+//						game->input->left = 0;
+//						game->input->right = 0;
+//					}
+//				}
+//
+//				/* Vertical movement */
+//				if (event.jaxis.axis == 1) {
+//					if (event.jaxis.value < -DEAD_ZONE) {
+//						game->input->up = 1;
+//					} else if (event.jaxis.value > DEAD_ZONE) {
+//						game->input->down = 1;
+//					} else {
+//						game->input->up = 0;
+//						game->input->down = 0;
+//					}
+//				}
+//				break;
 		}
 	}
 
@@ -126,11 +126,11 @@ int get_single_input()
 				key = event.key.keysym.sym;
 				break;
 
-			case SDL_JOYAXISMOTION:
-				if (abs(event.jaxis.value) > DEAD_ZONE) {
-					key = -3;
-				}
-				break;
+//			case SDL_JOYAXISMOTION:
+//				if (abs(event.jaxis.value) > DEAD_ZONE) {
+//					key = -3;
+//				}
+//				break;
 
 			case SDL_JOYBUTTONDOWN:
 				key = event.jbutton.button;

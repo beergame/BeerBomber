@@ -68,9 +68,6 @@ void draw_winner(t_game *g)
 {
 	char text[50];
 
-	/* Blank the screen and draw background */
-	SDL_RenderClear(g->renderer);
-	draw_background(g, MAP_BACK_ONE);
 	/* Draw winner info */
 	sprintf(text, "AND THE WINNER IS ...");
 	drawString(g, text, 50, 100, g->font, 1, 0);
@@ -86,5 +83,5 @@ void draw_winner(t_game *g)
 	/* Update the buffer */
 	SDL_RenderPresent(g->renderer);
 	/* Sleep briefly for better perf */
-	SDL_Delay(5000);
+	SDL_Delay(2500);
 }
