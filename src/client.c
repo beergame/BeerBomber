@@ -1,6 +1,6 @@
 #include "client.h"
 
-int client_connect()
+int client_connect(char *ip)
 {
 	struct protoent *pe;
 	struct sockaddr_in sin;
@@ -12,7 +12,7 @@ int client_connect()
 		return (-1);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(5000);
-	sin.sin_addr.s_addr = inet_addr("127.0.0.1");
+	sin.sin_addr.s_addr = inet_addr(ip);
 	if (connect(s, (const struct sockaddr *) &sin, sizeof(sin)) == -1) {
 		printf("Error connect()\n");
 		return (-1);
@@ -144,12 +144,17 @@ void client_beer_bomber(t_game *game)
 {
 	unsigned int frame_limit = SDL_GetTicks() + 16;
 	int go = 0;
+	char ip[15] = "";
+
 	init_client(game);
 
 	/* connect to server */
-	SDL_Delay(500);
-	int server = client_connect();
+	SDL_Delay(400);
+	printf("Server beerbomber IP: ");
+	fgets(ip, sizeof(ip), stdin);
+	int server = client_connect(ip);
 	send_request(server, game);
+	SDL_Delay(100);
 	get_response(server, game);
 
 	while (!go) {
