@@ -21,7 +21,8 @@
 # define BOARD_HEIGHT (SCREEN_HEIGHT / 2) - (MAP_SIZE * 32 / 2)
 # define MAX_PLAYER 4
 # define MAX_SPRITES 40
-# define DEAD_ZONE 3200
+# define DEAD_ZONE 4200
+# define X360_BACK 13
 # define BUFF_SIZE 3000
 
 enum sprite
