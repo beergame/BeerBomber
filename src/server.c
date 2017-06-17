@@ -140,7 +140,6 @@ int my_server(t_env *e)
 	do_timing_entity(e);
 
 
-	usleep(50000);
 	return (1);
 }
 

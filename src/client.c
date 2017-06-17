@@ -101,7 +101,8 @@ int get_response(int sock, t_game *g)
 	char buffer[BUFF_SIZE];
 
 	if (recv(sock, buffer, BUFF_SIZE, 0) < 0) {
-		puts("recv failed");
+		puts("connection server failed");
+		puts("trying to get response ...");
 		return (1);
 	}
 	unserialize_response(buffer, g);
