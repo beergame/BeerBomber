@@ -1,4 +1,4 @@
-# BeerBomber [![Build Status](https://travis-ci.org/beergame/BeerBomber.svg?branch=staging)](https://travis-ci.org/beergame/BeerBomber)
+# BeerBomber [![Build Status](https://travis-ci.org/beergame/BeerBomber.svg?branch=master)](https://travis-ci.org/beergame/BeerBomber)
 
 Bomberman clone in C/SDL 360 controller ready
 <img src="http://i.imgur.com/K4qCCiq.png" width="3%"/>
