@@ -39,6 +39,7 @@ int do_redefine(t_game *game)
 
 		draw_redefine(game);
 	}
+	Mix_PlayChannel(-1, game->sounds[2].effect, 0);
 
 	switch (game->redefine->i) {
 		case 0:
@@ -69,6 +70,7 @@ int do_redefine(t_game *game)
 	if (game->redefine->i == 5) {
 		game->redefine->i = 0;
 		game->info->status = IN_CONFIG_NEW_GAME;
+		Mix_PlayMusic( game->music, -1 );
 	}
 
 	return (0);

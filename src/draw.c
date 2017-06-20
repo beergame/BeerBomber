@@ -67,6 +67,8 @@ void draw_wait_for_player(t_game *g)
 			drawString(g, text, 50, 150 + (i * 150), g->font, 1, 0);
 		}
 	}
+	sprintf(text, "ENTER SERVER IP ADDRESS IN CLI");
+	drawString(g, text, 50, 700, g->font, 1, 0);
 	/* Update the buffer */
 	SDL_RenderPresent(g->renderer);
 	/* Sleep briefly for better perf */

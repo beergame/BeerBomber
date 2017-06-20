@@ -9,7 +9,13 @@ int serialize_response(t_response *res, int sock)
 	strcat(response, buff);
 	sprintf(buff, "%i:", res->info->playermax);
 	strcat(response, buff);
-	sprintf(buff, "%i ", res->info->winner);
+	sprintf(buff, "%i:", res->info->winner);
+	strcat(response, buff);
+	sprintf(buff, "%i:", res->info->throw_bomb);
+	res->info->throw_bomb = 0;
+	strcat(response, buff);
+	sprintf(buff, "%i ", res->info->player_move);
+	res->info->player_move = 0;
 	strcat(response, buff);
 
 	/* player 0 is server fd -> start at 1 */

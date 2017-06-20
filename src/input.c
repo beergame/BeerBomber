@@ -27,8 +27,10 @@ int get_input(t_game *game)
 					game->input->down = 1;
 				else if (key == game->control->fire)
 					game->input->fire = 1;
-				else if (key == SDLK_ESCAPE)
+				else if (key == SDLK_ESCAPE) {
+					Mix_PlayChannel(-1, game->sounds[5].effect, 0);
 					game->info->status = IN_REDEFINE;
+				}
 				break;
 
 			case SDL_KEYUP:
