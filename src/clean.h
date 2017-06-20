@@ -5,6 +5,8 @@
 
 void free_sprites();
 
+void free_sound(t_game *g);
+
 void free_map(t_map **);
 
 void close_font(TTF_Font *);

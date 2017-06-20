@@ -4,31 +4,36 @@ void draw_nb_player(t_game *game, int i);
 
 void is_new_game(t_game *game, int *c)
 {
-	if (game->input->left) {
-		*c = *c - 1;
-	} else if (game->input->right) {
-		*c = *c + 1;
+	if (game->input->left && (*c == 3)) {
+		Mix_PlayChannel(-1, game->sounds[6].effect, 0);
+		(*c)--;
+	} else if (game->input->right && (*c == 2)) {
+		Mix_PlayChannel(-1, game->sounds[6].effect, 0);
+		(*c)++;
 	} else if (game->input->fire) {
+		Mix_PlayChannel(-1, game->sounds[2].effect, 0);
 		if (*c == 2) {
 			game->info->status = IN_CONFIG_NB_PLAYER;
 		} else {
 			game->info->status = WAIT_FOR_PLAYER;
 		}
 	}
-	(*c < 2) ? *c = 2: 0;
-	(*c > 3) ? *c = 3: 0;
 	draw_is_new_game(game, *c);
 }
 
 void choose_nb_player(t_game *game, int *nb)
 {
-	if (game->input->left) {
+	if (game->input->left && (*nb != 2)) {
+		Mix_PlayChannel(-1, game->sounds[6].effect, 0);
 		*nb = 2;
-	} else if (game->input->up) {
+	} else if (game->input->up && (*nb != 3)) {
+		Mix_PlayChannel(-1, game->sounds[6].effect, 0);
 		*nb = 3;
-	} else if (game->input->right) {
+	} else if (game->input->right && (*nb != 4)) {
+		Mix_PlayChannel(-1, game->sounds[6].effect, 0);
 		*nb = 4;
 	} else if (game->input->fire) {
+		Mix_PlayChannel(-1, game->sounds[2].effect, 0);
 		game->info->status = WAIT_FOR_PLAYER;
 	}
 	draw_nb_player(game, *nb);
@@ -71,6 +76,8 @@ void draw_nb_player(t_game *game, int c)
 
 void draw_is_new_game(t_game *game, int c)
 {
+	char text[50];
+
 	/* Blank the screen */
 	SDL_RenderClear(game->renderer);
 
@@ -84,6 +91,9 @@ void draw_is_new_game(t_game *game, int c)
 		drawBtn(game, 300, 380, BTN_NEWGAME_B);
 		drawBtn(game, 800, 380, BTN_JOINGAME);
 	}
+
+	sprintf(text, "BEER BOMBER THE GAME.");
+	drawString(game, text, 50, 150, game->font, 1, 0);
 
 	/* Update the buffer */
 	SDL_RenderPresent(game->renderer);

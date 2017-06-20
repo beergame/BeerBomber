@@ -4,6 +4,7 @@ void clean_client(t_game *g)
 {
 	/* free sprites and map */
 	free_sprites();
+	free_sound(g);
 	free_map(g->map);
 
 	/* Close the font */
@@ -19,5 +20,7 @@ void clean_client(t_game *g)
 	/* Shut down SDL */
 	SDL_DestroyRenderer(g->renderer);
 	SDL_DestroyWindow(g->screen);
+	Mix_Quit();
+	IMG_Quit();
 	SDL_Quit();
 }

@@ -69,6 +69,8 @@ void unserialize_response(char *buffer, t_game *g)
 	g->info->status = atoi(buff[0]);
 	g->info->playermax = atoi(buff[1]);
 	g->info->winner = atoi(buff[2]);
+	g->info->throw_bomb = atoi(buff[3]);
+	g->info->player_move = atoi(buff[4]);
 
 	buff = my_str_to_wordtab(response[1], ';');
 	for (int i = 0; i < MAX_PLAYER; i++) {
@@ -151,6 +153,7 @@ void client_beer_bomber(t_game *game)
 
 	/* connect to server */
 	SDL_Delay(400);
+	draw_wait_for_player(game);
 	printf("Server beerbomber IP: ");
 	fgets(ip, sizeof(ip), stdin);
 	int server = client_connect(ip);

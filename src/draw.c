@@ -24,6 +24,15 @@ void draw(t_game *g)
 	draw_map_base(g);
 	draw_player(g);
 	draw_map_entity(g);
+	if (g->info->player_move) {
+		Mix_PlayChannel(-1, g->sounds[7].effect, 0);
+		g->info->player_move = 0;
+	}
+	if (g->info->throw_bomb) {
+		Mix_PlayChannel(-1, g->sounds[1].effect, 0);
+		g->info->throw_bomb = 0;
+	}
+
 	/* Update the buffer */
 	SDL_RenderPresent(g->renderer);
 	/* Sleep briefly for better perf */
@@ -44,7 +53,7 @@ void delay(unsigned int frame_limit)
 
 void draw_wait_for_player(t_game *g)
 {
-	char text[20];
+	char text[50];
 
 	/* Blank the screen and draw background */
 	SDL_RenderClear(g->renderer);
