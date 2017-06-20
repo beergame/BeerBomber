@@ -1,8 +1,6 @@
-/*
-** @author nand on 20/06/2017.
-*/
+#ifndef __SOUND_H__
+# define __SOUND_H__
 
-#ifndef BEER_BOMBER_SOUND_H
-#define BEER_BOMBER_SOUND_H
+# include "structs.h"
 
-#endif //BEER_BOMBER_SOUND_H
+#endif /* __SOUND_H__ */
