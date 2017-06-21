@@ -24,8 +24,8 @@
 # define PLAYER_MAX_LIFE 2
 # define PLAYER_MAX_AMMO 100
 # define PLAYER_RELOAD_TIME 10
-# define BOMB_LIFETIME 1000000
-# define FIRE_LIFETIME 100000
+# define BOMB_LIFETIME 8300000
+# define FIRE_LIFETIME 300000
 
 typedef struct	s_player
 {
@@ -52,6 +52,8 @@ typedef struct	s_info
 	int			status;
 	int			winner;
 	int			playermax;
+	int			throw_bomb;
+	int			player_move;
 }				t_info;
 
 typedef struct	s_timer

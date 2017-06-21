@@ -2,6 +2,7 @@
 
 void player_move(t_env *e, int i, int x, int y)
 {
+	e->info->player_move++;
 	e->player[i]->x = x;
 	e->player[i]->y = y;
 }
@@ -84,6 +85,7 @@ void do_player_throw_bomb(t_env *e, t_request *r, int i)
 		e->map[p->x][p->y].data[4] != '1' &&
 		p->reload <= 0) {
 		throw_bomb(e, p);
+		e->info->throw_bomb++;
 		p->ammo--;
 		p->reload = PLAYER_RELOAD_TIME;
 	}

@@ -19,7 +19,8 @@
 *.so
 *.so.*
 *.dylib
-
+*.gif
+*.xcf
 # Executables
 *.exe
 *.out
