@@ -27,7 +27,7 @@ int init_main(t_game *game)
 	game->info->winner = 0;
 	game->info->throw_bomb = 0;
 	game->info->player_move = 0;
-	game->info->playermax = 1;
+	game->info->max_player = 1;
 	game->redefine = malloc(sizeof(t_redefine));
 	game->redefine->i = 0;
 	game->redefine->buffer[0] = '\0';

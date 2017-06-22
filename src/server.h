@@ -51,7 +51,7 @@ typedef struct	s_info
 {
 	int			status;
 	int			winner;
-	int			playermax;
+	int			max_player;
 	int			throw_bomb;
 	int			player_move;
 }				t_info;

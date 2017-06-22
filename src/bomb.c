@@ -69,15 +69,18 @@ void throw_fire(t_env *e, t_timer *t, char c)
 void do_timing_entity(t_env *e)
 {
 	int i = 0;
+
 	clock_t now = clock();
 
 	while (e->timer[i] != NULL) {
 		if (e->timer[i]->status == 1 &&
-			(now - e->timer[i]->start) > FIRE_LIFETIME) {
+			((now - e->timer[i]->start) * 1000 / CLOCKS_PER_SEC)
+			> FIRE_TIMER) {
 			throw_fire(e, e->timer[i], '0');
 		}
 		if (e->timer[i]->status == 0 &&
-			(now - e->timer[i]->start) > BOMB_LIFETIME) {
+			((now - e->timer[i]->start) * 1000 / CLOCKS_PER_SEC)
+			> BOMB_TIMER) {
 			e->map[e->timer[i]->x][e->timer[i]->y].data[3] = '0';
 			throw_fire(e, e->timer[i], '1');
 		}
