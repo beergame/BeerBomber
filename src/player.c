@@ -82,7 +82,7 @@ void do_player_throw_bomb(t_env *e, t_request *r, int i)
 	}
 	if (r->fire == 1 && p->ammo > 0 &&
 		e->map[p->x][p->y].data[3] != '1' &&
-		e->map[p->x][p->y].data[4] != '1' &&
+		e->map[p->x][p->y].data[4] == '0' &&
 		p->reload <= 0) {
 		throw_bomb(e, p);
 		e->info->throw_bomb++;

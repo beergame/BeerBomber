@@ -66,8 +66,21 @@ void draw_map_entity(t_game *game)
 			}
 			if (game->map[i][j].data[3] == '1') {
 				drawImage(game, get_sprite(BOMB_SPRITE), i, j);
-			} else if (game->map[i][j].data[4] == '1') {
+			}
+			if (game->map[i][j].data[3] == '2') {
+				drawImage(game, get_sprite(BOMB_SPRITE2), i, j);
+			}
+			if (game->map[i][j].data[3] == '3') {
+				drawImage(game, get_sprite(BOMB_SPRITE3), i, j);
+			}
+			if (game->map[i][j].data[4] == '1') {
 				drawImage(game, get_sprite(MAP_SPRITE_FIRE), i, j);
+			}
+			if (game->map[i][j].data[4] == '2') {
+				drawImage(game, get_sprite(MAP_SPRITE_FIRE2), i, j);
+			}
+			if (game->map[i][j].data[4] == '3') {
+				drawImage(game, get_sprite(MAP_SPRITE_FIRE3), i, j);
 			}
 		}
 	}

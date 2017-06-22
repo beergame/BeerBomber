@@ -110,6 +110,8 @@ void load_all_sprites(t_game *game)
 	loadSprite(game, MAP_SPRITE_BLOCK, "gfx/map/block_1x1.png");
 	loadSprite(game, MAP_SPRITE_BUSH, "gfx/map/bush_1x1.png");
 	loadSprite(game, MAP_SPRITE_FIRE, "gfx/map/fire_1.png");
+	loadSprite(game, MAP_SPRITE_FIRE2, "gfx/map/fire_2.png");
+	loadSprite(game, MAP_SPRITE_FIRE3, "gfx/map/fire_3.png");
 	loadSprite(game, MAP_BACK_ONE, "gfx/background/1.png");
 	loadSprite(game, BTN_NEWGAME, "gfx/btn/newgame.png");
 	loadSprite(game, BTN_NEWGAME_B, "gfx/btn/newgame_b.png");

@@ -15,8 +15,8 @@
 # define FD_CLIENT 1
 # define FD_SERVER 2
 # define BUFF_SIZE 3000
-/* + 1 server VV */
 # define MAX_PLAYER 5
+/* 4 + 1 for server fd in player tab */
 # define MAX_TIMER 40
 # define MAP_SIZE 15
 
@@ -24,8 +24,8 @@
 # define PLAYER_MAX_LIFE 2
 # define PLAYER_MAX_AMMO 100
 # define PLAYER_RELOAD_TIME 10
-# define BOMB_LIFETIME 8300000
-# define FIRE_LIFETIME 300000
+# define BOMB_TIMER 2500
+# define FIRE_TIMER 200
 
 typedef struct	s_player
 {
