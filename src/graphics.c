@@ -30,6 +30,24 @@ void drawImage(t_game *game, SDL_Texture *image, int x, int y)
 	/* Copy the entire image onto the renderer at coordinates x and y */
 	SDL_RenderCopy(game->renderer, image, NULL, &dest);
 }
+void draw_player_image(t_game *game, SDL_Texture *image, int x, int y)
+{
+	int w;
+	int h;
+
+	SDL_QueryTexture(image, NULL, NULL, &w, &h);
+	SDL_Rect dest;
+	/* Set x and y in right position on the screen */
+	x = (x / PRES * 32) + BOARD_WIDTH + ((x % PRES) / 4);
+	y = (y / PRES * 32) + BOARD_HEIGHT + ((y % PRES) / 4);
+	/* Set the blitting rectangle to the size of the src image */
+	dest.x = x;
+	dest.y = y;
+	dest.h = h * 1.5;
+	dest.w = w * 1.5;
+	/* Copy the entire image onto the renderer at coordinates x and y */
+	SDL_RenderCopy(game->renderer, image, NULL, &dest);
+}
 
 void loadSprite(t_game *game, int index, char *path)
 {
@@ -110,6 +128,8 @@ void load_all_sprites(t_game *game)
 	loadSprite(game, MAP_SPRITE_BLOCK, "gfx/map/block_1x1.png");
 	loadSprite(game, MAP_SPRITE_BUSH, "gfx/map/bush_1x1.png");
 	loadSprite(game, MAP_SPRITE_FIRE, "gfx/map/fire_1.png");
+	loadSprite(game, MAP_SPRITE_FIRE2, "gfx/map/fire_2.png");
+	loadSprite(game, MAP_SPRITE_FIRE3, "gfx/map/fire_3.png");
 	loadSprite(game, MAP_BACK_ONE, "gfx/background/1.png");
 	loadSprite(game, BTN_NEWGAME, "gfx/btn/newgame.png");
 	loadSprite(game, BTN_NEWGAME_B, "gfx/btn/newgame_b.png");

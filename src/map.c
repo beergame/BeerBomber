@@ -12,19 +12,19 @@ void draw_map_base(t_game *game)
 void draw_one_player(t_game *g, int sprite, int i)
 {
 	if (g->player[i]->dir == 1) {
-		drawImage(g, get_sprite(sprite),
+		draw_player_image(g, get_sprite(sprite),
 				  g->player[i]->x, g->player[i]->y);
 	} else if (g->player[i]->dir == 2) {
-		drawImage(g, get_sprite(sprite + 1),
+		draw_player_image(g, get_sprite(sprite + 1),
 				  g->player[i]->x, g->player[i]->y);
 	} else if (g->player[i]->dir == 3) {
-		drawImage(g, get_sprite(sprite + 2),
+		draw_player_image(g, get_sprite(sprite + 2),
 				  g->player[i]->x, g->player[i]->y);
 	} else if (g->player[i]->dir == 4) {
-		drawImage(g, get_sprite(sprite + 3),
+		draw_player_image(g, get_sprite(sprite + 3),
 				  g->player[i]->x, g->player[i]->y);
 	} else {
-		drawImage(g, get_sprite(sprite + 1),
+		draw_player_image(g, get_sprite(sprite + 1),
 				  g->player[i]->x, g->player[i]->y);
 	}
 }
@@ -66,8 +66,21 @@ void draw_map_entity(t_game *game)
 			}
 			if (game->map[i][j].data[3] == '1') {
 				drawImage(game, get_sprite(BOMB_SPRITE), i, j);
-			} else if (game->map[i][j].data[4] == '1') {
+			}
+			if (game->map[i][j].data[3] == '2') {
+				drawImage(game, get_sprite(BOMB_SPRITE2), i, j);
+			}
+			if (game->map[i][j].data[3] == '3') {
+				drawImage(game, get_sprite(BOMB_SPRITE3), i, j);
+			}
+			if (game->map[i][j].data[4] == '1') {
 				drawImage(game, get_sprite(MAP_SPRITE_FIRE), i, j);
+			}
+			if (game->map[i][j].data[4] == '2') {
+				drawImage(game, get_sprite(MAP_SPRITE_FIRE2), i, j);
+			}
+			if (game->map[i][j].data[4] == '3') {
+				drawImage(game, get_sprite(MAP_SPRITE_FIRE3), i, j);
 			}
 		}
 	}

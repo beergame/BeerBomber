@@ -7,7 +7,7 @@ int serialize_response(t_response *res, int sock)
 
 	sprintf(buff, "%i:", res->info->status);
 	strcat(response, buff);
-	sprintf(buff, "%i:", res->info->playermax);
+	sprintf(buff, "%i:", res->info->max_player);
 	strcat(response, buff);
 	sprintf(buff, "%i:", res->info->winner);
 	strcat(response, buff);

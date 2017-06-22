@@ -16,17 +16,17 @@ void set_new_player(int fd, int type, t_player *p, int m)
 	p->reload = PLAYER_RELOAD_TIME;
 	p->frags = 0;
 	if (m == 1) {
-		p->x = 1;
-		p->y = 1;
+		p->x = 1 * PRES;
+		p->y = 1 * PRES;
 	} else if (m == 2) {
-		p->x = MAP_SIZE - 2;
-		p->y = MAP_SIZE - 2;
+		p->x = (MAP_SIZE - 2) * PRES;
+		p->y = (MAP_SIZE - 2) * PRES;
 	} else if (m == 3) {
-		p->x = 1;
-		p->y = MAP_SIZE - 2;
+		p->x = 1 * PRES;
+		p->y = (MAP_SIZE - 2) * PRES;
 	} else if (m == 4) {
-		p->x = MAP_SIZE - 2;
-		p->y = 1;
+		p->x = (MAP_SIZE - 2) * PRES;
+		p->y = 1 * PRES;
 	}
 }
 
@@ -121,7 +121,7 @@ int my_server(t_env *e)
 				client_req = get_player_request(e->player[i]->fd);
 				if (client_req != NULL) {
 					/** set new dir */
-					e->player[i]->dir = client_req->dir;
+					if (client_req->dir) e->player[i]->dir = client_req->dir;
 					/** check if player can move or throw bomb */
 					do_player_move(e, client_req, i);
 					do_player_throw_bomb(e, client_req, i);
@@ -175,10 +175,7 @@ void *server_beer_bomber(void *args)
 	env.map = load_map();
 	env.port = 5000;
 	if (add_server(&env))
-	{
-		usleep(500 * 1000);
 		while (my_server(&env));
-	}
 	clean_server(&env);
 
 	pthread_exit(NULL);

@@ -67,7 +67,7 @@ void unserialize_response(char *buffer, t_game *g)
 	response = my_str_to_wordtab(buffer, ' ');
 	buff = my_str_to_wordtab(response[0], ':');
 	g->info->status = atoi(buff[0]);
-	g->info->playermax = atoi(buff[1]);
+	g->info->max_player = atoi(buff[1]);
 	g->info->winner = atoi(buff[2]);
 	g->info->throw_bomb = atoi(buff[3]);
 	g->info->player_move = atoi(buff[4]);
@@ -121,7 +121,7 @@ void all_players_connected(t_game *g)
 			a++;
 		}
 	}
-	if (g->info->playermax == a) {
+	if (g->info->max_player == a) {
 		g->info->status = IN_CONFIG_NEW_GAME;
 	}
 }
