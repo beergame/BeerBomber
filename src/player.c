@@ -25,36 +25,30 @@ int no_player_here(t_env *e, int x, int y)
 	return (1);
 }
 
-void do_player_move(t_env *e, t_request *req, int i)
-{
+void do_player_move(t_env *e, t_request *req, int i) {
 	if (e->player[i] != NULL) {
 		int x = pres_co(e->player[i]->x);
 		int y = pres_co(e->player[i]->y);
 		int xt = e->player[i]->x % PRES;
 		int yt = e->player[i]->y % PRES;
 		if (req->dir) {
-			if (req->dir == 1
-				&&
-				((y > 1 && (e->map[x][y - 1].data[1] == '0') && (e->map[x][y - 1].data[3] != '1')) || yt)
-				&&
+			if (req->dir == 1 &&
+				((y > 1 && (e->map[x][y - 1].data[1] == '0') &&
+				  (e->map[x][y - 1].data[3] != '1')) || yt) &&
 				no_player_here(e, x, y - 1))
 				player_move(e, i, e->player[i]->x, e->player[i]->y - e->player[i]->speed);
-			else if (req->dir == 2
-					 &&
-					 ((y < MAP_SIZE - 2 && (e->map[x][y + 1].data[1] == '0') && (e->map[x][y + 1].data[3] != '1')) || yt)
-					 &&
+			else if (req->dir == 2 &&
+					 ((y < MAP_SIZE - 2 && (e->map[x][y + 1].data[1] == '0')
+					   && (e->map[x][y + 1].data[3] != '1')) || yt) &&
 					 no_player_here(e, x, y + 1))
 				player_move(e, i, e->player[i]->x, e->player[i]->y + e->player[i]->speed);
-			else if (req->dir == 3
-					 &&
-					 ((x > 1 && (e->map[x - 1][y].data[1] == '0') && (e->map[x - 1][y].data[3] != '1')) || xt)
-					 &&
+			else if (req->dir == 3 && ((x > 1 && (e->map[x - 1][y].data[1] == '0') &&
+					(e->map[x - 1][y].data[3] != '1')) || xt) &&
 					 no_player_here(e, x - 1, y))
 				player_move(e, i, e->player[i]->x - e->player[i]->speed, e->player[i]->y);
-			else if (req->dir == 4
-					 &&
-					 ((x < MAP_SIZE - 2 && (e->map[x + 1][y].data[1] == '0') && (e->map[x + 1][y].data[3] != '1')) || xt)
-					 &&
+			else if (req->dir == 4 &&
+					 ((x < MAP_SIZE - 2 && (e->map[x + 1][y].data[1] == '0') &&
+							 (e->map[x + 1][y].data[3] != '1')) || xt) &&
 					 no_player_here(e, x + 1, y))
 				player_move(e, i, e->player[i]->x + e->player[i]->speed, e->player[i]->y);
 		}
@@ -90,7 +84,7 @@ void do_player_throw_bomb(t_env *e, t_request *r, int i)
 		e->map[pres_co(p->x)][pres_co(p->y)].data[4] == '0' &&
 		p->reload <= 0) {
 		throw_bomb(e, p);
-		e->info->throw_bomb++;
+		e->info->throw_bomb = 1;
 		p->ammo--;
 		p->reload = PLAYER_RELOAD_TIME;
 	}

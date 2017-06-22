@@ -18,7 +18,8 @@
 # define BUFF_SIZE			3000
 # define MAX_PLAYER			5
 /* 4 + 1 for server fd in player tab */
-# define MAX_TIMER			40
+# define MAX_TIMER			120
+// TODO improve timer stuct
 # define MAP_SIZE			15
 
 # define PRES				100
@@ -27,7 +28,7 @@
 # define PLAYER_MAX_AMMO	100
 # define PLAYER_RELOAD_TIME	10
 # define BOMB_TIMER			2500
-# define FIRE_TIMER			200
+# define FIRE_TIMER			300
 
 typedef struct	s_player
 {

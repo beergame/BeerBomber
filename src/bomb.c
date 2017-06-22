@@ -81,6 +81,7 @@ void do_timing_entity(t_env *e)
 		if (e->timer[i]->status == 0 &&
 			((now - e->timer[i]->start) * 1000 / CLOCKS_PER_SEC)
 			> BOMB_TIMER) {
+			e->info->throw_bomb = 3;
 			e->map[e->timer[i]->x][e->timer[i]->y].data[3] = '0';
 			throw_fire(e, e->timer[i], '1');
 		}
