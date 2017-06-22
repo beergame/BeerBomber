@@ -23,6 +23,7 @@
 # define MAX_SPRITES 40
 # define DEAD_ZONE 4200
 # define BUFF_SIZE 3000
+# define PRES 100
 
 enum sprite
 {
