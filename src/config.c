@@ -11,7 +11,7 @@ void is_new_game(t_game *game, int *c)
 		Mix_PlayChannel(-1, game->sounds[6].effect, 0);
 		(*c)++;
 	} else if (game->input->fire) {
-		Mix_PlayChannel(-1, game->sounds[2].effect, 0);
+		Mix_PlayChannel(-1, game->sounds[3].effect, 0);
 		if (*c == 2) {
 			game->info->status = IN_CONFIG_NB_PLAYER;
 		} else {
@@ -33,7 +33,7 @@ void choose_nb_player(t_game *game, int *nb)
 		Mix_PlayChannel(-1, game->sounds[6].effect, 0);
 		*nb = 4;
 	} else if (game->input->fire) {
-		Mix_PlayChannel(-1, game->sounds[2].effect, 0);
+		Mix_PlayChannel(-1, game->sounds[3].effect, 0);
 		game->info->status = WAIT_FOR_PLAYER;
 	}
 	draw_nb_player(game, *nb);

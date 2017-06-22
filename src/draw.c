@@ -29,7 +29,7 @@ void draw(t_game *g)
 		g->info->player_move = 0;
 	}
 	if (g->info->throw_bomb) {
-		Mix_PlayChannel(-1, g->sounds[1].effect, 0);
+		Mix_PlayChannel(-1, g->sounds[g->info->throw_bomb - 1].effect, 0);
 		g->info->throw_bomb = 0;
 	}
 

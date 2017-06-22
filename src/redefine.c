@@ -39,7 +39,7 @@ int do_redefine(t_game *game)
 
 		draw_redefine(game);
 	}
-	Mix_PlayChannel(-1, game->sounds[2].effect, 0);
+	Mix_PlayChannel(-1, game->sounds[3].effect, 0);
 
 	switch (game->redefine->i) {
 		case 0:
