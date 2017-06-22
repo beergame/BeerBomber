@@ -121,7 +121,7 @@ int my_server(t_env *e)
 				client_req = get_player_request(e->player[i]->fd);
 				if (client_req != NULL) {
 					/** set new dir */
-					e->player[i]->dir = client_req->dir;
+					if (client_req->dir) e->player[i]->dir = client_req->dir;
 					/** check if player can move or throw bomb */
 					do_player_move(e, client_req, i);
 					do_player_throw_bomb(e, client_req, i);
