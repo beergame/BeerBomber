@@ -125,11 +125,11 @@ void load_all_sprites(t_game *game)
 	loadPlayerTexture(game, "gfx/players/two.png", PLAYER_TWO_UP);
 	loadPlayerTexture(game, "gfx/players/three.png", PLAYER_THREE_UP);
 	loadPlayerTexture(game, "gfx/players/four.png", PLAYER_FOUR_UP);
-	loadSprite(game, BOMB_SPRITE, "gfx/bomb/bomb_stand_1.png");
+	loadSprite(game, BOMB_SPRITE, "gfx/bomb/tnt.png");
 	loadSprite(game, BOMB_SPRITE2, "gfx/bomb/bomb_stand_2.png");
 	loadSprite(game, BOMB_SPRITE3, "gfx/bomb/bomb_stand_3.png");
 	loadSprite(game, MAP_SPRITE_BASE, "gfx/map/base_map_1x1.png");
-	loadSprite(game, MAP_SPRITE_BLOCK, "gfx/map/block_1x1.png");
+	loadSprite(game, MAP_SPRITE_BLOCK, "gfx/map/block.png");
 	loadSprite(game, MAP_SPRITE_BUSH, "gfx/map/bush_1x1.png");
 	loadSprite(game, MAP_SPRITE_FIRE, "gfx/map/fire_1.png");
 	loadSprite(game, MAP_SPRITE_FIRE2, "gfx/map/fire_2.png");
