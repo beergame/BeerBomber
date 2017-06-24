@@ -89,3 +89,15 @@ void do_player_throw_bomb(t_env *e, t_request *r, int i)
 		p->reload = PLAYER_RELOAD_TIME;
 	}
 }
+
+
+void do_player_get_beer_boosted(t_env *e, t_player *p)
+{
+	if (e->map[pres_co(p->x)][pres_co(p->y)].data[5] == '1') {
+		p->life++;
+		p->speed += 5;
+		p->ammo++;
+		e->info->player_move = 1;
+		e->map[pres_co(p->x)][pres_co(p->y)].data[5] = '0';
+	}
+}

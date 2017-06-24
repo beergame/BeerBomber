@@ -125,6 +125,7 @@ int my_server(t_env *e)
 					/** check if player can move or throw bomb */
 					do_player_move(e, client_req, i);
 					do_player_throw_bomb(e, client_req, i);
+					do_player_get_beer_boosted(e, e->player[i]);
 
 					/** check if player quit */
 					if (client_req->ckecksum == 1) {

@@ -23,9 +23,9 @@
 # define MAP_SIZE			15
 
 # define PRES				100
-# define PLAYER_SPEED		10
-# define PLAYER_MAX_LIFE	2
-# define PLAYER_MAX_AMMO	100
+# define PLAYER_SPEED		5
+# define PLAYER_MAX_LIFE	1
+# define PLAYER_MAX_AMMO	5
 # define PLAYER_RELOAD_TIME	10
 # define BOMB_TIMER			2500
 # define FIRE_TIMER			300
@@ -102,6 +102,7 @@ t_map			**load_map();
 void			do_player_move(t_env *, t_request *, int);
 void			do_player_throw_bomb(t_env *, t_request *, int);
 void			do_timing_entity(t_env *);
+void			do_player_get_beer_boosted(t_env *, t_player *);
 
 void			clean_server(t_env *);
 void			free_map(t_map **);

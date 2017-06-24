@@ -145,6 +145,7 @@ void load_all_sprites(t_game *game)
 	loadSprite(game, BTN_2_PLAYER_B, "gfx/btn/2_player_b.png");
 	loadSprite(game, BTN_3_PLAYER_B, "gfx/btn/3_player_b.png");
 	loadSprite(game, BTN_4_PLAYER_B, "gfx/btn/4_player_b.png");
+	loadSprite(game, MAP_BONUS, "gfx/map/beer.png");
 }
 
 void draw_background(t_game *game, int index)

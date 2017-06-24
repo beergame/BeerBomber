@@ -64,30 +64,26 @@ void draw_map_entity(t_game *game)
 {
 	for (int i = 0; i < MAP_SIZE; ++i) {
 		for (int j = 0; j < MAP_SIZE; ++j) {
+			if (game->map[i][j].data[5] == '1')
+				drawImage(game, get_sprite(MAP_BONUS), i, j);
 			if (game->map[i][j].data[0] == '0' &&
 				 game->map[i][j].data[1] == '1') {
 				drawImage(game, get_sprite(MAP_SPRITE_BUSH), i, j);
 			} else if (game->map[i][j].data[0] == '1') {
 				drawImage(game, get_sprite(MAP_SPRITE_BLOCK), i, j);
 			}
-			if (game->map[i][j].data[3] == '1') {
+			if (game->map[i][j].data[3] == '1')
 				drawImage(game, get_sprite(BOMB_SPRITE), i, j);
-			}
-			if (game->map[i][j].data[3] == '2') {
+			if (game->map[i][j].data[3] == '2')
 				drawImage(game, get_sprite(BOMB_SPRITE2), i, j);
-			}
-			if (game->map[i][j].data[3] == '3') {
+			if (game->map[i][j].data[3] == '3')
 				drawImage(game, get_sprite(BOMB_SPRITE3), i, j);
-			}
-			if (game->map[i][j].data[4] == '1') {
+			if (game->map[i][j].data[4] == '1')
 				drawImage(game, get_sprite(MAP_SPRITE_FIRE), i, j);
-			}
-			if (game->map[i][j].data[4] == '2') {
+			if (game->map[i][j].data[4] == '2')
 				drawImage(game, get_sprite(MAP_SPRITE_FIRE2), i, j);
-			}
-			if (game->map[i][j].data[4] == '3') {
+			if (game->map[i][j].data[4] == '3')
 				drawImage(game, get_sprite(MAP_SPRITE_FIRE3), i, j);
-			}
 		}
 	}
 }

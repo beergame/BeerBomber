@@ -24,8 +24,13 @@ void draw(t_game *g)
 	draw_map_base(g);
 	draw_player(g);
 	draw_map_entity(g);
+
+	if (g->info->player_move) {
+		Mix_PlayChannel(-1, g->sounds[5].effect, 0);
+		g->info->player_move = 0;
+	}
 	if (g->info->throw_bomb) {
-		Mix_PlayChannel(-1, g->sounds[g->info->throw_bomb - 1].effect, 0);
+		Mix_PlayChannel(-1, g->sounds[g->info->throw_bomb].effect, 0);
 		g->info->throw_bomb = 0;
 	}
 
@@ -74,6 +79,7 @@ void draw_wait_for_player(t_game *g)
 void draw_winner(t_game *g)
 {
 	char text[50];
+	SDL_Event *event = NULL;
 
 	/* Draw winner info */
 	sprintf(text, "AND THE WINNER IS ...");
@@ -85,10 +91,10 @@ void draw_winner(t_game *g)
 			drawString(g, text, 50, 150, g->font, 1, 0);
 		}
 	}
-	sprintf(text, "DISCONNECT FROM SERVER IN 3 SEC ...");
+	sprintf(text, "PRESS ANY KEY TO CONTINUE");
 	drawString(g, text, 50, 300, g->font, 1, 0);
 	/* Update the buffer */
 	SDL_RenderPresent(g->renderer);
 	/* Sleep briefly for better perf */
-	SDL_Delay(2500);
+	SDL_WaitEvent(event);
 }
