@@ -50,8 +50,8 @@ void server_read(t_env *e, int s)
 	struct sockaddr_in client_sin;
 	socklen_t *client_sin_len;
 
-	cs = accept(s, (struct sockaddr *) &client_sin,
-				(socklen_t * ) & client_sin_len);
+	cs = accept(s, (struct sockaddr*) &client_sin,
+				(socklen_t*) & client_sin_len);
 	if (cs == -1)
 		return ;
 	for (int i = 0; i < MAX_PLAYER; i++) {
@@ -121,10 +121,11 @@ int my_server(t_env *e)
 				client_req = get_player_request(e->player[i]->fd);
 				if (client_req != NULL) {
 					/** set new dir */
-					if (client_req->dir) e->player[i]->dir = client_req->dir;
+					e->player[i]->dir = client_req->dir;
 					/** check if player can move or throw bomb */
 					do_player_move(e, client_req, i);
 					do_player_throw_bomb(e, client_req, i);
+					do_player_get_beer_boosted(e, e->player[i]);
 
 					/** check if player quit */
 					if (client_req->ckecksum == 1) {
@@ -157,7 +158,7 @@ void *server_beer_bomber(void *args)
 			break ;
 		env.player[i]->x = 0;
 		env.player[i]->y = 0;
-		env.player[i]->dir = 1;
+		env.player[i]->dir = 2;
 		env.player[i]->ammo = 0;
 		env.player[i]->reload = 0;
 		env.player[i]->frags = 0;

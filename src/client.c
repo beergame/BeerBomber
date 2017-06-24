@@ -171,9 +171,8 @@ void client_beer_bomber(t_game *game)
 			send_request(server, game);
 			get_response(server, game);
 			draw(game);
-			if (one_left(game)) {
+			if (one_left(game) || game->info->winner == 5)
 				go = 1;
-			}
 		} else if (game->info->status == WAIT_FOR_PLAYER) {
 			go = get_input(game);
 			send_request(server, game);

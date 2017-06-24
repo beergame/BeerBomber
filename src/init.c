@@ -67,6 +67,7 @@ int init_main(t_game *game)
 void init_client(t_game *g)
 {
 	/* data clearing */
+	g->starter = clock();
 	g->map = load_map();
 	g->player = malloc(MAX_PLAYER * sizeof(t_player *));
 	for (int i = 0; i < MAX_PLAYER; i++) {

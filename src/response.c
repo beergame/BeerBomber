@@ -11,6 +11,7 @@ int serialize_response(t_response *res, int sock)
 	strcat(response, buff);
 	sprintf(buff, "%i:", res->info->winner);
 	strcat(response, buff);
+	res->info->winner = 0;
 	sprintf(buff, "%i:", res->info->throw_bomb);
 	res->info->throw_bomb = 0;
 	strcat(response, buff);
@@ -70,6 +71,9 @@ int send_response(t_env *e, t_player *player)
 	res.player = e->player;
 	res.map = e->map;
 	res.info = e->info;
+	if (player->life <= 0) {
+		res.info->winner = 5;
+	}
 
 	return (serialize_response(&res, player->fd));
 }

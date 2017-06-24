@@ -71,6 +71,7 @@ typedef struct		s_game
 	SDL_Joystick	*joystick;
 	t_sound			sounds[8];
 	Mix_Music		*music;
+	clock_t			starter;
 }					t_game;
 
 typedef struct		s_request
