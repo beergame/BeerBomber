@@ -11,20 +11,26 @@ void draw_map_base(t_game *game)
 
 void draw_one_player(t_game *g, int sprite, int i)
 {
+	int cpt = 0;
+	clock_t now = clock();
+	if (((now - g->starter) * 1500 / CLOCKS_PER_SEC)
+		% 1000 > PLAYER_ANIM_TIMER) {
+		cpt = 1;
+	}
 	if (g->player[i]->dir == 1) {
-		draw_player_image(g, get_sprite(sprite),
+		draw_player_image(g, get_sprite(sprite + cpt),
 				  g->player[i]->x, g->player[i]->y);
 	} else if (g->player[i]->dir == 2) {
-		draw_player_image(g, get_sprite(sprite + 1),
+		draw_player_image(g, get_sprite(sprite + 2 + cpt),
 				  g->player[i]->x, g->player[i]->y);
 	} else if (g->player[i]->dir == 3) {
-		draw_player_image(g, get_sprite(sprite + 2),
+		draw_player_image(g, get_sprite(sprite + 4 + cpt),
 				  g->player[i]->x, g->player[i]->y);
 	} else if (g->player[i]->dir == 4) {
-		draw_player_image(g, get_sprite(sprite + 3),
+		draw_player_image(g, get_sprite(sprite + 6 + cpt),
 				  g->player[i]->x, g->player[i]->y);
 	} else {
-		draw_player_image(g, get_sprite(sprite + 1),
+		draw_player_image(g, get_sprite(sprite + 2),
 				  g->player[i]->x, g->player[i]->y);
 	}
 }

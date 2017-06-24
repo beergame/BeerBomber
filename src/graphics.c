@@ -20,13 +20,13 @@ void drawImage(t_game *game, SDL_Texture *image, int x, int y)
 	SDL_QueryTexture(image, NULL, NULL, &w, &h);
 	SDL_Rect dest;
 	/* Set x and y in right position on the screen */
-	x = (x * 2 * 16) + BOARD_WIDTH;
-	y = (y * 2 * 16) + BOARD_HEIGHT;
+	x = (x * 3 * 16) + BOARD_WIDTH;
+	y = (y * 3 * 16) + BOARD_HEIGHT;
 	/* Set the blitting rectangle to the size of the src image */
 	dest.x = x;
 	dest.y = y;
-	dest.h = h * 2;
-	dest.w = w * 2;
+	dest.h = h * 3;
+	dest.w = w * 3;
 	/* Copy the entire image onto the renderer at coordinates x and y */
 	SDL_RenderCopy(game->renderer, image, NULL, &dest);
 }
@@ -38,13 +38,13 @@ void draw_player_image(t_game *game, SDL_Texture *image, int x, int y)
 	SDL_QueryTexture(image, NULL, NULL, &w, &h);
 	SDL_Rect dest;
 	/* Set x and y in right position on the screen */
-	x = (x / PRES * 32) + BOARD_WIDTH + ((x % PRES) / 4);
-	y = (y / PRES * 32) + BOARD_HEIGHT + ((y % PRES) / 4);
+	x = (x / PRES * 3 * 16) + BOARD_WIDTH + ((x % PRES) / 2);
+	y = (y / PRES * 3 * 16) + BOARD_HEIGHT + ((y % PRES) / 2);
 	/* Set the blitting rectangle to the size of the src image */
 	dest.x = x;
 	dest.y = y;
-	dest.h = h * 1.5;
-	dest.w = w * 1.5;
+	dest.h = h * 2.3;
+	dest.w = w * 2.3;
 	/* Copy the entire image onto the renderer at coordinates x and y */
 	SDL_RenderCopy(game->renderer, image, NULL, &dest);
 }
@@ -106,10 +106,14 @@ void loadPlayerTexture(t_game *game, char *path, int index)
 			SDL_RenderCopy(game->renderer, texture, &rect, NULL);
 		}
 	}
-	sprite[index++].image = clip[1][0];
-	sprite[index++].image = clip[0][0];
-	sprite[index++].image = clip[2][0];
-	sprite[index++].image = clip[3][0];
+	sprite[index++].image = clip[1][1];
+	sprite[index++].image = clip[1][3];
+	sprite[index++].image = clip[0][1];
+	sprite[index++].image = clip[0][3];
+	sprite[index++].image = clip[2][1];
+	sprite[index++].image = clip[2][3];
+	sprite[index++].image = clip[3][1];
+	sprite[index++].image = clip[3][3];
 	SDL_SetRenderTarget(game->renderer, NULL);
 	SDL_DestroyTexture(texture);
 }
