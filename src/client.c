@@ -58,16 +58,16 @@ int send_request(int s, t_game *g)
 	return (0);
 }
 
-void unserialize_response(char *buffer, t_game *g)
+int unserialize_response(char *buffer, t_game *g)
 {
 	char **response;
 	char **buff;
 	char **buff2;
 
 	if (!(response = my_str_to_wordtab(buffer, ' ')))
-		return ;
+		return (1);
 	if (!(buff = my_str_to_wordtab(response[0], ':')))
-		return ;
+		return (1);
 	g->info->status = atoi(buff[0]);
 	g->info->max_player = atoi(buff[1]);
 	g->info->winner = atoi(buff[2]);
@@ -75,7 +75,7 @@ void unserialize_response(char *buffer, t_game *g)
 	g->info->player_boost = atoi(buff[4]);
 
 	if (!(buff = my_str_to_wordtab(response[1], ';')))
-		return ;
+		return (1);
 	for (int i = 0; i < MAX_PLAYER; i++) {
 		if ((buff2 = my_str_to_wordtab(buff[i], ':'))) {
 			if (g->player[i] != NULL) {
@@ -93,14 +93,15 @@ void unserialize_response(char *buffer, t_game *g)
 	}
 
 	if (!(buff = my_str_to_wordtab(response[2], ';')))
-		return ;
+		return (1);
 	for (int i = 0; i < MAP_SIZE; ++i) {
 		if (!(buff2 = my_str_to_wordtab(buff[i], ':')))
-			return ;
+			return (1);
 		for (int j = 0; j < MAP_SIZE; ++j) {
 			g->map[i][j].data = buff2[j];
 		}
 	}
+	return (0);
 }
 
 int get_response(int sock, t_game *g)
@@ -112,7 +113,9 @@ int get_response(int sock, t_game *g)
 		puts("trying to get response ...");
 		return (1);
 	}
-	unserialize_response(buffer, g);
+	if (unserialize_response(buffer, g)) {
+		return (1);
+	}
 
 	return (0);
 }
@@ -152,6 +155,7 @@ void client_beer_bomber(t_game *game)
 {
 	unsigned int frame_limit = SDL_GetTicks() + 16;
 	int go = 0;
+	int i = 0;
 	char ip[15] = "";
 
 	init_client(game);
@@ -164,7 +168,11 @@ void client_beer_bomber(t_game *game)
 	int server = client_connect(ip);
 	send_request(server, game);
 	SDL_Delay(100);
-	get_response(server, game);
+	while (get_response(server, game) && i < 6) {
+		printf("Error get server response: connection attempt %i\n", i);
+		SDL_Delay(1000);
+		i++;
+	};
 
 	while (!go) {
 		if (game->info->status == IN_REDEFINE) {
