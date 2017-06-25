@@ -16,17 +16,17 @@ void set_new_player(int fd, int type, t_player *p, int m)
 	p->reload = PLAYER_RELOAD_TIME;
 	p->frags = 0;
 	if (m == 1) {
-		p->x = 1 * PRES;
-		p->y = 1 * PRES;
+		p->x = 1 * PRES + 50;
+		p->y = 1 * PRES + 50;
 	} else if (m == 2) {
-		p->x = (MAP_SIZE - 2) * PRES;
-		p->y = (MAP_SIZE - 2) * PRES;
+		p->x = (MAP_SIZE - 2) * PRES + 40;
+		p->y = (MAP_SIZE - 2) * PRES + 40;
 	} else if (m == 3) {
-		p->x = 1 * PRES;
+		p->x = 1 * PRES + 50;
 		p->y = (MAP_SIZE - 2) * PRES;
 	} else if (m == 4) {
 		p->x = (MAP_SIZE - 2) * PRES;
-		p->y = 1 * PRES;
+		p->y = 1 * PRES + 50;
 	}
 }
 
@@ -132,14 +132,13 @@ int my_server(t_env *e)
 						return (0);
 					}
 
+					do_timing_entity(e);
 					/** send response to player with all env data */
 					send_response(e, e->player[i]);
 				}
 			}
 		}
 	}
-	do_timing_entity(e);
-
 
 	return (1);
 }

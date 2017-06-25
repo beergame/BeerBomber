@@ -85,7 +85,7 @@ void draw_redefine(t_game *game)
 	draw_background(game, MAP_BACK_ONE);
 
 	/* Draw the redefine string */
-	drawString(game, game->redefine->buffer, 0, 0, game->font, 1, 1);
+	draw_string(game, game->redefine->buffer, 0, 0, game->font, 1, 1);
 
 	/* Update the buffer */
 	SDL_RenderPresent(game->renderer);

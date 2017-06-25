@@ -26,6 +26,7 @@
 # define BUFF_SIZE 3000
 # define PRES 100
 # define PLAYER_ANIM_TIMER 500
+# define SCALE 3
 
 enum sprite
 {

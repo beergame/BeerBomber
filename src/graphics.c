@@ -1,6 +1,6 @@
 #include "graphics.h"
 
-SDL_Texture *loadImage(t_game *game, char *path)
+SDL_Texture *load_image(t_game *game, char *path)
 {
 	/* Load the image using SDL Image */
 	SDL_Texture *texture = IMG_LoadTexture(game->renderer, path);
@@ -12,46 +12,54 @@ SDL_Texture *loadImage(t_game *game, char *path)
 	return texture;
 }
 
-void drawImage(t_game *game, SDL_Texture *image, int x, int y)
+void draw_image(t_game *game, SDL_Texture *image, int x, int y, double scale)
 {
 	int w;
 	int h;
 
 	SDL_QueryTexture(image, NULL, NULL, &w, &h);
 	SDL_Rect dest;
-	/* Set x and y in right position on the screen */
+
+	/**
+	 * Set x and y in right position on the screen
+	 * x3 for board scale
+	 * x16 for sprite size 16px
+	 **/
 	x = (x * 3 * 16) + BOARD_WIDTH;
 	y = (y * 3 * 16) + BOARD_HEIGHT;
+
 	/* Set the blitting rectangle to the size of the src image */
 	dest.x = x;
 	dest.y = y;
-	dest.h = h * 3;
-	dest.w = w * 3;
+	dest.h = h * scale;
+	dest.w = w * scale;
 	/* Copy the entire image onto the renderer at coordinates x and y */
 	SDL_RenderCopy(game->renderer, image, NULL, &dest);
 }
+
 void draw_player_image(t_game *game, SDL_Texture *image, int x, int y)
 {
 	int w;
 	int h;
+	double xt = x;
+	double yt = y;
 
 	SDL_QueryTexture(image, NULL, NULL, &w, &h);
 	SDL_Rect dest;
-	/* Set x and y in right position on the screen */
-	x = (x / PRES * 3 * 16) + BOARD_WIDTH + ((x % PRES) / 2);
-	y = (y / PRES * 3 * 16) + BOARD_HEIGHT + ((y % PRES) / 2);
+
 	/* Set the blitting rectangle to the size of the src image */
-	dest.x = x;
-	dest.y = y;
-	dest.h = h * 2.3;
-	dest.w = w * 2.3;
+	dest.x = (xt / PRES * 3 * 16) + BOARD_WIDTH - 20;
+	dest.y = (yt / PRES * 3 * 16) + BOARD_HEIGHT - 20;
+	dest.h = h * 2;
+	dest.w = w * 2;
+
 	/* Copy the entire image onto the renderer at coordinates x and y */
 	SDL_RenderCopy(game->renderer, image, NULL, &dest);
 }
 
-void loadSprite(t_game *game, int index, char *path)
+void load_sprite(t_game *game, int index, char *path)
 {
-	sprite[index].image = loadImage(game, path);
+	sprite[index].image = load_image(game, path);
 }
 
 SDL_Texture *get_sprite(int index)
@@ -76,7 +84,7 @@ void free_sprites()
 	}
 }
 
-void loadPlayerTexture(t_game *game, char *path, int index)
+void load_player_texture(t_game *game, char *path, int index)
 {
 	SDL_Texture *clip[4][7];
 	SDL_Surface *surf = IMG_Load(path);
@@ -120,32 +128,32 @@ void loadPlayerTexture(t_game *game, char *path, int index)
 
 void load_all_sprites(t_game *game)
 {
-	loadPlayerTexture(game, "gfx/players/one.png", PLAYER_ONE_UP);
-	loadPlayerTexture(game, "gfx/players/one.png", PLAYER_ONE_UP);
-	loadPlayerTexture(game, "gfx/players/two.png", PLAYER_TWO_UP);
-	loadPlayerTexture(game, "gfx/players/three.png", PLAYER_THREE_UP);
-	loadPlayerTexture(game, "gfx/players/four.png", PLAYER_FOUR_UP);
-	loadSprite(game, BOMB_SPRITE, "gfx/bomb/tnt.png");
-	loadSprite(game, BOMB_SPRITE2, "gfx/bomb/bomb_stand_2.png");
-	loadSprite(game, BOMB_SPRITE3, "gfx/bomb/bomb_stand_3.png");
-	loadSprite(game, MAP_SPRITE_BASE, "gfx/map/base_map_1x1.png");
-	loadSprite(game, MAP_SPRITE_BLOCK, "gfx/map/block.png");
-	loadSprite(game, MAP_SPRITE_BUSH, "gfx/map/bush_1x1.png");
-	loadSprite(game, MAP_SPRITE_FIRE, "gfx/map/fire_1.png");
-	loadSprite(game, MAP_SPRITE_FIRE2, "gfx/map/fire_2.png");
-	loadSprite(game, MAP_SPRITE_FIRE3, "gfx/map/fire_3.png");
-	loadSprite(game, MAP_BACK_ONE, "gfx/background/1.png");
-	loadSprite(game, BTN_NEWGAME, "gfx/btn/newgame.png");
-	loadSprite(game, BTN_NEWGAME_B, "gfx/btn/newgame_b.png");
-	loadSprite(game, BTN_JOINGAME, "gfx/btn/joingame.png");
-	loadSprite(game, BTN_JOINGAME_B, "gfx/btn/joingame_b.png");
-	loadSprite(game, BTN_2_PLAYER, "gfx/btn/2_player.png");
-	loadSprite(game, BTN_3_PLAYER, "gfx/btn/3_player.png");
-	loadSprite(game, BTN_4_PLAYER, "gfx/btn/4_player.png");
-	loadSprite(game, BTN_2_PLAYER_B, "gfx/btn/2_player_b.png");
-	loadSprite(game, BTN_3_PLAYER_B, "gfx/btn/3_player_b.png");
-	loadSprite(game, BTN_4_PLAYER_B, "gfx/btn/4_player_b.png");
-	loadSprite(game, MAP_BONUS, "gfx/map/beer.png");
+	load_player_texture(game, "gfx/players/one.png", PLAYER_ONE_UP);
+	load_player_texture(game, "gfx/players/one.png", PLAYER_ONE_UP);
+	load_player_texture(game, "gfx/players/two.png", PLAYER_TWO_UP);
+	load_player_texture(game, "gfx/players/three.png", PLAYER_THREE_UP);
+	load_player_texture(game, "gfx/players/four.png", PLAYER_FOUR_UP);
+	load_sprite(game, BOMB_SPRITE, "gfx/bomb/tnt.png");
+	load_sprite(game, BOMB_SPRITE2, "gfx/bomb/bomb_stand_2.png");
+	load_sprite(game, BOMB_SPRITE3, "gfx/bomb/bomb_stand_3.png");
+	load_sprite(game, MAP_SPRITE_BASE, "gfx/map/base_map_1x1.png");
+	load_sprite(game, MAP_SPRITE_BLOCK, "gfx/map/block_1x1.png");
+	load_sprite(game, MAP_SPRITE_BUSH, "gfx/map/bush_1x1.png");
+	load_sprite(game, MAP_SPRITE_FIRE, "gfx/map/fire_1.png");
+	load_sprite(game, MAP_SPRITE_FIRE2, "gfx/map/fire_2.png");
+	load_sprite(game, MAP_SPRITE_FIRE3, "gfx/map/fire_3.png");
+	load_sprite(game, MAP_BACK_ONE, "gfx/background/1.png");
+	load_sprite(game, BTN_NEWGAME, "gfx/btn/newgame.png");
+	load_sprite(game, BTN_NEWGAME_B, "gfx/btn/newgame_b.png");
+	load_sprite(game, BTN_JOINGAME, "gfx/btn/joingame.png");
+	load_sprite(game, BTN_JOINGAME_B, "gfx/btn/joingame_b.png");
+	load_sprite(game, BTN_2_PLAYER, "gfx/btn/2_player.png");
+	load_sprite(game, BTN_3_PLAYER, "gfx/btn/3_player.png");
+	load_sprite(game, BTN_4_PLAYER, "gfx/btn/4_player.png");
+	load_sprite(game, BTN_2_PLAYER_B, "gfx/btn/2_player_b.png");
+	load_sprite(game, BTN_3_PLAYER_B, "gfx/btn/3_player_b.png");
+	load_sprite(game, BTN_4_PLAYER_B, "gfx/btn/4_player_b.png");
+	load_sprite(game, MAP_BONUS, "gfx/map/beer.png");
 }
 
 void draw_background(t_game *game, int index)
@@ -158,7 +166,7 @@ void draw_background(t_game *game, int index)
 	SDL_RenderCopy(game->renderer, get_sprite(index), NULL, &pos);
 }
 
-void drawBtn(t_game *game, int x, int y, int index)
+void draw_btn(t_game *game, int x, int y, int index)
 {
 	SDL_Rect pos;
 	int w;

@@ -26,7 +26,7 @@ int init_main(t_game *game)
 	game->info->status = IN_REDEFINE;
 	game->info->winner = 0;
 	game->info->throw_bomb = 0;
-	game->info->player_move = 0;
+	game->info->player_boost = 0;
 	game->info->max_player = 1;
 	game->redefine = malloc(sizeof(t_redefine));
 	game->redefine->i = 0;

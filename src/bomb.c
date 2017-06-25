@@ -19,7 +19,7 @@ void fire_action_on_player(t_env *e)
 
 	for (int i = 0; i < MAX_PLAYER; ++i) {
 		if (p[i]->connected == 1 &&
-			e->map[pres_co(p[i]->x)][pres_co(p[i]->y)].data[4] != '0') {
+			e->map[p[i]->x / PRES][p[i]->y / PRES].data[4] != '0') {
 			p[i]->life--;
 			if (p[i]->life == 0) {
 				p[i]->x = 0;
