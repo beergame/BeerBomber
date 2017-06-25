@@ -23,7 +23,7 @@ void close_font(TTF_Font *font)
 		TTF_CloseFont(font);
 }
 
-void drawString(t_game *game, char *text, int x, int y, TTF_Font *font, int centerX, int centerY)
+void draw_string(t_game *game, char *text, int x, int y, TTF_Font *font, int centerX, int centerY)
 {
 	SDL_Rect dest;
 	SDL_Surface *surface;
@@ -97,8 +97,8 @@ void draw_log_string(t_game *g, char *text, int x, int y, TTF_Font *font)
 	/* Blit the entire surface to the screen */
 	dest.x = x;
 	dest.y = y;
-	dest.w = surface->w;
-	dest.h = surface->h;
+	dest.w = surface->w * 1.5;
+	dest.h = surface->h * 1.5;
 
 	/* Create texture from Surface */
 	texture = SDL_CreateTextureFromSurface(g->renderer, surface);

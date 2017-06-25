@@ -93,7 +93,7 @@ void draw_is_new_game(t_game *game, int c)
 	}
 
 	sprintf(text, "BEER BOMBER THE GAME.");
-	drawString(game, text, 50, 150, game->font, 1, 0);
+	draw_string(game, text, 50, 150, game->font, 1, 0);
 
 	/* Update the buffer */
 	SDL_RenderPresent(game->renderer);

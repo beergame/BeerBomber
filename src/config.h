@@ -7,7 +7,7 @@ void flush_inputs(void);
 
 int get_single_input(void);
 
-void drawString(t_game*, char *, int, int, TTF_Font *, int, int);
+void draw_string(t_game*, char *, int, int, TTF_Font *, int, int);
 
 void draw_background(t_game *, int);
 

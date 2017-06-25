@@ -1,8 +1,12 @@
 #include "player.h"
 
-int pres_co(int co)
+int pres_co(int co, int i)
 {
-	return round(co / PRES);
+	double tmp = co;
+
+	tmp = tmp / PRES;
+
+	return (i) ? (int)(tmp + 0.49) : (int)(tmp - 0.49);
 }
 
 void player_move(t_env *e, int i, int x, int y)
@@ -11,45 +15,21 @@ void player_move(t_env *e, int i, int x, int y)
 	e->player[i]->y = y;
 }
 
-int no_player_here(t_env *e, int x, int y)
-{
-	for (int i = 0; i < MAX_PLAYER; ++i) {
-		if (e->player[i]->connected == 1) {
-			if (x == pres_co(e->player[i]->x) &&
-				y == pres_co(e->player[i]->y)) {
-				return (0);
-			}
-		}
-	}
-
-	return (1);
-}
-
 void do_player_move(t_env *e, t_request *req, int i) {
 	if (e->player[i] != NULL && e->player[i]->life > 0) {
-		int x = pres_co(e->player[i]->x);
-		int y = pres_co(e->player[i]->y);
-		int xt = e->player[i]->x % PRES;
-		int yt = e->player[i]->y % PRES;
+		int xp = pres_co(e->player[i]->x, 1);
+		int xm = pres_co(e->player[i]->x, 0);
+		int yp = pres_co(e->player[i]->y, 1);
+		int ym = pres_co(e->player[i]->y, 0);
+
 		if (req->dir) {
-			if (req->dir == 1 &&
-				((y > 1 && (e->map[x][y - 1].data[1] == '0') &&
-				  (e->map[x][y - 1].data[3] != '1')) || yt) &&
-				no_player_here(e, x, y - 1))
+			if (req->dir == 1 && e->map[xp][yp - 1].data[1] == '0' && e->map[xp][yp - 1].data[3] != '1')
 				player_move(e, i, e->player[i]->x, e->player[i]->y - e->player[i]->speed);
-			else if (req->dir == 2 &&
-					 ((y < MAP_SIZE - 2 && (e->map[x][y + 1].data[1] == '0')
-					   && (e->map[x][y + 1].data[3] != '1')) || yt) &&
-					 no_player_here(e, x, y + 1))
+			else if (req->dir == 2 && e->map[xp][ym + 1].data[1] == '0' && e->map[xp][ym + 1].data[3] != '1')
 				player_move(e, i, e->player[i]->x, e->player[i]->y + e->player[i]->speed);
-			else if (req->dir == 3 && ((x > 1 && (e->map[x - 1][y].data[1] == '0') &&
-					(e->map[x - 1][y].data[3] != '1')) || xt) &&
-					 no_player_here(e, x - 1, y))
+			else if (req->dir == 3 && e->map[xp - 1][yp].data[1] == '0' && e->map[xp - 1][yp].data[3] != '1')
 				player_move(e, i, e->player[i]->x - e->player[i]->speed, e->player[i]->y);
-			else if (req->dir == 4 &&
-					 ((x < MAP_SIZE - 2 && (e->map[x + 1][y].data[1] == '0') &&
-							 (e->map[x + 1][y].data[3] != '1')) || xt) &&
-					 no_player_here(e, x + 1, y))
+			else if (req->dir == 4 && e->map[xm + 1][yp].data[1] == '0' && e->map[xm + 1][yp].data[3] != '1')
 				player_move(e, i, e->player[i]->x + e->player[i]->speed, e->player[i]->y);
 		}
 	}
@@ -61,12 +41,12 @@ void throw_bomb(t_env *e, t_player *p)
 	clock_t now = clock();
 	t_timer *t = malloc(sizeof(t_timer));
 
-	t->x = pres_co(p->x);
-	t->y = pres_co(p->y);
+	t->x = pres_co(p->x, 1);
+	t->y = pres_co(p->y, 1);
 	t->status = 0;
 	t->start = now;
 	t->nb = p->fd;
-	e->map[pres_co(p->x)][pres_co(p->y)].data[3] = '1';
+	e->map[pres_co(p->x, 1)][pres_co(p->y, 1)].data[3] = '1';
 
 	while (e->timer[++i] != NULL);
 	e->timer[i] = t;
@@ -80,8 +60,9 @@ void do_player_throw_bomb(t_env *e, t_request *r, int i)
 		p->reload = 0;
 	}
 	if (r->fire == 1 && p->ammo > 0 &&
-		e->map[pres_co(p->x)][pres_co(p->y)].data[3] != '1' &&
-		e->map[pres_co(p->x)][pres_co(p->y)].data[4] == '0' &&
+		e->map[pres_co(p->x, 1)][pres_co(p->y, 1)].data[1] == '0' &&
+		e->map[pres_co(p->x, 1)][pres_co(p->y, 1)].data[3] != '1' &&
+		e->map[pres_co(p->x, 1)][pres_co(p->y, 1)].data[4] == '0' &&
 		p->reload <= 0 && p->life > 0) {
 		throw_bomb(e, p);
 		e->info->throw_bomb = 1;
@@ -93,11 +74,11 @@ void do_player_throw_bomb(t_env *e, t_request *r, int i)
 
 void do_player_get_beer_boosted(t_env *e, t_player *p)
 {
-	if (e->map[pres_co(p->x)][pres_co(p->y)].data[5] == '1') {
+	if (e->map[pres_co(p->x, 1)][pres_co(p->y, 1)].data[5] == '1') {
 		p->life++;
 		p->speed += 5;
-		p->ammo++;
+		p->ammo += 5;
 		e->info->player_boost = 1;
-		e->map[pres_co(p->x)][pres_co(p->y)].data[5] = '0';
+		e->map[pres_co(p->x, 1)][pres_co(p->y, 1)].data[5] = '0';
 	}
 }

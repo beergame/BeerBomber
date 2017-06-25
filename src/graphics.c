@@ -41,17 +41,18 @@ void draw_player_image(t_game *game, SDL_Texture *image, int x, int y)
 {
 	int w;
 	int h;
+	double xt = x;
+	double yt = y;
 
 	SDL_QueryTexture(image, NULL, NULL, &w, &h);
 	SDL_Rect dest;
-	/* Set x and y in right position on the screen */
-	x = (x / PRES * 3 * 16) + BOARD_WIDTH + ((x % PRES) / 2);
-	y = (y / PRES * 3 * 16) + BOARD_HEIGHT + ((y % PRES) / 2);
+
 	/* Set the blitting rectangle to the size of the src image */
-	dest.x = x;
-	dest.y = y;
-	dest.h = h * 2.3;
-	dest.w = w * 2.3;
+	dest.x = (xt / PRES * 3 * 16) + BOARD_WIDTH - 20;
+	dest.y = (yt / PRES * 3 * 16) + BOARD_HEIGHT - 20;
+	dest.h = h * 2;
+	dest.w = w * 2;
+
 	/* Copy the entire image onto the renderer at coordinates x and y */
 	SDL_RenderCopy(game->renderer, image, NULL, &dest);
 }
