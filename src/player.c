@@ -26,7 +26,7 @@ int no_player_here(t_env *e, int x, int y)
 }
 
 void do_player_move(t_env *e, t_request *req, int i) {
-	if (e->player[i] != NULL) {
+	if (e->player[i] != NULL && e->player[i]->life > 0) {
 		int x = pres_co(e->player[i]->x);
 		int y = pres_co(e->player[i]->y);
 		int xt = e->player[i]->x % PRES;
@@ -82,7 +82,7 @@ void do_player_throw_bomb(t_env *e, t_request *r, int i)
 	if (r->fire == 1 && p->ammo > 0 &&
 		e->map[pres_co(p->x)][pres_co(p->y)].data[3] != '1' &&
 		e->map[pres_co(p->x)][pres_co(p->y)].data[4] == '0' &&
-		p->reload <= 0) {
+		p->reload <= 0 && p->life > 0) {
 		throw_bomb(e, p);
 		e->info->throw_bomb = 1;
 		p->ammo--;

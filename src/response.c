@@ -71,9 +71,6 @@ int send_response(t_env *e, t_player *player)
 	res.player = e->player;
 	res.map = e->map;
 	res.info = e->info;
-	if (player->life <= 0) {
-		res.info->winner = 5;
-	}
 
 	return (serialize_response(&res, player->fd));
 }
