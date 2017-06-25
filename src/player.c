@@ -97,7 +97,7 @@ void do_player_get_beer_boosted(t_env *e, t_player *p)
 		p->life++;
 		p->speed += 5;
 		p->ammo++;
-		e->info->player_move = 1;
+		e->info->player_boost = 1;
 		e->map[pres_co(p->x)][pres_co(p->y)].data[5] = '0';
 	}
 }

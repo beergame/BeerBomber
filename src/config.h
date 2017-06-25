@@ -15,6 +15,6 @@ void draw_is_new_game(t_game *, int);
 
 void draw_nb_player(t_game *, int);
 
-void drawBtn(t_game *, int, int, int);
+void draw_btn(t_game *, int, int, int);
 
 #endif /* __CONFIG_H__ */

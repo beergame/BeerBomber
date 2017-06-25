@@ -72,7 +72,7 @@ void unserialize_response(char *buffer, t_game *g)
 	g->info->max_player = atoi(buff[1]);
 	g->info->winner = atoi(buff[2]);
 	g->info->throw_bomb = atoi(buff[3]);
-	g->info->player_move = atoi(buff[4]);
+	g->info->player_boost = atoi(buff[4]);
 
 	if (!(buff = my_str_to_wordtab(response[1], ';')))
 		return ;

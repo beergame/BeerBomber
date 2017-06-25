@@ -49,19 +49,19 @@ void draw_nb_player(t_game *game, int c)
 
 	switch (c) {
 		case 2:
-			drawBtn(game, 250, 380, BTN_2_PLAYER);
-			drawBtn(game, 550, 380, BTN_3_PLAYER_B);
-			drawBtn(game, 850, 380, BTN_4_PLAYER_B);
+			draw_btn(game, 250, 380, BTN_2_PLAYER);
+			draw_btn(game, 550, 380, BTN_3_PLAYER_B);
+			draw_btn(game, 850, 380, BTN_4_PLAYER_B);
 			break;
 		case 3:
-			drawBtn(game, 250, 380, BTN_2_PLAYER_B);
-			drawBtn(game, 550, 380, BTN_3_PLAYER);
-			drawBtn(game, 850, 380, BTN_4_PLAYER_B);
+			draw_btn(game, 250, 380, BTN_2_PLAYER_B);
+			draw_btn(game, 550, 380, BTN_3_PLAYER);
+			draw_btn(game, 850, 380, BTN_4_PLAYER_B);
 			break;
 		case 4:
-			drawBtn(game, 250, 380, BTN_2_PLAYER_B);
-			drawBtn(game, 550, 380, BTN_3_PLAYER_B);
-			drawBtn(game, 850, 380, BTN_4_PLAYER);
+			draw_btn(game, 250, 380, BTN_2_PLAYER_B);
+			draw_btn(game, 550, 380, BTN_3_PLAYER_B);
+			draw_btn(game, 850, 380, BTN_4_PLAYER);
 			break;
 		default:
 			break;
@@ -85,11 +85,11 @@ void draw_is_new_game(t_game *game, int c)
 	draw_background(game, MAP_BACK_ONE);
 
 	if (c == 2) {
-		drawBtn(game, 300, 380, BTN_NEWGAME);
-		drawBtn(game, 800, 380, BTN_JOINGAME_B);
+		draw_btn(game, 300, 380, BTN_NEWGAME);
+		draw_btn(game, 800, 380, BTN_JOINGAME_B);
 	} else {
-		drawBtn(game, 300, 380, BTN_NEWGAME_B);
-		drawBtn(game, 800, 380, BTN_JOINGAME);
+		draw_btn(game, 300, 380, BTN_NEWGAME_B);
+		draw_btn(game, 800, 380, BTN_JOINGAME);
 	}
 
 	sprintf(text, "BEER BOMBER THE GAME.");

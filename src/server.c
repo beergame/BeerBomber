@@ -132,14 +132,13 @@ int my_server(t_env *e)
 						return (0);
 					}
 
+					do_timing_entity(e);
 					/** send response to player with all env data */
 					send_response(e, e->player[i]);
 				}
 			}
 		}
 	}
-	do_timing_entity(e);
-
 
 	return (1);
 }

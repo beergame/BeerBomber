@@ -56,7 +56,7 @@ typedef struct	s_info
 	int			winner;
 	int			max_player;
 	int			throw_bomb;
-	int			player_move;
+	int			player_boost;
 }				t_info;
 
 typedef struct	s_timer

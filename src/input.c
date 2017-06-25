@@ -28,7 +28,7 @@ int get_input(t_game *game)
 				else if (key == game->control->fire)
 					game->input->fire = 1;
 				else if (key == SDLK_ESCAPE) {
-					Mix_PlayChannel(-1, game->sounds[5].effect, 0);
+					Mix_PlayChannel(-1, game->sounds[6].effect, 0);
 					game->info->status = IN_REDEFINE;
 				}
 				break;

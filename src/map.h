@@ -3,7 +3,7 @@
 
 #include "structs.h"
 
-void drawImage(t_game *, SDL_Texture *, int, int);
+void draw_image(t_game *, SDL_Texture *, int, int, double);
 
 void draw_player_image(t_game *game, SDL_Texture *image, int x, int y);
 

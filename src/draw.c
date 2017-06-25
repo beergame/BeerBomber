@@ -25,12 +25,16 @@ void draw(t_game *g)
 	draw_player(g);
 	draw_map_entity(g);
 
-	if (g->info->player_move) {
+	if (g->info->throw_bomb == 2) {
 		Mix_PlayChannel(-1, g->sounds[5].effect, 0);
-		g->info->player_move = 0;
+		g->info->throw_bomb = 0;
 	}
-	if (g->info->throw_bomb) {
-		Mix_PlayChannel(-1, g->sounds[g->info->throw_bomb].effect, 0);
+	if (g->info->player_boost) {
+		Mix_PlayChannel(-1, g->sounds[2].effect, 0);
+		g->info->player_boost = 0;
+	}
+	if (g->info->throw_bomb == 1) {
+		Mix_PlayChannel(-1, g->sounds[0].effect, 0);
 		g->info->throw_bomb = 0;
 	}
 

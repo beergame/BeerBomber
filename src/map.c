@@ -4,7 +4,7 @@ void draw_map_base(t_game *game)
 {
 	for (int i = 0; i < MAP_SIZE; i++) {
 		for (int j = 0; j < MAP_SIZE; j++) {
-			drawImage(game, get_sprite(MAP_SPRITE_BASE), i, j);
+			draw_image(game, get_sprite(MAP_SPRITE_BASE), i, j, SCALE);
 		}
 	}
 }
@@ -65,25 +65,25 @@ void draw_map_entity(t_game *game)
 	for (int i = 0; i < MAP_SIZE; ++i) {
 		for (int j = 0; j < MAP_SIZE; ++j) {
 			if (game->map[i][j].data[5] == '1')
-				drawImage(game, get_sprite(MAP_BONUS), i, j);
+				draw_image(game, get_sprite(MAP_BONUS), i, j, 0.7);
 			if (game->map[i][j].data[0] == '0' &&
 				 game->map[i][j].data[1] == '1') {
-				drawImage(game, get_sprite(MAP_SPRITE_BUSH), i, j);
+				draw_image(game, get_sprite(MAP_SPRITE_BUSH), i, j, SCALE);
 			} else if (game->map[i][j].data[0] == '1') {
-				drawImage(game, get_sprite(MAP_SPRITE_BLOCK), i, j);
+				draw_image(game, get_sprite(MAP_SPRITE_BLOCK), i, j, SCALE);
 			}
 			if (game->map[i][j].data[3] == '1')
-				drawImage(game, get_sprite(BOMB_SPRITE), i, j);
+				draw_image(game, get_sprite(BOMB_SPRITE), i, j, SCALE);
 			if (game->map[i][j].data[3] == '2')
-				drawImage(game, get_sprite(BOMB_SPRITE2), i, j);
+				draw_image(game, get_sprite(BOMB_SPRITE2), i, j, SCALE);
 			if (game->map[i][j].data[3] == '3')
-				drawImage(game, get_sprite(BOMB_SPRITE3), i, j);
+				draw_image(game, get_sprite(BOMB_SPRITE3), i, j, SCALE);
 			if (game->map[i][j].data[4] == '1')
-				drawImage(game, get_sprite(MAP_SPRITE_FIRE), i, j);
+				draw_image(game, get_sprite(MAP_SPRITE_FIRE), i, j, SCALE);
 			if (game->map[i][j].data[4] == '2')
-				drawImage(game, get_sprite(MAP_SPRITE_FIRE2), i, j);
+				draw_image(game, get_sprite(MAP_SPRITE_FIRE2), i, j, SCALE);
 			if (game->map[i][j].data[4] == '3')
-				drawImage(game, get_sprite(MAP_SPRITE_FIRE3), i, j);
+				draw_image(game, get_sprite(MAP_SPRITE_FIRE3), i, j, SCALE);
 		}
 	}
 }
