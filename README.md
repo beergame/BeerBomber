@@ -5,8 +5,7 @@ Bomberman clone in C/SDL 360 controller ready
 <br />
 <br />
 <br />
-<img src="http://i.imgur.com/Lc3yNCj.gif" width="70%" />
-
+<img src="http://i.imgur.com/CoZeX0U.gif" />
 
 # Build BeerBomber
 
