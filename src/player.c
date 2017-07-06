@@ -23,13 +23,13 @@ void do_player_move(t_env *e, t_request *req, int i) {
 		int ym = pres_co(e->player[i]->y, 0);
 
 		if (req->dir) {
-			if (req->dir == 1 && e->map[xp][yp - 1].data[1] == '0' && e->map[xp][yp - 1].data[3] != '1')
+			if (req->dir == 1 && e->map[xp][yp - 1].data[1] == '0')
 				player_move(e, i, e->player[i]->x, e->player[i]->y - e->player[i]->speed);
-			else if (req->dir == 2 && e->map[xp][ym + 1].data[1] == '0' && e->map[xp][ym + 1].data[3] != '1')
+			else if (req->dir == 2 && e->map[xp][ym + 1].data[1] == '0')
 				player_move(e, i, e->player[i]->x, e->player[i]->y + e->player[i]->speed);
-			else if (req->dir == 3 && e->map[xp - 1][yp].data[1] == '0' && e->map[xp - 1][yp].data[3] != '1')
+			else if (req->dir == 3 && e->map[xp - 1][yp].data[1] == '0')
 				player_move(e, i, e->player[i]->x - e->player[i]->speed, e->player[i]->y);
-			else if (req->dir == 4 && e->map[xm + 1][yp].data[1] == '0' && e->map[xm + 1][yp].data[3] != '1')
+			else if (req->dir == 4 && e->map[xm + 1][yp].data[1] == '0')
 				player_move(e, i, e->player[i]->x + e->player[i]->speed, e->player[i]->y);
 		}
 	}
@@ -75,7 +75,7 @@ void do_player_throw_bomb(t_env *e, t_request *r, int i)
 void do_player_get_beer_boosted(t_env *e, t_player *p)
 {
 	if (e->map[pres_co(p->x, 1)][pres_co(p->y, 1)].data[5] == '1') {
-		p->ammo += 2;
+		p->ammo += 5;
 		e->info->player_boost = 1;
 		e->map[pres_co(p->x, 1)][pres_co(p->y, 1)].data[5] = '0';
 	}
