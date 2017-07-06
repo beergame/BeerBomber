@@ -33,4 +33,4 @@ You will have an executable named `beerbomber` that you can run
 
 
 # Contributor
-[Aurelien Paranavithana](https://github.com/AurelienParana), [Roland Coulibaly](https://github.com/rolandcoulibaly), [Victor Balssa](https://github.com/Nandotk), [Simon Garreau-Férandin](https://github.com/garreas)
+[Aurelien Paranavithana](https://github.com/AurelienParana), [Roland Coulibaly](https://github.com/rolandcoulibaly), [Victor Balssa](https://github.com/victorbalssa), [Simon Garreau-Férandin](https://github.com/garreas)
