@@ -7,9 +7,16 @@ int serialize_response(t_response *res, int sock)
 
 	sprintf(buff, "%i:", res->info->status);
 	strcat(response, buff);
-	sprintf(buff, "%i:", res->info->playermax);
+	sprintf(buff, "%i:", res->info->max_player);
 	strcat(response, buff);
-	sprintf(buff, "%i ", res->info->winner);
+	sprintf(buff, "%i:", res->info->winner);
+	strcat(response, buff);
+	res->info->winner = 0;
+	sprintf(buff, "%i:", res->info->throw_bomb);
+	res->info->throw_bomb = 0;
+	strcat(response, buff);
+	sprintf(buff, "%i ", res->info->player_boost);
+	res->info->player_boost = 0;
 	strcat(response, buff);
 
 	/* player 0 is server fd -> start at 1 */
@@ -48,7 +55,6 @@ int serialize_response(t_response *res, int sock)
 	}
 
 	response[strlen(response)] =  '\0';
-//	printf("response: %s\n", response);
 	if (send(sock, response, strlen(response), 0) < 0) {
 		puts("Send failed");
 		return (0);

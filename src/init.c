@@ -25,7 +25,9 @@ int init_main(t_game *game)
 	game->info = malloc(sizeof(t_info));
 	game->info->status = IN_REDEFINE;
 	game->info->winner = 0;
-	game->info->playermax = 1;
+	game->info->throw_bomb = 0;
+	game->info->player_boost = 0;
+	game->info->max_player = 1;
 	game->redefine = malloc(sizeof(t_redefine));
 	game->redefine->i = 0;
 	game->redefine->buffer[0] = '\0';
@@ -58,12 +60,14 @@ int init_main(t_game *game)
 		printf("Joystick has %d axes\n", SDL_JoystickNumAxes(game->joystick));
 	}
 	load_all_sprites(game);
+	load_all_sound(game);
 	return (0);
 }
 
 void init_client(t_game *g)
 {
 	/* data clearing */
+	g->starter = clock();
 	g->map = load_map();
 	g->player = malloc(MAX_PLAYER * sizeof(t_player *));
 	for (int i = 0; i < MAX_PLAYER; i++) {

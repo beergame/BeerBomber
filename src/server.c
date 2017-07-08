@@ -16,17 +16,17 @@ void set_new_player(int fd, int type, t_player *p, int m)
 	p->reload = PLAYER_RELOAD_TIME;
 	p->frags = 0;
 	if (m == 1) {
-		p->x = 1;
-		p->y = 1;
+		p->x = 1 * PRES + 50;
+		p->y = 1 * PRES + 50;
 	} else if (m == 2) {
-		p->x = MAP_SIZE - 2;
-		p->y = MAP_SIZE - 2;
+		p->x = (MAP_SIZE - 2) * PRES + 40;
+		p->y = (MAP_SIZE - 2) * PRES + 40;
 	} else if (m == 3) {
-		p->x = 1;
-		p->y = MAP_SIZE - 2;
+		p->x = 1 * PRES + 50;
+		p->y = (MAP_SIZE - 2) * PRES;
 	} else if (m == 4) {
-		p->x = MAP_SIZE - 2;
-		p->y = 1;
+		p->x = (MAP_SIZE - 2) * PRES;
+		p->y = 1 * PRES + 50;
 	}
 }
 
@@ -50,8 +50,8 @@ void server_read(t_env *e, int s)
 	struct sockaddr_in client_sin;
 	socklen_t *client_sin_len;
 
-	cs = accept(s, (struct sockaddr *) &client_sin,
-				(socklen_t * ) & client_sin_len);
+	cs = accept(s, (struct sockaddr*) &client_sin,
+				(socklen_t*) & client_sin_len);
 	if (cs == -1)
 		return ;
 	for (int i = 0; i < MAX_PLAYER; i++) {
@@ -125,20 +125,20 @@ int my_server(t_env *e)
 					/** check if player can move or throw bomb */
 					do_player_move(e, client_req, i);
 					do_player_throw_bomb(e, client_req, i);
+					do_player_get_beer_boosted(e, e->player[i]);
 
 					/** check if player quit */
 					if (client_req->ckecksum == 1) {
 						return (0);
 					}
 
+					do_timing_entity(e);
 					/** send response to player with all env data */
 					send_response(e, e->player[i]);
 				}
 			}
 		}
 	}
-	do_timing_entity(e);
-
 
 	return (1);
 }
@@ -157,7 +157,7 @@ void *server_beer_bomber(void *args)
 			break ;
 		env.player[i]->x = 0;
 		env.player[i]->y = 0;
-		env.player[i]->dir = 1;
+		env.player[i]->dir = 2;
 		env.player[i]->ammo = 0;
 		env.player[i]->reload = 0;
 		env.player[i]->frags = 0;
@@ -175,10 +175,7 @@ void *server_beer_bomber(void *args)
 	env.map = load_map();
 	env.port = 5000;
 	if (add_server(&env))
-	{
-		usleep(500 * 1000);
 		while (my_server(&env));
-	}
 	clean_server(&env);
 
 	pthread_exit(NULL);

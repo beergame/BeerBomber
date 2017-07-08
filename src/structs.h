@@ -36,7 +36,9 @@ typedef struct		s_info
 {
 	int				status;
 	int				winner;
-	int				playermax;
+	int				max_player;
+	int				player_boost;
+	int				throw_bomb;
 }					t_info;
 
 typedef struct		s_redefine
@@ -67,6 +69,9 @@ typedef struct		s_game
 	SDL_Renderer	*renderer;
 	TTF_Font		*font;
 	SDL_Joystick	*joystick;
+	t_sound			sounds[8];
+	Mix_Music		*music;
+	clock_t			starter;
 }					t_game;
 
 typedef struct		s_request

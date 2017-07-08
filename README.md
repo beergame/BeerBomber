@@ -1,12 +1,11 @@
-# BeerBomber [![Build Status](https://travis-ci.org/beergame/BeerBomber.svg?branch=staging)](https://travis-ci.org/beergame/BeerBomber)
+# BeerBomber [![Build Status](https://travis-ci.org/beergame/BeerBomber.svg?branch=master)](https://travis-ci.org/beergame/BeerBomber)
 
 Bomberman clone in C/SDL 360 controller ready
 <img src="http://i.imgur.com/K4qCCiq.png" width="3%"/>
 <br />
 <br />
 <br />
-<img src="http://i.imgur.com/Lc3yNCj.gif" width="70%" />
-
+<img src="http://i.imgur.com/CoZeX0U.gif" />
 
 # Build BeerBomber
 
@@ -34,4 +33,4 @@ You will have an executable named `beerbomber` that you can run
 
 
 # Contributor
-[Aurelien Paranavithana](https://github.com/AurelienParana), [Roland Coulibaly](https://github.com/rolandcoulibaly), [Victor Balssa](https://github.com/Nandotk), [Simon Garreau-Férandin](https://github.com/garreas)
+[Aurelien Paranavithana](https://github.com/AurelienParana), [Roland Coulibaly](https://github.com/rolandcoulibaly), [Victor Balssa](https://github.com/victorbalssa), [Simon Garreau-Férandin](https://github.com/garreas)

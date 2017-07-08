@@ -10,22 +10,25 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <time.h>
+# include <math.h>
 
-# define FD_FREE 0
-# define FD_CLIENT 1
-# define FD_SERVER 2
-# define BUFF_SIZE 3000
-/* + 1 server VV */
-# define MAX_PLAYER 5
-# define MAX_TIMER 40
-# define MAP_SIZE 15
+# define FD_FREE			0
+# define FD_CLIENT			1
+# define FD_SERVER			2
+# define BUFF_SIZE			3000
+# define MAX_PLAYER			5
+/* 4 + 1 for server fd in player tab */
+# define MAX_TIMER			120
+// TODO improve timer stuct
+# define MAP_SIZE			15
 
-# define PLAYER_SPEED 10
-# define PLAYER_MAX_LIFE 2
-# define PLAYER_MAX_AMMO 100
-# define PLAYER_RELOAD_TIME 10
-# define BOMB_LIFETIME 1000000
-# define FIRE_LIFETIME 100000
+# define PRES				100
+# define PLAYER_SPEED		5
+# define PLAYER_MAX_LIFE	1
+# define PLAYER_MAX_AMMO	5
+# define PLAYER_RELOAD_TIME	10
+# define BOMB_TIMER			2500
+# define FIRE_TIMER			300
 
 typedef struct	s_player
 {
@@ -51,7 +54,9 @@ typedef struct	s_info
 {
 	int			status;
 	int			winner;
-	int			playermax;
+	int			max_player;
+	int			throw_bomb;
+	int			player_boost;
 }				t_info;
 
 typedef struct	s_timer
@@ -90,13 +95,14 @@ typedef struct	s_response
 	t_player	**player;
 }				t_response;
 
-t_map			**load_map();
-t_request		*unserialize_request(char *buffer);
 int				send_response(t_env *, t_player *);
+t_request		*unserialize_request(char *buffer);
+t_map			**load_map();
 
 void			do_player_move(t_env *, t_request *, int);
 void			do_player_throw_bomb(t_env *, t_request *, int);
 void			do_timing_entity(t_env *);
+void			do_player_get_beer_boosted(t_env *, t_player *);
 
 void			clean_server(t_env *);
 void			free_map(t_map **);

@@ -17,8 +17,13 @@ t_map **load_map()
 				tmp[i][j].data = strdup("11000000");
 			} else if ((i > 2 || j > 2) && (i < 12 || j < 12) &&
 					(i > 2 || j < 12) && (i < 12 || j > 2)) {
-				/* 01000000 terrain destructible */
-				tmp[i][j].data = strdup("01000000");
+				if  ((i % 3) || (j % 3)) {
+					/* 01000000 terrain destructible */
+					tmp[i][j].data = strdup("01000000");
+				} else {
+					/* 01000000 terrain destructible + bonus */
+					tmp[i][j].data = strdup("01000100");
+				}
 			} else {
 				tmp[i][j].data = strdup("00000000");
 			}

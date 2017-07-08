@@ -64,13 +64,18 @@ void unserialize_response(char *buffer, t_game *g)
 	char **buff;
 	char **buff2;
 
-	response = my_str_to_wordtab(buffer, ' ');
-	buff = my_str_to_wordtab(response[0], ':');
+	if (!(response = my_str_to_wordtab(buffer, ' ')))
+		return ;
+	if (!(buff = my_str_to_wordtab(response[0], ':')))
+		return ;
 	g->info->status = atoi(buff[0]);
-	g->info->playermax = atoi(buff[1]);
+	g->info->max_player = atoi(buff[1]);
 	g->info->winner = atoi(buff[2]);
+	g->info->throw_bomb = atoi(buff[3]);
+	g->info->player_boost = atoi(buff[4]);
 
-	buff = my_str_to_wordtab(response[1], ';');
+	if (!(buff = my_str_to_wordtab(response[1], ';')))
+		return ;
 	for (int i = 0; i < MAX_PLAYER; i++) {
 		if ((buff2 = my_str_to_wordtab(buff[i], ':'))) {
 			if (g->player[i] != NULL) {
@@ -87,9 +92,11 @@ void unserialize_response(char *buffer, t_game *g)
 		}
 	}
 
-	buff = my_str_to_wordtab(response[2], ';');
+	if (!(buff = my_str_to_wordtab(response[2], ';')))
+		return ;
 	for (int i = 0; i < MAP_SIZE; ++i) {
-		buff2 = my_str_to_wordtab(buff[i], ':');
+		if (!(buff2 = my_str_to_wordtab(buff[i], ':')))
+			return ;
 		for (int j = 0; j < MAP_SIZE; ++j) {
 			g->map[i][j].data = buff2[j];
 		}
@@ -119,7 +126,7 @@ void all_players_connected(t_game *g)
 			a++;
 		}
 	}
-	if (g->info->playermax == a) {
+	if (g->info->max_player == a) {
 		g->info->status = IN_CONFIG_NEW_GAME;
 	}
 }
@@ -151,6 +158,7 @@ void client_beer_bomber(t_game *game)
 
 	/* connect to server */
 	SDL_Delay(400);
+	draw_wait_for_player(game);
 	printf("Server beerbomber IP: ");
 	fgets(ip, sizeof(ip), stdin);
 	int server = client_connect(ip);
@@ -168,9 +176,8 @@ void client_beer_bomber(t_game *game)
 			send_request(server, game);
 			get_response(server, game);
 			draw(game);
-			if (one_left(game)) {
+			if (one_left(game))
 				go = 1;
-			}
 		} else if (game->info->status == WAIT_FOR_PLAYER) {
 			go = get_input(game);
 			send_request(server, game);

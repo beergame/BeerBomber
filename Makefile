@@ -22,7 +22,7 @@ all:		$(NAME)
 
 $(NAME):	$(OBJS)
 		@echo "> Build BeerBomber"
-		@$(CC) $(OBJS) $(CFLAGS) -lpthread $(SDLFLAGS) -o $(NAME)
+		@$(CC) $(OBJS) $(CFLAGS) -lpthread -lm $(SDLFLAGS) -o $(NAME)
 		@echo "> Done."
 
 clean:

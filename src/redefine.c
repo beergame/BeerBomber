@@ -39,6 +39,7 @@ int do_redefine(t_game *game)
 
 		draw_redefine(game);
 	}
+	Mix_PlayChannel(-1, game->sounds[3].effect, 0);
 
 	switch (game->redefine->i) {
 		case 0:
@@ -69,6 +70,7 @@ int do_redefine(t_game *game)
 	if (game->redefine->i == 5) {
 		game->redefine->i = 0;
 		game->info->status = IN_CONFIG_NEW_GAME;
+		Mix_PlayMusic( game->music, -1 );
 	}
 
 	return (0);
@@ -83,7 +85,7 @@ void draw_redefine(t_game *game)
 	draw_background(game, MAP_BACK_ONE);
 
 	/* Draw the redefine string */
-	drawString(game, game->redefine->buffer, 0, 0, game->font, 1, 1);
+	draw_string(game, game->redefine->buffer, 0, 0, game->font, 1, 1);
 
 	/* Update the buffer */
 	SDL_RenderPresent(game->renderer);
