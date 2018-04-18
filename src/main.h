@@ -27,4 +27,6 @@ void client_beer_bomber(t_game *);
 
 void *server_beer_bomber(void *);
 
+void clean_game(t_game *);
+
 #endif /* __MAIN_H__ */

@@ -10,6 +10,16 @@
 
 #include "server.h"
 
+void free_wordtab(char **tab, int t)
+{
+	for (int i = 0; i < t; ++i) {
+		free(tab[i]);
+		tab[i] = NULL;
+	}
+	free(tab);
+	tab = NULL;
+}
+
 int count_word(char *str, char separe)
 {
 	int i;
