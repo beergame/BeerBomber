@@ -63,6 +63,7 @@ void unserialize_response(char *buffer, t_game *g)
 	char **response;
 	char **buff;
 	char **buff2;
+	char *tmp_swap;
 
 	if (!(response = my_str_to_wordtab(buffer, ' ')))
 		return ;
@@ -101,12 +102,14 @@ void unserialize_response(char *buffer, t_game *g)
 		if (!(buff2 = my_str_to_wordtab(buff[i], ':')))
 			return ;
 		for (int j = 0; j < MAP_SIZE; ++j) {
+			tmp_swap = g->map[i][j].data;
 			g->map[i][j].data = buff2[j];
+			buff2[j] = tmp_swap;
 		}
+		free_wordtab(buff2, MAP_SIZE + 1);
 	}
+	free_wordtab(buff, MAP_SIZE + 1);
 	free_wordtab(response, 3);
-	free_wordtab(buff, MAP_SIZE);
-	free_wordtab(buff2, MAP_SIZE);
 }
 
 int get_response(int sock, t_game *g)
