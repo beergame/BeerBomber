@@ -1,6 +1,6 @@
 #include "main.h"
 
-int main(int argv, char **argc)
+int main(void)
 {
     #ifdef __WIN32__
        WORD versionWanted = MAKEWORD(1, 1);
