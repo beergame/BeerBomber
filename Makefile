@@ -1,9 +1,9 @@
 ##
 ## Makefile for BeerBomber in /Users/victorbalssa/BeerBomber
-## 
+##
 ## Made by BALSSA Victor
 ## Login   <balssa_v@etna-alternance.net>
-## 
+##
 ## Started on  Sun Apr  2 21:36:05 2017 BALSSA Victor
 ## Last update Thu Apr 13 16:49:44 2017 BALSSA Victor
 ##
@@ -17,6 +17,11 @@ CFLAGS =	-Wall -Werror -W -Wextra -pedantic
 # SDL 2.0 Flags.
 SDLFLAGS = `sdl2-config --libs` `sdl2-config --cflags` \
 			-lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+
+ifeq ($(OS),Windows_NT)
+	CFLAGS = -Wall -W -Wextra -pedantic -lws2_32 -lwsock32
+	SDLFLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+endif
 
 all:		$(NAME)
 
@@ -34,3 +39,4 @@ fclean: clean
 re:	fclean all
 
 .PHONY: fclean all clean
+

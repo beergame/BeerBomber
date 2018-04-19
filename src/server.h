@@ -1,9 +1,25 @@
 #ifndef __SERVER_H__
 # define __SERVER_H__
 
+#ifdef      __WIN32__
+#define         _BSD_SOURCE
+#ifndef         _WIN32_WINNT
+#define         _WIN32_WINNT 0x0501
+#endif
+
+#include        <winsock2.h>
+#include        <winsock.h>
+#include        <windows.h>
+#include        <ws2tcpip.h>
+#include        <stdio.h>
+#else
+
 # include <arpa/inet.h>
 # include <sys/socket.h>
 # include <sys/select.h>
+#endif
+
+
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
