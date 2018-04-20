@@ -10,6 +10,16 @@
 
 #include "server.h"
 
+void free_wordtab(char **tab, int t)
+{
+	for (int i = 0; i < t; ++i) {
+		free(tab[i]);
+		tab[i] = NULL;
+	}
+	free(tab);
+	tab = NULL;
+}
+
 int count_word(char *str, char separe)
 {
 	int i;
@@ -41,7 +51,7 @@ char **my_str_to_wordtab(char *str, char separe)
 
 	i = 0;
 	j = 0;
-	if ((tab = malloc(sizeof(*tab) * ((count_word(str, separe) + 1)))) == NULL)
+	if ((tab = malloc(sizeof(*tab) * (count_word(str, separe) + 1))) == NULL)
 		return (0);
 	while (str[i] == '\t' || str[i] == ' ' || str[i] == separe)
 		i++;

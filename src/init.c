@@ -3,6 +3,8 @@
 int init_main(t_game *game)
 {
 	int joystick_count, btn_count;
+	SDL_Surface *icon;
+
 	/* Initialise SDL */
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
 		printf("Could not initialize SDL: %s\n", SDL_GetError());
@@ -18,7 +20,9 @@ int init_main(t_game *game)
 			SDL_WINDOWPOS_UNDEFINED,
 			SCREEN_WIDTH, SCREEN_HEIGHT,
 			SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-	SDL_SetWindowIcon(game->screen, IMG_Load("gfx/icon/beerbomber.png"));
+	icon = IMG_Load("gfx/icon/beerbomber.png");
+	SDL_SetWindowIcon(game->screen, icon);
+	SDL_FreeSurface(icon);
 	/* Create Renderer SDL 2.0 */
 	game->renderer = SDL_CreateRenderer(game->screen, -1,
 			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);

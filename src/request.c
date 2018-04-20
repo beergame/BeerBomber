@@ -10,6 +10,7 @@ t_request *unserialize_request(char *buffer)
 	tmp->dir = atoi(request[1]);
 	tmp->fire = atoi(request[2]);
 	tmp->ckecksum = atoi(request[3]);
+	free_wordtab(request, 4);
 
 	return (tmp);
 }

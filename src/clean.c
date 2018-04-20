@@ -24,3 +24,23 @@ void clean_client(t_game *g)
 	IMG_Quit();
 	SDL_Quit();
 }
+
+void clean_game(t_game *g)
+{
+	free(g->info);
+	g->info = NULL;
+	free(g->redefine);
+	g->redefine = NULL;
+	free(g->input);
+	g->input = NULL;
+	free(g->control);
+	g->control = NULL;
+	for (int i = 0; i < MAX_PLAYER; ++i) {
+		free(g->player[i]);
+		g->player[i] = NULL;
+	}
+	free(g->player);
+	g->player = NULL;
+	free(g);
+	g = NULL;
+}

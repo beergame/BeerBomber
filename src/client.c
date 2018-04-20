@@ -63,6 +63,7 @@ void unserialize_response(char *buffer, t_game *g)
 	char **response;
 	char **buff;
 	char **buff2;
+	char *tmp_swap;
 
 	if (!(response = my_str_to_wordtab(buffer, ' ')))
 		return ;
@@ -73,6 +74,7 @@ void unserialize_response(char *buffer, t_game *g)
 	g->info->winner = atoi(buff[2]);
 	g->info->throw_bomb = atoi(buff[3]);
 	g->info->player_boost = atoi(buff[4]);
+	free_wordtab(buff, 6);
 
 	if (!(buff = my_str_to_wordtab(response[1], ';')))
 		return ;
@@ -89,8 +91,10 @@ void unserialize_response(char *buffer, t_game *g)
 				g->player[i]->life = atoi(buff2[7]);
 				g->player[i]->speed = atoi(buff2[8]);
 			}
+			free_wordtab(buff2, 9);
 		}
 	}
+	free_wordtab(buff, MAX_PLAYER + 1);
 
 	if (!(buff = my_str_to_wordtab(response[2], ';')))
 		return ;
@@ -98,9 +102,14 @@ void unserialize_response(char *buffer, t_game *g)
 		if (!(buff2 = my_str_to_wordtab(buff[i], ':')))
 			return ;
 		for (int j = 0; j < MAP_SIZE; ++j) {
+			tmp_swap = g->map[i][j].data;
 			g->map[i][j].data = buff2[j];
+			buff2[j] = tmp_swap;
 		}
+		free_wordtab(buff2, MAP_SIZE + 1);
 	}
+	free_wordtab(buff, MAP_SIZE + 1);
+	free_wordtab(response, 3);
 }
 
 int get_response(int sock, t_game *g)
@@ -152,16 +161,16 @@ void client_beer_bomber(t_game *game)
 {
 	unsigned int frame_limit = SDL_GetTicks() + 16;
 	int go = 0;
-	char ip[15] = "";
+	//char ip[15] = "";
 
 	init_client(game);
 
 	/* connect to server */
 	SDL_Delay(400);
 	draw_wait_for_player(game);
-	printf("Server beerbomber IP: ");
-	fgets(ip, sizeof(ip), stdin);
-	int server = client_connect(ip);
+	//printf("Server beerbomber IP: ");
+	//fgets(ip, sizeof(ip), stdin);
+	int server = client_connect("127.0.0.1");
 	send_request(server, game);
 	SDL_Delay(100);
 	get_response(server, game);
@@ -194,4 +203,5 @@ void client_beer_bomber(t_game *game)
 
 	send_deco(server);
 	clean_client(game);
+	clean_game(game);
 }

@@ -2,7 +2,13 @@
 
 void clean_server(t_env *e)
 {
+	int i = -1;
+
 	free_map(e->map);
+	while (e->timer[++i] != NULL) {
+		free(e->timer[i]);
+		e->timer[i] = NULL;
+	}
 }
 
 void set_new_player(int fd, int type, t_player *p, int m)
