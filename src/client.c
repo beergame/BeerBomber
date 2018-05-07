@@ -161,15 +161,15 @@ void client_beer_bomber(t_game *game)
 {
 	unsigned int frame_limit = SDL_GetTicks() + 16;
 	int go = 0;
-	//char ip[15] = "";
+	char ip[15] = "";
 
 	init_client(game);
 
 	/* connect to server */
 	SDL_Delay(400);
 	draw_wait_for_player(game);
-	//printf("Server beerbomber IP: ");
-	//fgets(ip, sizeof(ip), stdin);
+	printf("Server beerbomber IP: ");
+	fgets(ip, sizeof(ip), stdin);
 	int server = client_connect("127.0.0.1");
 	send_request(server, game);
 	SDL_Delay(100);
