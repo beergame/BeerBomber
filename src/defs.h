@@ -25,10 +25,6 @@
 # include <time.h>
 # include <stdlib.h>
 
-
-
-
-
 # include <pthread.h>
 # include "SDL2/SDL.h"
 # include "SDL2/SDL_image.h"
@@ -43,7 +39,7 @@
 # define MAX_PLAYER 4
 # define MAX_SPRITES 60
 # define DEAD_ZONE 4200
-# define BUFF_SIZE 3000
+# define BUFF_SIZE 2500
 # define PRES 100
 # define PLAYER_ANIM_TIMER 500
 # define SCALE 3
