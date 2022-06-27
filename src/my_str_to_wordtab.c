@@ -51,7 +51,7 @@ char **my_str_to_wordtab(char *str, char separe)
 
 	i = 0;
 	j = 0;
-	if ((tab = malloc(sizeof(*tab) * (count_word(str, separe) + 1))) == NULL)
+	if ((tab = malloc(sizeof(*tab) * ((count_word(str, separe) + 1)))) == NULL)
 		return (0);
 	while (str[i] == '\t' || str[i] == ' ' || str[i] == separe)
 		i++;
