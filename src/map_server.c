@@ -37,7 +37,7 @@ void free_map(t_map **map)
 {
 	for (int i = 0; i < MAP_SIZE; i++) {
 		for (int j = 0; j < MAP_SIZE; j++) {
-			free(map[i][j].data);
+//			free(map[i][j].data);
 			map[i][j].data = NULL;
 		}
 	}
