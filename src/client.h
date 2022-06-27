@@ -7,8 +7,6 @@ int init_main(t_game *);
 
 void clean_client(t_game *);
 
-void clean_game(t_game *);
-
 int get_input(t_game *);
 
 void draw(t_game *);
@@ -32,7 +30,5 @@ t_map **load_map();
 void init_client(t_game *);
 
 int send_serialize_request(t_request *, int);
-
-int free_wordtab(char **, int);
 
 #endif /* __CLIENT_H__ */
