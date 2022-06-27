@@ -39,7 +39,7 @@
 # define MAP_SIZE			15
 
 # define PRES				100
-# define PLAYER_SPEED	        7
+# define PLAYER_SPEED		5
 # define PLAYER_MAX_LIFE	1
 # define PLAYER_MAX_AMMO	5
 # define PLAYER_RELOAD_TIME	10
