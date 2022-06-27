@@ -1,13 +1,7 @@
 #include "main.h"
 
-int main(int argv, char **argc)
+int main(void)
 {
-    #ifdef __WIN32__
-       WORD versionWanted = MAKEWORD(1, 1);
-       WSADATA wsaData;
-       WSAStartup(versionWanted, &wsaData);
-    #endif
-
 	pthread_t server;
 
 	unsigned int frame_limit = SDL_GetTicks() + 16;
