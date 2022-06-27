@@ -33,6 +33,6 @@ void init_client(t_game *);
 
 int send_serialize_request(t_request *, int);
 
-void free_wordtab(char **, int);
+int free_wordtab(char **, int);
 
 #endif /* __CLIENT_H__ */
